@@ -823,7 +823,9 @@ for i, (hx, hy) in enumerate([(7, 29), (31, 29), (7, 53), (31, 53)]):
     h.Reference().SetVisible(False)
     h.Value().SetVisible(False)
 
-for i, (hx, hy) in enumerate([(48, 56), (81, 55)]):
+
+
+for i, (hx, hy) in enumerate([(82, 56), (4, -4), (82, -4)]):
     h = add_fp("MountingHole", "MountingHole_3.2mm_M3",
                "H%d" % (i + 5), "", (hx, hy), 0)
     h.Reference().SetVisible(False)
@@ -901,8 +903,9 @@ for p in [(2.5, 25), (84, 25), (36, 58), (84, 58)]:
     via(p, "GND")
 
 
-for a, b in [((0, 0), (86, 0)), ((86, 0), (86, 60)),
-             ((86, 60), (0, 60)), ((0, 60), (0, 0))]:
+
+for a, b in [((0, -8), (86, -8)), ((86, -8), (86, 60)),
+             ((86, 60), (0, 60)), ((0, 60), (0, -8))]:
     s = pcbnew.PCB_SHAPE(board)
     s.SetShape(pcbnew.SHAPE_T_SEGMENT)
     s.SetStart(pcbnew.VECTOR2I(MM(a[0]), MM(a[1])))
@@ -930,7 +933,7 @@ for layer in (pcbnew.F_Cu, pcbnew.B_Cu):
     z.SetLocalClearance(MM(0.25))
     z.SetMinThickness(MM(0.25))
     chain = pcbnew.SHAPE_LINE_CHAIN()
-    for (cx, cy) in [(0.3, 0.3), (85.7, 0.3), (85.7, 59.7), (0.3, 59.7)]:
+    for (cx, cy) in [(0.3, -7.7), (85.7, -7.7), (85.7, 59.7), (0.3, 59.7)]:
         chain.Append(MM(cx), MM(cy))
     chain.SetClosed(True)
     z.Outline().AddOutline(chain)
