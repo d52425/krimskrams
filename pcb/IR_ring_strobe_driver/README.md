@@ -2,7 +2,7 @@
 
 天網（ESP32-P4ノード）用。P4 の GPIO（3.3V）で Nch MOSFET を駆動し、FRS5CC IR LED リング（12V / 200mA）への 12V ラインをローサイドでパルススイッチする小基板。昇圧側は常時 ON で 12V レールを維持する前提で、本基板はバルクコンデンサとスイッチだけを持つ（キャリア基板へ統合する前の単体検証用）。
 
-- 基板：40×30mm、2層、部品は表面のみ、M2 取付穴×3
+- 基板：30×30mm、2層、M2 取付穴×3。受動部品はスルーホール実装（Q1 のみ SOT-23 面実装）
 - 入力 J1（2.54mm 1×3 ピンヘッダ）：pin1 = +12V、pin2 = GND、pin3 = STROBE（GPIO 入力）
 - 出力 J2（JST-XH B2B-XH-A）：pin1 = リング＋（+12V）、pin2 = リング−（FET ドレイン）
 - TP2 = ゲート電圧テストポイント
@@ -29,24 +29,24 @@
 | Ref | 部品 | 仕様・候補 | 備考 |
 |---|---|---|---|
 | Q1 | Nch MOSFET SOT-23（1=G, 2=S, 3=D） | 試作：MTN2306AN3（CYStek、秋月 I-17513、30V/5.5A、Rds(on) max 37mΩ @2.5V）／ 本番：AO3400A 純正（A&O、30V/5.7A）／ 代替：IRLML6344TRPBF | 無印 AO3400 クローンは特性ばらつき大、避ける |
-| R1 | 抵抗 0603、100Ω | ゲート直列（発振止め＋GPIO 保護） | |
-| R2 | 抵抗 0603、10kΩ | ゲートプルダウン（リセット中の誤点灯防止） | |
+| R1 | 抵抗 スルーホール axial（DIN0207 型）、100Ω、1/4W | ゲート直列（発振止め＋GPIO 保護） | |
+| R2 | 抵抗 スルーホール axial（DIN0207 型）、10kΩ、1/4W | ゲートプルダウン（リセット中の誤点灯防止） | |
 | C1 | 電解コンデンサ ラジアル Ø10×16 級、1000µF/25V 低ESR | ピッチ 5.0mm | バルク。パルス電流の供給源 |
-| C2 | セラミック 0805、10µF、X5R/X7R、≥16V | C1 と並列（高周波側） | |
+| C2 | リード付き積層セラミック、10µF、X5R/X7R、≥16V、リードピッチ 2.5mm | C1 と並列（高周波側） | |
 | J1 | ピンヘッダ 2.54mm 1×3 | +12V / GND / STROBE 入力 | |
 | J2 | JST-XH B2B-XH-A 1×2 垂直 | リング出力 | ケーブル側は XHP-2＋SXH 圧着端子 |
 
 ## ファイル
 
-- `IR_ring_strobe.kicad_pro / .kicad_sch / .kicad_pcb`：KiCad プロジェクト（プロジェクトローカルの lib テーブル同梱。KiCad 10 で開ける。保存時に 10 形式へ移行）
+- `IR_ring_strobe.kicad_pro / .kicad_sch / .kicad_pcb`：KiCad 10 プロジェクト（プロジェクトローカルの lib テーブル同梱。回路図のみ旧形式で、開いて保存すると 10 形式へ移行）
 - `gerber/`：ガーバー9点＋ドリル（発注可）
 - `preview_*.pdf / preview_pcb_top*.png`：プレビュー
 - `netlist.txt`：設計意図のネット一覧
-- `build_design.py`：生成スクリプト（再生成用）。生成後に `xvfb-run -a python3 fill_zones.py IR_ring_strobe.kicad_pcb` でゾーン充填、`check_conn.py` で接続・クリアランス検証
+- `build_design.py`：生成スクリプト（再生成用、KiCad 同梱 Python で実行）。生成後に `kicad-cli pcb drc --refill-zones --save-board` でゾーン充填と DRC、`kicad-cli pcb export gerbers / drill` でガーバー出力
 
 ## 検証状態（2026-11-27）
 
 - KiCad DRC：違反 0 件・未接続 0・フットプリントエラー 0
 - 実機未検証：12V ラインのパルス時ドロップ、昇圧ノイズの画への影響、FET 発熱（計算上 mW 級で問題なしの見込み）
 
-発注・購入は未実施。
+発注・購入は未実施（指示待ち）。
