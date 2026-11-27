@@ -645,6 +645,7 @@ silk_rot ("GND",(10.2 ,15 ))
 silk_rot ("STR",(10.2 ,18.5 ))
 silk_rot ("R+",(19.3 ,13.25 ))
 silk_rot ("R-",(19.3 ,16.75 ))
+silk ("MAX 18V",(9.0 ,21.4 ),0.9 )
 
 board .Save (os .path .join (HERE ,PROJ +".kicad_pcb"))
 print ("pcb written")
