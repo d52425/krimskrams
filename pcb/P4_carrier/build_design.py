@@ -9,7 +9,7 @@ whole power chain for one Tenmou node:
       -> mezzanine pins into an AE-LMR62421 boost module (30x30mm,
          M3 standoffs, no terminal blocks) and back in at +12V
       -> bulk 1000uF/25V + 10uF -> Nch MOSFET low-side switch
-      -> JST-XH ring output (FRS5CC), strobe from J8 pin10 (GPIO5)
+      -> TB111 screw-terminal ring output (FRS5CC), strobe from J8 pin10
 
 Board: 86x68mm, 2-layer. The 32088 header numbering is consecutive
 per column (left column 1-20, right column 21-40, counted from the
@@ -339,7 +339,7 @@ def place_by_pin(pins, num, target, rot=0):
 
 PARTS = {
     "J8": ("Local", "P4_HDR", "ESP32-P4-POE-ETH (32088)", "custom:HDR_2x20_P4"),
-    "SJ1": ("Connector_Generic", "Conn_01x03", "5V SEL VBUS/SYS", "custom:SolderJumper_3"),
+    "SJ1": ("Connector_Generic", "Conn_01x03", "5V SEL (HDR+CAP)", "custom:HDR_1x03_P2.54"),
     "F1": ("Device", "Fuse", "PTC 1A", "custom:PTC_P5.00mm"),
     "C3": ("Device", "C_Polarized", "470uF/16V", "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm"),
     "J3": ("Connector_Generic", "Conn_01x02", "BOOST IN MEZZ", "custom:MZ_1x02_P5.08"),
@@ -351,7 +351,7 @@ PARTS = {
     "R2": ("Device", "R", "10k", "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"),
     "R3": ("Device", "R", "1k", "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"),
     "D1": ("Device", "LED", "12V PILOT", "LED_THT:LED_D3.0mm"),
-    "J2": ("Connector_Generic", "Conn_01x02", "RING OUT", "Connector_JST:JST_XH_B2B-XH-A_1x02_P2.50mm_Vertical"),
+    "J2": ("Connector_Generic", "Conn_01x02", "RING OUT TB111", "custom:TB111_1x02_P5.08"),
     "TP1": ("Connector_Generic", "Conn_01x01", "TP +5V", "custom:TestPoint_D2.0mm"),
     "TP2": ("Connector_Generic", "Conn_01x01", "TP +12V", "custom:TestPoint_D2.0mm"),
 }
@@ -738,13 +738,13 @@ j8.Value().SetPosition(pcbnew.VECTOR2I(MM(43), MM(15.5)))
 
 
 
-SJ1_POS = (73.26, 26.6)
-sj1 = _new_fp("SolderJumper_3", "SJ1", VAL_OF["SJ1"], SJ1_POS)
-_smd(sj1, 1, 0, -1.3, 1.5, 0.85, "VBUS")
-_smd(sj1, 2, 0, 0, 1.5, 0.85, "+5V_IN")
-_smd(sj1, 3, 0, 1.3, 1.5, 0.85, "VSYS")
-_fp_rect(sj1, pcbnew.F_CrtYd, -0.95, -2.3, 0.95, 2.3)
-sj1.Reference().SetPosition(pcbnew.VECTOR2I(MM(73.26), MM(23.9)))
+SJ1_POS = (73.26, 27.1)
+sj1 = _new_fp("HDR_1x03_P2.54", "SJ1", VAL_OF["SJ1"], SJ1_POS)
+_pth(sj1, 1, 0, -2.54, "VBUS", size=1.7, drill=1.0)
+_pth(sj1, 2, 0, 0, "+5V_IN", size=1.7, drill=1.0)
+_pth(sj1, 3, 0, 2.54, "VSYS", size=1.7, drill=1.0)
+_fp_rect(sj1, pcbnew.F_CrtYd, -1.27, -3.81, 1.27, 3.81)
+sj1.Reference().SetPosition(pcbnew.VECTOR2I(MM(76.5), MM(23.9)))
 sj1.Value().SetVisible(False)
 
 
@@ -824,14 +824,20 @@ r2.Reference().SetPosition(pcbnew.VECTOR2I(MM(55.2), MM(53.5)))
 r3 = add_fp("Resistor_THT", "R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal",
             "R3", VAL_OF["R3"], (67.69, 33), 0,
             {"1": "+12V", "2": "LED_A"})
-r3.Reference().SetPosition(pcbnew.VECTOR2I(MM(72.5), MM(30.4)))
+r3.Reference().SetPosition(pcbnew.VECTOR2I(MM(67.69), MM(30.2)))
 d1 = add_fp("LED_THT", "LED_D3.0mm",
             "D1", VAL_OF["D1"], (79, 33), 90,
             {LED_A: "LED_A", LED_K: "GND"})
 d1.Reference().SetPosition(pcbnew.VECTOR2I(MM(79), MM(36.6)))
-j2 = add_fp("Connector_JST", "JST_XH_B2B-XH-A_1x02_P2.50mm_Vertical",
-            "J2", VAL_OF["J2"], (79, 42), 0, {"1": "+12V", "2": "DRAIN"})
-j2.Reference().SetPosition(pcbnew.VECTOR2I(MM(80.25), MM(37.4)))
+
+
+
+j2 = _new_fp("TB111_1x02_P5.08", "J2", VAL_OF["J2"], (81, 40))
+_pth(j2, 1, 0, 0, "+12V", size=2.6, drill=1.4)
+_pth(j2, 2, 0, 5.08, "DRAIN", size=2.6, drill=1.4)
+_fp_rect(j2, pcbnew.F_CrtYd, -7.5, -2.6, 3.5, 7.68)
+j2.Reference().SetPosition(pcbnew.VECTOR2I(MM(76), MM(48.6)))
+j2.Value().SetVisible(False)
 
 
 
@@ -861,15 +867,15 @@ for _fp in board.GetFootprints():
 
 
 
-track(pad_pos(j8, "40"), (74.52, 25.3), 0.6, "VBUS")
-track((74.52, 25.3), pad_pos(sj1, "1"), 0.6, "VBUS")
-track(pad_pos(j8, "39"), (71.98, 27.9), 0.6, "VSYS")
-track((71.98, 27.9), pad_pos(sj1, "3"), 0.6, "VSYS")
+track(pad_pos(j8, "40"), (74.52, 24.56), 0.6, "VBUS")
+track((74.52, 24.56), pad_pos(sj1, "1"), 0.6, "VBUS")
+track(pad_pos(j8, "39"), (71.5, 29.64), 0.6, "VSYS")
+track((71.5, 29.64), pad_pos(sj1, "3"), 0.6, "VSYS")
 
-track(pad_pos(sj1, "2"), (75.6, 26.6), 0.8, "+5V_IN")
-track((75.6, 26.6), (75.6, 29.6), 0.8, "+5V_IN")
-track((75.6, 29.6), (62, 29.6), 0.8, "+5V_IN")
-track((62, 29.6), pad_pos(f1, "1"), 0.8, "+5V_IN")
+track(pad_pos(sj1, "2"), (75.6, 27.1), 0.8, "+5V_IN")
+track((75.6, 27.1), (75.6, 31.2), 0.8, "+5V_IN")
+track((75.6, 31.2), (62, 31.2), 0.8, "+5V_IN")
+track((62, 31.2), pad_pos(f1, "1"), 0.8, "+5V_IN")
 
 
 
@@ -894,8 +900,8 @@ track((55, 47), pad_pos(c1, "1"), 1.0, "+12V", pcbnew.B_Cu)
 track(pad_pos(c2, "1"), (58.75, 44), 1.0, "+12V", pcbnew.B_Cu)
 track((58.75, 44), (64.5, 44), 1.0, "+12V", pcbnew.B_Cu)
 track((64.5, 44), (64.5, 52), 1.0, "+12V", pcbnew.B_Cu)
-track((76, 52), (76, 42), 1.0, "+12V", pcbnew.B_Cu)
-track((76, 42), pad_pos(j2, "1"), 1.0, "+12V", pcbnew.B_Cu)
+track((76, 52), (76, 40), 1.0, "+12V", pcbnew.B_Cu)
+track((76, 40), pad_pos(j2, "1"), 1.0, "+12V", pcbnew.B_Cu)
 
 track(pad_pos(r3, "1"), (67.69, 44), 0.5, "+12V")
 track((67.69, 44), (76, 44), 0.5, "+12V")
@@ -908,8 +914,8 @@ via((82.5, 30.46), "GND")
 track(pad_pos(q1, "3"), (72, 46), 1.0, "DRAIN")
 track((72, 46), (72, 50), 1.0, "DRAIN")
 track((72, 50), (83.6, 50), 1.0, "DRAIN")
-track((83.6, 50), (83.6, 42), 1.0, "DRAIN")
-track((83.6, 42), pad_pos(j2, "2"), 1.0, "DRAIN")
+track((83.6, 50), (83.6, 45.08), 1.0, "DRAIN")
+track((83.6, 45.08), pad_pos(j2, "2"), 1.0, "DRAIN")
 
 track(pad_pos(q1, "1"), (61.5, 45.05), 0.4, "GATE")
 track((61.5, 45.05), pad_pos(r1, "1"), 0.4, "GATE")
@@ -997,10 +1003,10 @@ def silk_b(text, pos, size=0.9):
 silk("BOOST MODULE (AE-LMR62421)", (6, 24.9), 1.0)
 silk("CAP SIDE", (10.8, 57.3), 0.8)
 silk("ESP32-P4-POE-ETH", (38, 24.9), 1.0)
-silk("VBUS", (69.4, 25.3), 0.8)
-silk("VSYS", (69.4, 27.9), 0.8)
-silk("R+", (77.4, 47.8), 0.8)
-silk("R-", (81.4, 47.8), 0.8)
+silk("VBUS", (68.8, 24.56), 0.8)
+silk("VSYS", (68.6, 29.64), 0.8)
+silk("R+", (75.6, 40), 0.8)
+silk("R-", (75.6, 45.08), 0.8)
 silk("MAX 18V", (44, 52.8), 0.9)
 silk_b("P4 CARRIER - BOOST + IR STROBE", (70, 38), 1.0)
 
@@ -1008,7 +1014,7 @@ silk_b("P4 CARRIER - BOOST + IR STROBE", (70, 38), 1.0)
 
 os.makedirs(os.path.join(HERE, "custom.pretty"), exist_ok=True)
 _io = pcbnew.PCB_IO_KICAD_SEXPR()
-for _cfp in (j8, sj1, f1, tp1, tp2, j3, j4):
+for _cfp in (j8, sj1, f1, tp1, tp2, j3, j4, j2):
     _io.FootprintSave(os.path.join(HERE, "custom.pretty"), _cfp)
 
 board.Save(os.path.join(HERE, PROJ + ".kicad_pcb"))
@@ -1035,8 +1041,8 @@ open(os.path.join(HERE, PROJ + ".kicad_pro"), "w").write(json.dumps(pro, indent=
 
 
 sym_libs = ["Device", "Connector_Generic", "Connector"]
-fp_libs = ["Capacitor_THT", "Connector_JST",
-           "Package_TO_SOT_SMD", "Resistor_THT", "LED_THT", "MountingHole"]
+fp_libs = ["Capacitor_THT", "Package_TO_SOT_SMD", "Resistor_THT",
+           "LED_THT", "MountingHole"]
 with open(os.path.join(HERE, "sym-lib-table"), "w") as f:
     f.write("(sym_lib_table\n  (version 7)\n")
     for n in sym_libs:
