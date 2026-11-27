@@ -1,0 +1,6 @@
+Expected nets (design intent):
++12V : J1.1 C1.1 C2.1 J2.1
+GND  : J1.2 C1.2 C2.2 Q1.2(S) R2.2
+DRAIN: J2.2 Q1.3(D)
+GATE : Q1.1(G) R1.2 R2.1 TP2.1
+STROBE: J1.3 R1.1

@@ -1,0 +1,9 @@
+# KiCad working files
+*.kicad_prl
+*-backups/
+fp-info-cache
+*.kicad_sch-bak
+*.kicad_pcb-bak
+# deliverable archives (regenerate from sources)
+*.zip
+__pycache__/

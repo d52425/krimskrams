@@ -1,0 +1,1157 @@
+(kicad_sch (version 20230121) (generator eeschema)
+  (uuid ec3587e1-d50f-4e14-981c-799caa374f55)
+  (paper "A5")
+  (title_block (title "Single-cell 1.5V -> 3.3V boost (TPS613221A)") (date "2026-11-26") (rev "A"))
+  (lib_symbols
+    (symbol "Regulator_Switching:TPS613221ADBV"
+    		(exclude_from_sim no)
+    		(in_bom yes)
+    		(on_board yes)
+    		(in_pos_files yes)
+    		(duplicate_pin_numbers_are_jumpers no)
+    		(property "Reference" "U"
+    			(at -7.62 6.35 0)
+    			(show_name no)
+    			(do_not_autoplace no)
+    			(effects
+    				(font
+    					(size 1.27 1.27)
+    				)
+    				(justify left)
+    			)
+    		)
+    		(property "Value" "TPS613221ADBV"
+    			(at 2.54 6.35 0)
+    			(show_name no)
+    			(do_not_autoplace no)
+    			(effects
+    				(font
+    					(size 1.27 1.27)
+    				)
+    			)
+    		)
+    		(property "Footprint" "Package_TO_SOT_SMD:SOT-23-5"
+    			(at 0 -20.32 0)
+    			(show_name no)
+    			(do_not_autoplace no)
+    			(hide yes)
+    			(effects
+    				(font
+    					(size 1.27 1.27)
+    				)
+    			)
+    		)
+    		(property "Datasheet" "http://www.ti.com/lit/ds/symlink/tps61322.pdf"
+    			(at 0 -3.81 0)
+    			(show_name no)
+    			(do_not_autoplace no)
+    			(hide yes)
+    			(effects
+    				(font
+    					(size 1.27 1.27)
+    				)
+    			)
+    		)
+    		(property "Description" "1.2A Step-Up Converter, 3.3V Output Voltage, 0.9-5.5V Input Voltage, SOT-23-5"
+    			(at 0 0 0)
+    			(show_name no)
+    			(do_not_autoplace no)
+    			(hide yes)
+    			(effects
+    				(font
+    					(size 1.27 1.27)
+    				)
+    			)
+    		)
+    		(property "ki_keywords" "Boost converter"
+    			(at 0 0 0)
+    			(show_name no)
+    			(do_not_autoplace no)
+    			(hide yes)
+    			(effects
+    				(font
+    					(size 1.27 1.27)
+    				)
+    			)
+    		)
+    		(property "ki_fp_filters" "SOT?23*"
+    			(at 0 0 0)
+    			(show_name no)
+    			(do_not_autoplace no)
+    			(hide yes)
+    			(effects
+    				(font
+    					(size 1.27 1.27)
+    				)
+    			)
+    		)
+    		(symbol "TPS613221ADBV_0_1"
+    			(rectangle
+    				(start -7.62 5.08)
+    				(end 7.62 -5.08)
+    				(stroke
+    					(width 0.254)
+    					(type default)
+    				)
+    				(fill
+    					(type background)
+    				)
+    			)
+    		)
+    		(symbol "TPS613221ADBV_1_1"
+    			(pin power_in line
+    				(at -10.16 2.54 0)
+    				(length 2.54)
+    				(name "SW"
+    					(effects
+    						(font
+    							(size 1.27 1.27)
+    						)
+    					)
+    				)
+    				(number "1"
+    					(effects
+    						(font
+    							(size 1.27 1.27)
+    						)
+    					)
+    				)
+    			)
+    			(pin power_in line
+    				(at 0 -7.62 90)
+    				(length 2.54)
+    				(name "GND"
+    					(effects
+    						(font
+    							(size 1.27 1.27)
+    						)
+    					)
+    				)
+    				(number "2"
+    					(effects
+    						(font
+    							(size 1.27 1.27)
+    						)
+    					)
+    				)
+    			)
+    			(pin no_connect line
+    				(at -7.62 -2.54 0)
+    				(length 2.54)
+    				(hide yes)
+    				(name "NC"
+    					(effects
+    						(font
+    							(size 1.27 1.27)
+    						)
+    					)
+    				)
+    				(number "3"
+    					(effects
+    						(font
+    							(size 1.27 1.27)
+    						)
+    					)
+    				)
+    			)
+    			(pin power_out line
+    				(at 10.16 2.54 180)
+    				(length 2.54)
+    				(name "VOUT"
+    					(effects
+    						(font
+    							(size 1.27 1.27)
+    						)
+    					)
+    				)
+    				(number "4"
+    					(effects
+    						(font
+    							(size 1.27 1.27)
+    						)
+    					)
+    				)
+    			)
+    			(pin no_connect line
+    				(at 7.62 -2.54 180)
+    				(length 2.54)
+    				(hide yes)
+    				(name "NC"
+    					(effects
+    						(font
+    							(size 1.27 1.27)
+    						)
+    					)
+    				)
+    				(number "5"
+    					(effects
+    						(font
+    							(size 1.27 1.27)
+    						)
+    					)
+    				)
+    			)
+    		)
+    		(embedded_fonts no)
+    	)
+    (symbol "Device:L"
+    		(pin_numbers
+    			(hide yes)
+    		)
+    		(pin_names
+    			(offset 1.016)
+    			(hide yes)
+    		)
+    		(exclude_from_sim no)
+    		(in_bom yes)
+    		(on_board yes)
+    		(in_pos_files yes)
+    		(duplicate_pin_numbers_are_jumpers no)
+    		(property "Reference" "L"
+    			(at -1.27 0 90)
+    			(show_name no)
+    			(do_not_autoplace no)
+    			(effects
+    				(font
+    					(size 1.27 1.27)
+    				)
+    			)
+    		)
+    		(property "Value" "L"
+    			(at 1.905 0 90)
+    			(show_name no)
+    			(do_not_autoplace no)
+    			(effects
+    				(font
+    					(size 1.27 1.27)
+    				)
+    			)
+    		)
+    		(property "Footprint" ""
+    			(at 0 0 0)
+    			(show_name no)
+    			(do_not_autoplace no)
+    			(hide yes)
+    			(effects
+    				(font
+    					(size 1.27 1.27)
+    				)
+    			)
+    		)
+    		(property "Datasheet" ""
+    			(at 0 0 0)
+    			(show_name no)
+    			(do_not_autoplace no)
+    			(hide yes)
+    			(effects
+    				(font
+    					(size 1.27 1.27)
+    				)
+    			)
+    		)
+    		(property "Description" "Inductor"
+    			(at 0 0 0)
+    			(show_name no)
+    			(do_not_autoplace no)
+    			(hide yes)
+    			(effects
+    				(font
+    					(size 1.27 1.27)
+    				)
+    			)
+    		)
+    		(property "ki_keywords" "inductor choke coil reactor magnetic"
+    			(at 0 0 0)
+    			(show_name no)
+    			(do_not_autoplace no)
+    			(hide yes)
+    			(effects
+    				(font
+    					(size 1.27 1.27)
+    				)
+    			)
+    		)
+    		(property "ki_fp_filters" "Choke_* *Coil* Inductor_* L_*"
+    			(at 0 0 0)
+    			(show_name no)
+    			(do_not_autoplace no)
+    			(hide yes)
+    			(effects
+    				(font
+    					(size 1.27 1.27)
+    				)
+    			)
+    		)
+    		(symbol "L_0_1"
+    			(arc
+    				(start 0 2.54)
+    				(mid 0.6323 1.905)
+    				(end 0 1.27)
+    				(stroke
+    					(width 0)
+    					(type default)
+    				)
+    				(fill
+    					(type none)
+    				)
+    			)
+    			(arc
+    				(start 0 1.27)
+    				(mid 0.6323 0.635)
+    				(end 0 0)
+    				(stroke
+    					(width 0)
+    					(type default)
+    				)
+    				(fill
+    					(type none)
+    				)
+    			)
+    			(arc
+    				(start 0 0)
+    				(mid 0.6323 -0.635)
+    				(end 0 -1.27)
+    				(stroke
+    					(width 0)
+    					(type default)
+    				)
+    				(fill
+    					(type none)
+    				)
+    			)
+    			(arc
+    				(start 0 -1.27)
+    				(mid 0.6323 -1.905)
+    				(end 0 -2.54)
+    				(stroke
+    					(width 0)
+    					(type default)
+    				)
+    				(fill
+    					(type none)
+    				)
+    			)
+    		)
+    		(symbol "L_1_1"
+    			(pin passive line
+    				(at 0 3.81 270)
+    				(length 1.27)
+    				(name "1"
+    					(effects
+    						(font
+    							(size 1.27 1.27)
+    						)
+    					)
+    				)
+    				(number "1"
+    					(effects
+    						(font
+    							(size 1.27 1.27)
+    						)
+    					)
+    				)
+    			)
+    			(pin passive line
+    				(at 0 -3.81 90)
+    				(length 1.27)
+    				(name "2"
+    					(effects
+    						(font
+    							(size 1.27 1.27)
+    						)
+    					)
+    				)
+    				(number "2"
+    					(effects
+    						(font
+    							(size 1.27 1.27)
+    						)
+    					)
+    				)
+    			)
+    		)
+    		(embedded_fonts no)
+    	)
+    (symbol "Device:C"
+    		(pin_numbers
+    			(hide yes)
+    		)
+    		(pin_names
+    			(offset 0.254)
+    		)
+    		(exclude_from_sim no)
+    		(in_bom yes)
+    		(on_board yes)
+    		(in_pos_files yes)
+    		(duplicate_pin_numbers_are_jumpers no)
+    		(property "Reference" "C"
+    			(at 0.635 2.54 0)
+    			(show_name no)
+    			(do_not_autoplace no)
+    			(effects
+    				(font
+    					(size 1.27 1.27)
+    				)
+    				(justify left)
+    			)
+    		)
+    		(property "Value" "C"
+    			(at 0.635 -2.54 0)
+    			(show_name no)
+    			(do_not_autoplace no)
+    			(effects
+    				(font
+    					(size 1.27 1.27)
+    				)
+    				(justify left)
+    			)
+    		)
+    		(property "Footprint" ""
+    			(at 0.9652 -3.81 0)
+    			(show_name no)
+    			(do_not_autoplace no)
+    			(hide yes)
+    			(effects
+    				(font
+    					(size 1.27 1.27)
+    				)
+    			)
+    		)
+    		(property "Datasheet" ""
+    			(at 0 0 0)
+    			(show_name no)
+    			(do_not_autoplace no)
+    			(hide yes)
+    			(effects
+    				(font
+    					(size 1.27 1.27)
+    				)
+    			)
+    		)
+    		(property "Description" "Unpolarized capacitor"
+    			(at 0 0 0)
+    			(show_name no)
+    			(do_not_autoplace no)
+    			(hide yes)
+    			(effects
+    				(font
+    					(size 1.27 1.27)
+    				)
+    			)
+    		)
+    		(property "ki_keywords" "cap capacitor"
+    			(at 0 0 0)
+    			(show_name no)
+    			(do_not_autoplace no)
+    			(hide yes)
+    			(effects
+    				(font
+    					(size 1.27 1.27)
+    				)
+    			)
+    		)
+    		(property "ki_fp_filters" "C_*"
+    			(at 0 0 0)
+    			(show_name no)
+    			(do_not_autoplace no)
+    			(hide yes)
+    			(effects
+    				(font
+    					(size 1.27 1.27)
+    				)
+    			)
+    		)
+    		(symbol "C_0_1"
+    			(polyline
+    				(pts
+    					(xy -2.032 0.762) (xy 2.032 0.762)
+    				)
+    				(stroke
+    					(width 0.508)
+    					(type default)
+    				)
+    				(fill
+    					(type none)
+    				)
+    			)
+    			(polyline
+    				(pts
+    					(xy -2.032 -0.762) (xy 2.032 -0.762)
+    				)
+    				(stroke
+    					(width 0.508)
+    					(type default)
+    				)
+    				(fill
+    					(type none)
+    				)
+    			)
+    		)
+    		(symbol "C_1_1"
+    			(pin passive line
+    				(at 0 3.81 270)
+    				(length 2.794)
+    				(name ""
+    					(effects
+    						(font
+    							(size 1.27 1.27)
+    						)
+    					)
+    				)
+    				(number "1"
+    					(effects
+    						(font
+    							(size 1.27 1.27)
+    						)
+    					)
+    				)
+    			)
+    			(pin passive line
+    				(at 0 -3.81 90)
+    				(length 2.794)
+    				(name ""
+    					(effects
+    						(font
+    							(size 1.27 1.27)
+    						)
+    					)
+    				)
+    				(number "2"
+    					(effects
+    						(font
+    							(size 1.27 1.27)
+    						)
+    					)
+    				)
+    			)
+    		)
+    		(embedded_fonts no)
+    	)
+    (symbol "Connector_Generic:Conn_01x03"
+    		(pin_names
+    			(offset 1.016)
+    			(hide yes)
+    		)
+    		(exclude_from_sim no)
+    		(in_bom yes)
+    		(on_board yes)
+    		(in_pos_files yes)
+    		(duplicate_pin_numbers_are_jumpers no)
+    		(property "Reference" "J"
+    			(at 0 5.08 0)
+    			(show_name no)
+    			(do_not_autoplace no)
+    			(effects
+    				(font
+    					(size 1.27 1.27)
+    				)
+    			)
+    		)
+    		(property "Value" "Conn_01x03"
+    			(at 0 -5.08 0)
+    			(show_name no)
+    			(do_not_autoplace no)
+    			(effects
+    				(font
+    					(size 1.27 1.27)
+    				)
+    			)
+    		)
+    		(property "Footprint" ""
+    			(at 0 0 0)
+    			(show_name no)
+    			(do_not_autoplace no)
+    			(hide yes)
+    			(effects
+    				(font
+    					(size 1.27 1.27)
+    				)
+    			)
+    		)
+    		(property "Datasheet" ""
+    			(at 0 0 0)
+    			(show_name no)
+    			(do_not_autoplace no)
+    			(hide yes)
+    			(effects
+    				(font
+    					(size 1.27 1.27)
+    				)
+    			)
+    		)
+    		(property "Description" "Generic connector, single row, 01x03, script generated (kicad-library-utils/schlib/autogen/connector/)"
+    			(at 0 0 0)
+    			(show_name no)
+    			(do_not_autoplace no)
+    			(hide yes)
+    			(effects
+    				(font
+    					(size 1.27 1.27)
+    				)
+    			)
+    		)
+    		(property "ki_keywords" "connector"
+    			(at 0 0 0)
+    			(show_name no)
+    			(do_not_autoplace no)
+    			(hide yes)
+    			(effects
+    				(font
+    					(size 1.27 1.27)
+    				)
+    			)
+    		)
+    		(property "ki_fp_filters" "Connector*:*_1x??_*"
+    			(at 0 0 0)
+    			(show_name no)
+    			(do_not_autoplace no)
+    			(hide yes)
+    			(effects
+    				(font
+    					(size 1.27 1.27)
+    				)
+    			)
+    		)
+    		(symbol "Conn_01x03_1_1"
+    			(rectangle
+    				(start -1.27 3.81)
+    				(end 1.27 -3.81)
+    				(stroke
+    					(width 0.254)
+    					(type default)
+    				)
+    				(fill
+    					(type background)
+    				)
+    			)
+    			(rectangle
+    				(start -1.27 2.667)
+    				(end 0 2.413)
+    				(stroke
+    					(width 0.1524)
+    					(type default)
+    				)
+    				(fill
+    					(type none)
+    				)
+    			)
+    			(rectangle
+    				(start -1.27 0.127)
+    				(end 0 -0.127)
+    				(stroke
+    					(width 0.1524)
+    					(type default)
+    				)
+    				(fill
+    					(type none)
+    				)
+    			)
+    			(rectangle
+    				(start -1.27 -2.413)
+    				(end 0 -2.667)
+    				(stroke
+    					(width 0.1524)
+    					(type default)
+    				)
+    				(fill
+    					(type none)
+    				)
+    			)
+    			(pin passive line
+    				(at -5.08 2.54 0)
+    				(length 3.81)
+    				(name "Pin_1"
+    					(effects
+    						(font
+    							(size 1.27 1.27)
+    						)
+    					)
+    				)
+    				(number "1"
+    					(effects
+    						(font
+    							(size 1.27 1.27)
+    						)
+    					)
+    				)
+    			)
+    			(pin passive line
+    				(at -5.08 0 0)
+    				(length 3.81)
+    				(name "Pin_2"
+    					(effects
+    						(font
+    							(size 1.27 1.27)
+    						)
+    					)
+    				)
+    				(number "2"
+    					(effects
+    						(font
+    							(size 1.27 1.27)
+    						)
+    					)
+    				)
+    			)
+    			(pin passive line
+    				(at -5.08 -2.54 0)
+    				(length 3.81)
+    				(name "Pin_3"
+    					(effects
+    						(font
+    							(size 1.27 1.27)
+    						)
+    					)
+    				)
+    				(number "3"
+    					(effects
+    						(font
+    							(size 1.27 1.27)
+    						)
+    					)
+    				)
+    			)
+    		)
+    		(embedded_fonts no)
+    	)
+    (symbol "Jumper:SolderJumper_2_Open"
+    		(pin_numbers
+    			(hide yes)
+    		)
+    		(pin_names
+    			(offset 0)
+    			(hide yes)
+    		)
+    		(exclude_from_sim no)
+    		(in_bom no)
+    		(on_board yes)
+    		(in_pos_files yes)
+    		(duplicate_pin_numbers_are_jumpers no)
+    		(property "Reference" "JP"
+    			(at 0 2.032 0)
+    			(show_name no)
+    			(do_not_autoplace no)
+    			(effects
+    				(font
+    					(size 1.27 1.27)
+    				)
+    			)
+    		)
+    		(property "Value" "SolderJumper_2_Open"
+    			(at 0 -2.54 0)
+    			(show_name no)
+    			(do_not_autoplace no)
+    			(effects
+    				(font
+    					(size 1.27 1.27)
+    				)
+    			)
+    		)
+    		(property "Footprint" ""
+    			(at 0 0 0)
+    			(show_name no)
+    			(do_not_autoplace no)
+    			(hide yes)
+    			(effects
+    				(font
+    					(size 1.27 1.27)
+    				)
+    			)
+    		)
+    		(property "Datasheet" ""
+    			(at 0 -7.62 0)
+    			(show_name no)
+    			(do_not_autoplace no)
+    			(hide yes)
+    			(effects
+    				(font
+    					(size 1.27 1.27)
+    				)
+    			)
+    		)
+    		(property "Description" "Solder Jumper, 2-pole, open"
+    			(at 0 -5.08 0)
+    			(show_name no)
+    			(do_not_autoplace no)
+    			(hide yes)
+    			(effects
+    				(font
+    					(size 1.27 1.27)
+    				)
+    			)
+    		)
+    		(property "ki_keywords" "solder jumper SPST"
+    			(at 0 0 0)
+    			(show_name no)
+    			(do_not_autoplace no)
+    			(hide yes)
+    			(effects
+    				(font
+    					(size 1.27 1.27)
+    				)
+    			)
+    		)
+    		(property "ki_fp_filters" "SolderJumper*Open*"
+    			(at 0 0 0)
+    			(show_name no)
+    			(do_not_autoplace no)
+    			(hide yes)
+    			(effects
+    				(font
+    					(size 1.27 1.27)
+    				)
+    			)
+    		)
+    		(symbol "SolderJumper_2_Open_0_1"
+    			(polyline
+    				(pts
+    					(xy -0.254 1.016) (xy -0.254 -1.016)
+    				)
+    				(stroke
+    					(width 0.1524)
+    					(type default)
+    				)
+    				(fill
+    					(type none)
+    				)
+    			)
+    			(arc
+    				(start -0.254 -1.016)
+    				(mid -1.2656 0)
+    				(end -0.254 1.016)
+    				(stroke
+    					(width 0.1524)
+    					(type default)
+    				)
+    				(fill
+    					(type outline)
+    				)
+    			)
+    			(arc
+    				(start 0.254 1.016)
+    				(mid 1.2656 0)
+    				(end 0.254 -1.016)
+    				(stroke
+    					(width 0.1524)
+    					(type default)
+    				)
+    				(fill
+    					(type outline)
+    				)
+    			)
+    			(polyline
+    				(pts
+    					(xy 0.254 1.016) (xy 0.254 -1.016)
+    				)
+    				(stroke
+    					(width 0.1524)
+    					(type default)
+    				)
+    				(fill
+    					(type none)
+    				)
+    			)
+    		)
+    		(symbol "SolderJumper_2_Open_1_1"
+    			(pin passive line
+    				(at -5.08 0 0)
+    				(length 3.81)
+    				(name "A"
+    					(effects
+    						(font
+    							(size 1.27 1.27)
+    						)
+    					)
+    				)
+    				(number "1"
+    					(effects
+    						(font
+    							(size 1.27 1.27)
+    						)
+    					)
+    				)
+    			)
+    			(pin passive line
+    				(at 5.08 0 180)
+    				(length 3.81)
+    				(name "B"
+    					(effects
+    						(font
+    							(size 1.27 1.27)
+    						)
+    					)
+    				)
+    				(number "2"
+    					(effects
+    						(font
+    							(size 1.27 1.27)
+    						)
+    					)
+    				)
+    			)
+    		)
+    		(embedded_fonts no)
+    	)
+    (symbol "Connector:TestPoint"
+    		(pin_numbers
+    			(hide yes)
+    		)
+    		(pin_names
+    			(offset 0.762)
+    			(hide yes)
+    		)
+    		(exclude_from_sim no)
+    		(in_bom yes)
+    		(on_board yes)
+    		(in_pos_files yes)
+    		(duplicate_pin_numbers_are_jumpers no)
+    		(property "Reference" "TP"
+    			(at 0 6.858 0)
+    			(show_name no)
+    			(do_not_autoplace no)
+    			(effects
+    				(font
+    					(size 1.27 1.27)
+    				)
+    			)
+    		)
+    		(property "Value" "TestPoint"
+    			(at 0 5.08 0)
+    			(show_name no)
+    			(do_not_autoplace no)
+    			(effects
+    				(font
+    					(size 1.27 1.27)
+    				)
+    			)
+    		)
+    		(property "Footprint" ""
+    			(at 5.08 0 0)
+    			(show_name no)
+    			(do_not_autoplace no)
+    			(hide yes)
+    			(effects
+    				(font
+    					(size 1.27 1.27)
+    				)
+    			)
+    		)
+    		(property "Datasheet" ""
+    			(at 5.08 0 0)
+    			(show_name no)
+    			(do_not_autoplace no)
+    			(hide yes)
+    			(effects
+    				(font
+    					(size 1.27 1.27)
+    				)
+    			)
+    		)
+    		(property "Description" "test point"
+    			(at 0 0 0)
+    			(show_name no)
+    			(do_not_autoplace no)
+    			(hide yes)
+    			(effects
+    				(font
+    					(size 1.27 1.27)
+    				)
+    			)
+    		)
+    		(property "ki_keywords" "test point tp"
+    			(at 0 0 0)
+    			(show_name no)
+    			(do_not_autoplace no)
+    			(hide yes)
+    			(effects
+    				(font
+    					(size 1.27 1.27)
+    				)
+    			)
+    		)
+    		(property "ki_fp_filters" "Pin* Test*"
+    			(at 0 0 0)
+    			(show_name no)
+    			(do_not_autoplace no)
+    			(hide yes)
+    			(effects
+    				(font
+    					(size 1.27 1.27)
+    				)
+    			)
+    		)
+    		(symbol "TestPoint_0_1"
+    			(circle
+    				(center 0 3.302)
+    				(radius 0.762)
+    				(stroke
+    					(width 0)
+    					(type default)
+    				)
+    				(fill
+    					(type none)
+    				)
+    			)
+    		)
+    		(symbol "TestPoint_1_1"
+    			(pin passive line
+    				(at 0 0 90)
+    				(length 2.54)
+    				(name "1"
+    					(effects
+    						(font
+    							(size 1.27 1.27)
+    						)
+    					)
+    				)
+    				(number "1"
+    					(effects
+    						(font
+    							(size 1.27 1.27)
+    						)
+    					)
+    				)
+    			)
+    		)
+    		(embedded_fonts no)
+    	)
+  )
+  (symbol (lib_id "Connector_Generic:Conn_01x03") (at 38.16 62.54 0) (unit 1) (in_bom yes) (on_board yes) (dnp no) (uuid 428bcea5-1f95-4b32-8cb8-ec4662e94c5b)
+    (property "Reference" "J1" (at 38.16 60.00 0) (effects (font (size 1.27 1.27))))
+    (property "Value" "BAT/GND/+3V3" (at 38.16 65.08 0) (effects (font (size 1.27 1.27))))
+    (property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical" (at 38.16 62.54 0) (effects (font (size 1.27 1.27)) hide))
+    (property "Datasheet" "" (at 38.16 62.54 0) (effects (font (size 1.27 1.27)) hide))
+    (pin "1" (uuid eb308b62-a375-4c1d-9e35-0a2ce0ca6528))
+    (pin "2" (uuid 48757015-859a-4f63-970d-a1b85dc2ee28))
+    (pin "3" (uuid b780051e-968f-4068-a886-4236f17c3e85))
+    (instances (project "TPS613221A_1cell_3V3" (path "/ec3587e1-d50f-4e14-981c-799caa374f55" (reference "J1") (unit 1))))
+  )
+  (symbol (lib_id "Jumper:SolderJumper_2_Open") (at 45.08 60.00 0) (unit 1) (in_bom yes) (on_board yes) (dnp no) (uuid 6ae38dc1-f4cc-4b87-b693-5db7f2a7a7bb)
+    (property "Reference" "SJ1" (at 45.08 57.46 0) (effects (font (size 1.27 1.27))))
+    (property "Value" "SJ_BRIDGE=ON" (at 45.08 62.54 0) (effects (font (size 1.27 1.27))))
+    (property "Footprint" "Jumper:SolderJumper-2_P1.3mm_Open_Pad1.0x1.5mm" (at 45.08 60.00 0) (effects (font (size 1.27 1.27)) hide))
+    (property "Datasheet" "" (at 45.08 60.00 0) (effects (font (size 1.27 1.27)) hide))
+    (pin "1" (uuid 92d929ac-1329-4717-8707-f25ec8e0c689))
+    (pin "2" (uuid 89aa1f12-23fe-4792-afd7-6207f0c1b3fa))
+    (instances (project "TPS613221A_1cell_3V3" (path "/ec3587e1-d50f-4e14-981c-799caa374f55" (reference "SJ1") (unit 1))))
+  )
+  (symbol (lib_id "Device:L") (at 59.81 60.00 90) (unit 1) (in_bom yes) (on_board yes) (dnp no) (uuid 7581fd99-bb08-4a0d-9afd-f01b463f1e90)
+    (property "Reference" "L1" (at 59.81 57.46 0) (effects (font (size 1.27 1.27))))
+    (property "Value" "4.7uH" (at 59.81 62.54 0) (effects (font (size 1.27 1.27))))
+    (property "Footprint" "Inductor_SMD:L_1008_2520Metric" (at 59.81 60.00 0) (effects (font (size 1.27 1.27)) hide))
+    (property "Datasheet" "" (at 59.81 60.00 0) (effects (font (size 1.27 1.27)) hide))
+    (pin "1" (uuid c7eca616-18fd-4cb0-b4f3-f8ec3b5bdc3d))
+    (pin "2" (uuid 91c55d39-e55b-4f0c-8510-7ab82d2e7b33))
+    (instances (project "TPS613221A_1cell_3V3" (path "/ec3587e1-d50f-4e14-981c-799caa374f55" (reference "L1") (unit 1))))
+  )
+  (symbol (lib_id "Regulator_Switching:TPS613221ADBV") (at 100.00 62.54 0) (unit 1) (in_bom yes) (on_board yes) (dnp no) (uuid 7075375e-422f-4b85-971e-8253198621a4)
+    (property "Reference" "U1" (at 100.00 60.00 0) (effects (font (size 1.27 1.27))))
+    (property "Value" "TPS613221ADBVT" (at 100.00 65.08 0) (effects (font (size 1.27 1.27))))
+    (property "Footprint" "Package_TO_SOT_SMD:SOT-23-5" (at 100.00 62.54 0) (effects (font (size 1.27 1.27)) hide))
+    (property "Datasheet" "" (at 100.00 62.54 0) (effects (font (size 1.27 1.27)) hide))
+    (pin "1" (uuid fe59805f-04c4-47e4-a5fe-af182350d72a))
+    (pin "2" (uuid a5efd384-5987-4135-9727-ced71a8cd882))
+    (pin "3" (uuid 651e71c2-8570-433e-aecf-ce04d42c4a35))
+    (pin "4" (uuid b5c258ca-8a56-4965-af2e-41e7664af10b))
+    (pin "5" (uuid 184faf97-4f35-4afd-8b22-ec87008f9c0b))
+    (instances (project "TPS613221A_1cell_3V3" (path "/ec3587e1-d50f-4e14-981c-799caa374f55" (reference "U1") (unit 1))))
+  )
+  (symbol (lib_id "Device:C") (at 51.50 77.81 0) (unit 1) (in_bom yes) (on_board yes) (dnp no) (uuid c94c1bf8-d949-48fb-991e-02b048aa17eb)
+    (property "Reference" "C1" (at 51.50 75.27 0) (effects (font (size 1.27 1.27))))
+    (property "Value" "22uF" (at 51.50 80.35 0) (effects (font (size 1.27 1.27))))
+    (property "Footprint" "Capacitor_SMD:C_0805_2012Metric_Pad1.18x1.45mm_HandSolder" (at 51.50 77.81 0) (effects (font (size 1.27 1.27)) hide))
+    (property "Datasheet" "" (at 51.50 77.81 0) (effects (font (size 1.27 1.27)) hide))
+    (pin "1" (uuid 3c825fb7-ed59-409d-9888-47ddedec2bd8))
+    (pin "2" (uuid 2b79af88-587b-40af-b2a2-32840ebe1481))
+    (instances (project "TPS613221A_1cell_3V3" (path "/ec3587e1-d50f-4e14-981c-799caa374f55" (reference "C1") (unit 1))))
+  )
+  (symbol (lib_id "Device:C") (at 120.00 77.81 0) (unit 1) (in_bom yes) (on_board yes) (dnp no) (uuid 9f6c7dd5-fee5-4cfd-8a3e-780700cc2af6)
+    (property "Reference" "C2" (at 120.00 75.27 0) (effects (font (size 1.27 1.27))))
+    (property "Value" "22uF" (at 120.00 80.35 0) (effects (font (size 1.27 1.27))))
+    (property "Footprint" "Capacitor_SMD:C_0805_2012Metric_Pad1.18x1.45mm_HandSolder" (at 120.00 77.81 0) (effects (font (size 1.27 1.27)) hide))
+    (property "Datasheet" "" (at 120.00 77.81 0) (effects (font (size 1.27 1.27)) hide))
+    (pin "1" (uuid 1095dc55-71fe-46a7-9c63-fe30774a4fd3))
+    (pin "2" (uuid a6cfd6ed-c095-4341-96db-a33e13537683))
+    (instances (project "TPS613221A_1cell_3V3" (path "/ec3587e1-d50f-4e14-981c-799caa374f55" (reference "C2") (unit 1))))
+  )
+  (symbol (lib_id "Device:C") (at 132.00 77.81 0) (unit 1) (in_bom yes) (on_board yes) (dnp no) (uuid 5d61dcce-8a5a-4a26-ad63-243850dfb6b1)
+    (property "Reference" "C3" (at 132.00 75.27 0) (effects (font (size 1.27 1.27))))
+    (property "Value" "1uF" (at 132.00 80.35 0) (effects (font (size 1.27 1.27))))
+    (property "Footprint" "Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder" (at 132.00 77.81 0) (effects (font (size 1.27 1.27)) hide))
+    (property "Datasheet" "" (at 132.00 77.81 0) (effects (font (size 1.27 1.27)) hide))
+    (pin "1" (uuid 6142bddc-00ca-4f15-8743-37902ddcbe8f))
+    (pin "2" (uuid fd8c1489-96fa-4416-87ad-42d8067a78ab))
+    (instances (project "TPS613221A_1cell_3V3" (path "/ec3587e1-d50f-4e14-981c-799caa374f55" (reference "C3") (unit 1))))
+  )
+  (symbol (lib_id "Connector:TestPoint") (at 49.00 80.00 0) (unit 1) (in_bom yes) (on_board yes) (dnp no) (uuid 450de477-4d84-44ec-9d2e-5556e914ff4c)
+    (property "Reference" "TP1" (at 49.00 77.46 0) (effects (font (size 1.27 1.27))))
+    (property "Value" "TP_BAT" (at 49.00 82.54 0) (effects (font (size 1.27 1.27))))
+    (property "Footprint" "TestPoint:TestPoint_Pad_D1.5mm" (at 49.00 80.00 0) (effects (font (size 1.27 1.27)) hide))
+    (property "Datasheet" "" (at 49.00 80.00 0) (effects (font (size 1.27 1.27)) hide))
+    (pin "1" (uuid 8fe89461-c965-41bf-9ad9-00ae509f813c))
+    (instances (project "TPS613221A_1cell_3V3" (path "/ec3587e1-d50f-4e14-981c-799caa374f55" (reference "TP1") (unit 1))))
+  )
+  (symbol (lib_id "Connector:TestPoint") (at 76.00 80.00 0) (unit 1) (in_bom yes) (on_board yes) (dnp no) (uuid e43bbf23-084f-47ed-9e31-d442589126b0)
+    (property "Reference" "TP2" (at 76.00 77.46 0) (effects (font (size 1.27 1.27))))
+    (property "Value" "TP_SW" (at 76.00 82.54 0) (effects (font (size 1.27 1.27))))
+    (property "Footprint" "TestPoint:TestPoint_Pad_D1.5mm" (at 76.00 80.00 0) (effects (font (size 1.27 1.27)) hide))
+    (property "Datasheet" "" (at 76.00 80.00 0) (effects (font (size 1.27 1.27)) hide))
+    (pin "1" (uuid fc05aaa9-57de-43e3-8331-c0223696aaf2))
+    (instances (project "TPS613221A_1cell_3V3" (path "/ec3587e1-d50f-4e14-981c-799caa374f55" (reference "TP2") (unit 1))))
+  )
+  (symbol (lib_id "Connector:TestPoint") (at 138.00 80.00 0) (unit 1) (in_bom yes) (on_board yes) (dnp no) (uuid 697948f4-bee8-4a9a-8776-f4678e130c4d)
+    (property "Reference" "TP3" (at 138.00 77.46 0) (effects (font (size 1.27 1.27))))
+    (property "Value" "TP_3V3" (at 138.00 82.54 0) (effects (font (size 1.27 1.27))))
+    (property "Footprint" "TestPoint:TestPoint_Pad_D1.5mm" (at 138.00 80.00 0) (effects (font (size 1.27 1.27)) hide))
+    (property "Datasheet" "" (at 138.00 80.00 0) (effects (font (size 1.27 1.27)) hide))
+    (pin "1" (uuid b29bd670-00f8-4cda-afcb-0ffc9acd059c))
+    (instances (project "TPS613221A_1cell_3V3" (path "/ec3587e1-d50f-4e14-981c-799caa374f55" (reference "TP3") (unit 1))))
+  )
+  (wire (pts (xy 33.08 60.00) (xy 40.00 60.00)) (stroke (width 0) (type default)) (uuid b7071abd-203f-48e2-8637-624dd83358a5))
+  (wire (pts (xy 50.16 60.00) (xy 51.50 60.00)) (stroke (width 0) (type default)) (uuid 5c0b3a15-12e8-49e5-8aac-3c57a3471163))
+  (wire (pts (xy 51.50 60.00) (xy 54.50 60.00)) (stroke (width 0) (type default)) (uuid f1f4bde2-a8e5-4163-bd5a-21bf1a8a34a2))
+  (wire (pts (xy 54.50 60.00) (xy 56.00 60.00)) (stroke (width 0) (type default)) (uuid c45065f4-e012-42fa-a223-fcce1caed013))
+  (wire (pts (xy 51.50 60.00) (xy 51.50 74.00)) (stroke (width 0) (type default)) (uuid 37dc2107-46d4-43c9-9d72-9f9db918b931))
+  (wire (pts (xy 51.50 81.62) (xy 51.50 88.00)) (stroke (width 0) (type default)) (uuid 270075df-6971-4b1b-acaa-6fa29a7f0ffa))
+  (wire (pts (xy 49.00 60.00) (xy 49.00 80.00)) (stroke (width 0) (type default)) (uuid 331d797f-3b6b-4baf-a81e-b6152fbfc245))
+  (wire (pts (xy 54.50 60.00) (xy 54.50 55.00)) (stroke (width 0) (type default)) (uuid 70ea7864-9b68-47d8-ae61-b98ec8644396))
+  (wire (pts (xy 63.62 60.00) (xy 76.00 60.00)) (stroke (width 0) (type default)) (uuid 806b8b8e-4881-48b2-93fd-aa0844077068))
+  (wire (pts (xy 76.00 60.00) (xy 82.00 60.00)) (stroke (width 0) (type default)) (uuid eef1d930-b055-4b2b-97b9-b00fe43ccae3))
+  (wire (pts (xy 82.00 60.00) (xy 89.84 60.00)) (stroke (width 0) (type default)) (uuid 65f2ce93-791d-4c9b-bed0-90eea1164d3d))
+  (wire (pts (xy 76.00 60.00) (xy 76.00 80.00)) (stroke (width 0) (type default)) (uuid ff8c60e5-2103-4a35-9726-8d45681f2e16))
+  (wire (pts (xy 82.00 60.00) (xy 82.00 55.00)) (stroke (width 0) (type default)) (uuid 230ffb8e-813b-4c19-92f6-af4f7dbe7d8b))
+  (wire (pts (xy 100.00 70.16) (xy 100.00 78.00)) (stroke (width 0) (type default)) (uuid ca6d3668-d4f3-49ce-a6c8-acb570096b51))
+  (wire (pts (xy 110.16 60.00) (xy 120.00 60.00)) (stroke (width 0) (type default)) (uuid 7f3c3661-f58d-49e7-95f9-65b892c77d6b))
+  (wire (pts (xy 120.00 60.00) (xy 132.00 60.00)) (stroke (width 0) (type default)) (uuid b965fc96-17b5-42bf-8bce-72d1ee38cf87))
+  (wire (pts (xy 132.00 60.00) (xy 138.00 60.00)) (stroke (width 0) (type default)) (uuid 7feff8ef-743c-40b4-8599-ef3fbaa21880))
+  (wire (pts (xy 138.00 60.00) (xy 146.00 60.00)) (stroke (width 0) (type default)) (uuid 770bf49b-e7cc-45a4-862c-9c50013beb13))
+  (wire (pts (xy 120.00 60.00) (xy 120.00 74.00)) (stroke (width 0) (type default)) (uuid 0eb992c8-2d9b-41b9-b5d3-cc2b3f0fb068))
+  (wire (pts (xy 120.00 81.62) (xy 120.00 88.00)) (stroke (width 0) (type default)) (uuid df39be31-b105-4d36-86b8-007190fcc899))
+  (wire (pts (xy 132.00 60.00) (xy 132.00 74.00)) (stroke (width 0) (type default)) (uuid 68e12a74-f60c-4122-a2de-6fe796708e0e))
+  (wire (pts (xy 132.00 81.62) (xy 132.00 88.00)) (stroke (width 0) (type default)) (uuid fae3a71e-363a-40a5-ac65-8f5375fffe9e))
+  (wire (pts (xy 138.00 60.00) (xy 138.00 80.00)) (stroke (width 0) (type default)) (uuid 377ef591-62cf-41b2-9d63-d585338b4b3d))
+  (wire (pts (xy 146.00 60.00) (xy 152.00 60.00)) (stroke (width 0) (type default)) (uuid 74eb496f-a198-42ee-be10-3aed5ecc9f3a))
+  (wire (pts (xy 146.00 60.00) (xy 146.00 100.00)) (stroke (width 0) (type default)) (uuid 95ebe5cb-c19a-4069-b812-01e95c4182b2))
+  (wire (pts (xy 146.00 100.00) (xy 33.08 100.00)) (stroke (width 0) (type default)) (uuid 8a7c3d1c-79db-43e6-9b45-c3868beaec5e))
+  (wire (pts (xy 33.08 100.00) (xy 33.08 65.08)) (stroke (width 0) (type default)) (uuid ba825329-9268-4959-a640-528f7df9ec85))
+  (wire (pts (xy 33.08 62.54) (xy 42.00 62.54)) (stroke (width 0) (type default)) (uuid ec30911d-1c44-4267-920a-20746afb470d))
+  (junction (at 51.50 60.00) (diameter 0) (color 0 0 0 0) (uuid 0be223a5-e7ba-4ec0-a8ff-0b045fd1c261))
+  (junction (at 49.00 60.00) (diameter 0) (color 0 0 0 0) (uuid da6f63fe-51d3-47f8-bf01-11ec4de9cc89))
+  (junction (at 54.50 60.00) (diameter 0) (color 0 0 0 0) (uuid 8c7eb984-67a9-4690-8630-ce80b0019e1e))
+  (junction (at 76.00 60.00) (diameter 0) (color 0 0 0 0) (uuid bc793bbb-6a92-48d7-b80d-d32c6114bc0d))
+  (junction (at 82.00 60.00) (diameter 0) (color 0 0 0 0) (uuid 735cfaf6-b937-4fa6-b047-72b9512eb2b7))
+  (junction (at 120.00 60.00) (diameter 0) (color 0 0 0 0) (uuid f26304d3-0f37-48a7-8489-f4448b1315f1))
+  (junction (at 132.00 60.00) (diameter 0) (color 0 0 0 0) (uuid 2a50cca9-a1a8-4ba1-9955-9fc2cce9c5da))
+  (junction (at 138.00 60.00) (diameter 0) (color 0 0 0 0) (uuid 86c73e2b-2c5b-4067-8966-85015e25e52a))
+  (global_label "GND" (shape input) (at 51.50 88.00 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid f1e42317-72fa-4ae5-8444-ba211c5ec947))
+  (global_label "BAT" (shape input) (at 54.50 55.00 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid cd502420-3d00-43fa-90e0-f3d18a59d0a5))
+  (global_label "SW" (shape input) (at 82.00 55.00 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid 7e297c52-c13c-4907-ba19-0b99d4832dc9))
+  (global_label "GND" (shape input) (at 100.00 78.00 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid 267fb208-1092-450c-bbda-321505f530b7))
+  (global_label "GND" (shape input) (at 120.00 88.00 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid 81901e84-93e0-4fa5-be0e-e986d52b4741))
+  (global_label "GND" (shape input) (at 132.00 88.00 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid a91f29ba-98a0-4b71-b381-6bcb1ae96be4))
+  (global_label "+3V3" (shape input) (at 152.00 60.00 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid da677b56-2c84-4e64-9017-be23402fd2bf))
+  (global_label "GND" (shape input) (at 42.00 62.54 0) (effects (font (size 1.27 1.27)) (justify left)) (uuid ea0d8efa-0033-408d-a8c1-559b6c5fa33b))
+  (no_connect (at 92.38 65.08) (uuid 197a7842-6467-4612-8ee5-e91532875d3b))
+  (no_connect (at 107.62 65.08) (uuid f1555651-c2fe-4732-a732-0e29b428261e))
+  (sheet_instances (path "/" (page "1")))
+)

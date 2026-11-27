@@ -1,0 +1,22 @@
+** Drc report for TPS613221A_1cell_3V3.kicad_pcb **
+** Created on 2026-11-27T12:00:01 **
+** Report includes: Errors, Warnings **
+
+** Found 0 DRC violations **
+
+** Found 1 unconnected pads **
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(8.4625 mm, 6.3500 mm): Track [BAT] on F.Cu, length 3.1500 mm
+    @(4.5000 mm, 6.3500 mm): Track [BAT] on F.Cu, length 2.9000 mm
+
+** Found 0 Footprint errors **
+
+** Ignored checks **
+    - Footprint has no courtyard defined
+    - Track endpoint not centered on via
+    - Tuning profile track geometries
+    - Footprint doesn't match symbol's footprint filters
+    - Footprint component type doesn't match footprint pads
+
+** End of Report **
