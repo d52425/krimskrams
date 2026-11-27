@@ -738,13 +738,14 @@ j8.Value().SetPosition(pcbnew.VECTOR2I(MM(43), MM(15.5)))
 
 
 
+
 SJ1_POS = (73.26, 27.1)
 sj1 = _new_fp("HDR_1x03_P2.54", "SJ1", VAL_OF["SJ1"], SJ1_POS)
-_pth(sj1, 1, 0, -2.54, "VBUS", size=1.7, drill=1.0)
+_pth(sj1, 1, 2.54, 0, "VBUS", size=1.7, drill=1.0)
 _pth(sj1, 2, 0, 0, "+5V_IN", size=1.7, drill=1.0)
-_pth(sj1, 3, 0, 2.54, "VSYS", size=1.7, drill=1.0)
-_fp_rect(sj1, pcbnew.F_CrtYd, -1.27, -3.81, 1.27, 3.81)
-sj1.Reference().SetPosition(pcbnew.VECTOR2I(MM(76.5), MM(23.9)))
+_pth(sj1, 3, -2.54, 0, "VSYS", size=1.7, drill=1.0)
+_fp_rect(sj1, pcbnew.F_CrtYd, -3.81, -1.27, 3.81, 1.27)
+sj1.Reference().SetPosition(pcbnew.VECTOR2I(MM(73.26), MM(24.3)))
 sj1.Value().SetVisible(False)
 
 
@@ -867,14 +868,13 @@ for _fp in board.GetFootprints():
 
 
 
-track(pad_pos(j8, "40"), (74.52, 24.56), 0.6, "VBUS")
-track((74.52, 24.56), pad_pos(sj1, "1"), 0.6, "VBUS")
-track(pad_pos(j8, "39"), (71.5, 29.64), 0.6, "VSYS")
-track((71.5, 29.64), pad_pos(sj1, "3"), 0.6, "VSYS")
+track(pad_pos(j8, "40"), (75.8, 24.5), 0.6, "VBUS")
+track((75.8, 24.5), pad_pos(sj1, "1"), 0.6, "VBUS")
+track(pad_pos(j8, "39"), (70.72, 24.5), 0.6, "VSYS")
+track((70.72, 24.5), pad_pos(sj1, "3"), 0.6, "VSYS")
 
-track(pad_pos(sj1, "2"), (75.6, 27.1), 0.8, "+5V_IN")
-track((75.6, 27.1), (75.6, 31.2), 0.8, "+5V_IN")
-track((75.6, 31.2), (62, 31.2), 0.8, "+5V_IN")
+track(pad_pos(sj1, "2"), (73.26, 31.2), 0.8, "+5V_IN")
+track((73.26, 31.2), (62, 31.2), 0.8, "+5V_IN")
 track((62, 31.2), pad_pos(f1, "1"), 0.8, "+5V_IN")
 
 
@@ -1003,8 +1003,8 @@ def silk_b(text, pos, size=0.9):
 silk("BOOST MODULE (AE-LMR62421)", (6, 24.9), 1.0)
 silk("CAP SIDE", (10.8, 57.3), 0.8)
 silk("ESP32-P4-POE-ETH", (38, 24.9), 1.0)
-silk("VBUS", (68.8, 24.56), 0.8)
-silk("VSYS", (68.6, 29.64), 0.8)
+silk("VBUS", (76.6, 27.1), 0.8)
+silk("VSYS", (66.8, 27.1), 0.8)
 silk("R+", (75.6, 40), 0.8)
 silk("R-", (75.6, 45.08), 0.8)
 silk("MAX 18V", (44, 52.8), 0.9)
