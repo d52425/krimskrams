@@ -782,19 +782,24 @@ c3.Reference().SetPosition(pcbnew.VECTOR2I(MM(51), MM(37.6)))
 
 
 
-def _mezz(ref, pos, plus_net, ref_dx=3.4):
+
+
+
+def _mezz(ref, pos, plus_net, ref_dx=3.4, ref_dy=-2.5):
+
+
     mz = _new_fp("MZ_1x02_P5.08", ref, VAL_OF[ref], pos)
     _pth(mz, 1, 0, 0, plus_net, size=2.6, drill=1.5)
-    _pth(mz, 2, 0, 5.08, "GND", size=2.6, drill=1.5)
-    _fp_rect(mz, pcbnew.F_CrtYd, -1.8, -1.8, 1.8, 6.88)
+    _pth(mz, 2, 0, -5.08, "GND", size=2.6, drill=1.5)
+    _fp_rect(mz, pcbnew.F_CrtYd, -1.8, -6.88, 1.8, 1.8)
     mz.Reference().SetPosition(pcbnew.VECTOR2I(MM(pos[0] + ref_dx),
-                                               MM(pos[1] + 2.5)))
+                                               MM(pos[1] + ref_dy)))
     mz.Value().SetVisible(False)
     return mz
 
 
-j3 = _mezz("J3", (27.5, 44.92), "+5V", ref_dx=-6.5)
-j4 = _mezz("J4", (4.5, 44.92), "+12V")
+j3 = _mezz("J3", (4.5, 43.08), "+5V")
+j4 = _mezz("J4", (27.5, 43.08), "+12V", ref_dx=-7)
 c1 = add_fp("Capacitor_THT", "CP_Radial_D10.0mm_P5.00mm",
             "C1", VAL_OF["C1"], (50, 47), 90, {"1": "+12V", "2": "GND"})
 c1.Reference().SetPosition(pcbnew.VECTOR2I(MM(58.6), MM(44)))
@@ -867,20 +872,22 @@ track((75.6, 29.6), (62, 29.6), 0.8, "+5V_IN")
 track((62, 29.6), pad_pos(f1, "1"), 0.8, "+5V_IN")
 
 
+
 track(pad_pos(f1, "2"), (57, 33), 1.0, "+5V")
 track((57, 33), pad_pos(c3, "1"), 1.0, "+5V")
-track(pad_pos(c3, "1"), (47.8, 33), 1.0, "+5V")
-track((47.8, 33), (47.8, 45.2), 1.0, "+5V")
-track((47.8, 45.2), (27.5, 45.2), 1.0, "+5V")
+track(pad_pos(c3, "1"), (51, 35.8), 1.0, "+5V")
+track((51, 35.8), (10, 35.8), 1.0, "+5V")
+track((10, 35.8), (10, 43.08), 1.0, "+5V")
+track((10, 43.08), pad_pos(j3, "1"), 1.0, "+5V")
 track((57, 33), pad_pos(tp1, "1"), 0.6, "+5V")
 
-track(pad_pos(j4, "1"), (4.5, 41), 0.8, "+12V")
-track((4.5, 41), (46.5, 41), 0.8, "+12V")
-track(pad_pos(tp2, "1"), (43, 41), 0.5, "+12V")
-via((46.5, 41), "+12V")
 
 
-track((46.5, 41), (46.5, 52), 1.0, "+12V", pcbnew.B_Cu)
+track(pad_pos(j4, "1"), (46.5, 43.08), 0.8, "+12V")
+via((46.5, 43.08), "+12V")
+
+
+track((46.5, 43.08), (46.5, 52), 1.0, "+12V", pcbnew.B_Cu)
 track((46.5, 52), (76, 52), 1.0, "+12V", pcbnew.B_Cu)
 track((55, 52), (55, 47), 1.0, "+12V", pcbnew.B_Cu)
 track((55, 47), pad_pos(c1, "1"), 1.0, "+12V", pcbnew.B_Cu)
@@ -988,7 +995,7 @@ def silk_b(text, pos, size=0.9):
 
 
 silk("BOOST MODULE (AE-LMR62421)", (6, 24.9), 1.0)
-silk("CAP SIDE", (10.8, 31.5), 0.8)
+silk("CAP SIDE", (10.8, 57.3), 0.8)
 silk("ESP32-P4-POE-ETH", (38, 24.9), 1.0)
 silk("VBUS", (69.4, 25.3), 0.8)
 silk("VSYS", (69.4, 27.9), 0.8)
