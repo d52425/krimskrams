@@ -501,15 +501,15 @@ def via (pos ,net ):
 
 j1 =add_fp ("TerminalBlock_Phoenix",
 "TerminalBlock_Phoenix_PT-1,5-3-3.5-H_1x03_P3.50mm_Horizontal",
-"J1",VAL_OF ["J1"],(5.6 ,13.5 ),270 ,
+"J1",VAL_OF ["J1"],(5.6 ,11.5 ),270 ,
 {"1":"+12V","2":"GND","3":"STROBE"})
 j1 .Reference ().SetPosition (pcbnew .VECTOR2I (MM (5.6 ),MM (24.8 )))
 j2 =add_fp ("TerminalBlock_Phoenix",
 "TerminalBlock_Phoenix_PT-1,5-2-3.5-H_1x02_P3.50mm_Horizontal",
-"J2",VAL_OF ["J2"],(24.4 ,22.5 ),90 ,
+"J2",VAL_OF ["J2"],(24.4 ,21.3 ),90 ,
 {"1":"+12V","2":"DRAIN"})
 c1 =add_fp ("Capacitor_THT","CP_Radial_D10.0mm_P5.00mm",
-"C1",VAL_OF ["C1"],(15 ,10.5 ),0 ,
+"C1",VAL_OF ["C1"],(13.5 ,9.5 ),0 ,
 {"1":"+12V","2":"GND"})
 c2 =add_fp ("Capacitor_THT","C_Disc_D5.0mm_W2.5mm_P2.50mm",
 "C2",VAL_OF ["C2"],(13.5 ,20.3 ),0 ,
@@ -542,17 +542,17 @@ for _nm ,_fp in (("J1",j1 ),("J2",j2 )):
     for p in _fp .Pads ()})
 
 
-track (pad_pos (j1 ,"1"),(10 ,13.5 ),1.0 ,"+12V")
-track ((10 ,13.5 ),(10 ,10.5 ),1.0 ,"+12V")
+track (pad_pos (j1 ,"1"),(10 ,11.5 ),1.0 ,"+12V")
+track ((10 ,11.5 ),(10 ,9.5 ),1.0 ,"+12V")
 track ((10 ,10.5 ),pad_pos (c1 ,"1"),1.0 ,"+12V")
-track ((10 ,13.5 ),(10 ,19.5 ),0.8 ,"+12V")
+track ((10 ,11.5 ),(10 ,19.5 ),0.8 ,"+12V")
 track ((10 ,19.5 ),(12.8 ,19.5 ),0.8 ,"+12V")
 track ((12.8 ,19.5 ),pad_pos (c2 ,"1"),0.8 ,"+12V")
 
-track (pad_pos (c1 ,"1"),(15 ,7 ),1.0 ,"+12V",pcbnew .B_Cu )
-track ((15 ,7 ),(22.4 ,7 ),1.0 ,"+12V",pcbnew .B_Cu )
-track ((22.4 ,7 ),(22.4 ,21 ),1.0 ,"+12V",pcbnew .B_Cu )
-track ((22.4 ,21 ),pad_pos (j2 ,"1"),1.0 ,"+12V",pcbnew .B_Cu )
+track (pad_pos (c1 ,"1"),(13.5 ,6.5 ),1.0 ,"+12V",pcbnew .B_Cu )
+track ((13.5 ,6.5 ),(22.4 ,6.5 ),1.0 ,"+12V",pcbnew .B_Cu )
+track ((22.4 ,6.5 ),(22.4 ,19.5 ),1.0 ,"+12V",pcbnew .B_Cu )
+track ((22.4 ,19.5 ),pad_pos (j2 ,"1"),1.0 ,"+12V",pcbnew .B_Cu )
 
 q1d =pad_pos (q1 ,"3")
 track (q1d ,(q1d [0 ],15.5 ),1.0 ,"DRAIN")
@@ -627,11 +627,11 @@ def silk_rot (text ,pos ,size =0.8 ):
 
 
 silk ("IR RING STROBE",(15 ,1.8 ),1.0 )
-silk_rot ("+12V",(10.2 ,13.5 ))
-silk_rot ("GND",(10.2 ,17 ))
-silk_rot ("STR",(10.2 ,20.5 ))
-silk_rot ("R+",(19.3 ,22.5 ))
-silk_rot ("R-",(19.3 ,19 ))
+silk_rot ("+12V",(10.2 ,11.5 ))
+silk_rot ("GND",(10.2 ,15 ))
+silk_rot ("STR",(10.2 ,18.5 ))
+silk_rot ("R+",(19.3 ,21.3 ))
+silk_rot ("R-",(19.3 ,17.8 ))
 
 board .Save (os .path .join (HERE ,PROJ +".kicad_pcb"))
 print ("pcb written")
