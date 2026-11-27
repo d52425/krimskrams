@@ -673,6 +673,25 @@ def _pth(fp, num, lx, ly, net=None, size=1.7, drill=1.0, rect=False):
     return p
 
 
+def _npth(fp, num, lx, ly, drill, clearance=1.0):
+    """Non-plated clearance hole (no net, never soldered). The local
+    clearance keeps every copper pour - above all GND - away from
+    the hole edge."""
+    p = pcbnew.PAD(fp)
+    p.SetNumber(str(num))
+    p.SetAttribute(pcbnew.PAD_ATTRIB_NPTH)
+    p.SetShape(pcbnew.PAD_SHAPE_CIRCLE)
+    p.SetSize(pcbnew.VECTOR2I(MM(drill), MM(drill)))
+    p.SetDrillSize(pcbnew.VECTOR2I(MM(drill), MM(drill)))
+    p.SetLayerSet(_layers(pcbnew.F_Cu, pcbnew.B_Cu,
+                          pcbnew.F_Mask, pcbnew.B_Mask))
+    p.SetLocalClearance(MM(clearance))
+    ax, ay = _abs(fp, lx, ly)
+    p.SetPosition(pcbnew.VECTOR2I(MM(ax), MM(ay)))
+    fp.Add(p)
+    return p
+
+
 def _smd(fp, num, lx, ly, w, h, net=None):
     p = pcbnew.PAD(fp)
     p.SetNumber(str(num))
@@ -801,6 +820,28 @@ def _mezz(ref, pos, plus_net, ref_dx=3.4, ref_dy=-2.5):
 
 j3 = _mezz("J3", (4.5, 43.08), "+5V")
 j4 = _mezz("J4", (27.5, 43.08), "+12V", ref_dx=-7)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+lh = _new_fp("LEG_CLEAR_7", "LH1", "BOOST LEG CLEARANCE", (31, 29))
+for i, (lx, ly) in enumerate([(4.5, 20.5), (4.5, 23.0),
+                              (25.5, 20.5), (25.5, 23.0)]):
+    _npth(lh, i + 1, -lx, ly, 1.8)
+for i, lx in enumerate([12.46, 15.0, 17.54]):
+    _npth(lh, i + 5, -lx, 3.0, 1.8)
+lh.Reference().SetPosition(pcbnew.VECTOR2I(MM(16), MM(44.5)))
+lh.Value().SetVisible(False)
 c1 = add_fp("Capacitor_THT", "CP_Radial_D10.0mm_P5.00mm",
             "C1", VAL_OF["C1"], (50, 47), 90, {"1": "+12V", "2": "GND"})
 c1.Reference().SetPosition(pcbnew.VECTOR2I(MM(58.6), MM(44)))
@@ -848,6 +889,17 @@ for i, (hx, hy) in enumerate([(4, 32), (28, 32), (4, 56), (28, 56)]):
                "H%d" % (i + 1), "", (hx, hy), 0)
     h.Reference().SetVisible(False)
     h.Value().SetVisible(False)
+    if i >= 2:
+
+
+
+
+
+
+        for _sh in h.GraphicalItems():
+            if (_sh.GetLayer() == pcbnew.F_CrtYd
+                    and _sh.GetShape() == pcbnew.SHAPE_T_CIRCLE):
+                _sh.SetRadius(MM(3.2))
 
 
 
@@ -1014,7 +1066,7 @@ silk_b("P4 CARRIER - BOOST + IR STROBE", (70, 38), 1.0)
 
 os.makedirs(os.path.join(HERE, "custom.pretty"), exist_ok=True)
 _io = pcbnew.PCB_IO_KICAD_SEXPR()
-for _cfp in (j8, sj1, f1, tp1, tp2, j3, j4, j2):
+for _cfp in (j8, sj1, f1, tp1, tp2, j3, j4, j2, lh):
     _io.FootprintSave(os.path.join(HERE, "custom.pretty"), _cfp)
 
 board.Save(os.path.join(HERE, PROJ + ".kicad_pcb"))
