@@ -19,29 +19,33 @@ Then fill zones / DRC / gerbers with kicad-cli:
     kicad-cli pcb export gerbers --output gerber/ IR_ring_strobe.kicad_pcb
     kicad-cli pcb export drill --output gerber/ IR_ring_strobe.kicad_pcb
 """
-import json
-import math
-import os
-import re
-import uuid
+import json 
+import math 
+import os 
+import re 
+import uuid 
 
-HERE = os.path.dirname(os.path.abspath(__file__))
-PROJ = "IR_ring_strobe"
-KICAD_SHARE = os.environ.get("KICAD_SHARE", "/usr/share/kicad")
-SYM_DIR = os.path.join(KICAD_SHARE, "symbols")
-FP_DIR = os.path.join(KICAD_SHARE, "footprints")
-
-
-def U():
-    return str(uuid.uuid4())
+HERE =os .path .dirname (os .path .abspath (__file__ ))
+PROJ ="IR_ring_strobe"
+KICAD_SHARE =os .environ .get ("KICAD_SHARE","/usr/share/kicad")
+SYM_DIR =os .path .join (KICAD_SHARE ,"symbols")
+FP_DIR =os .path .join (KICAD_SHARE ,"footprints")
 
 
-def fmt(v):
-    s = ("%.4f" % v).rstrip("0").rstrip(".")
-    return s if s not in ("-0", "") else "0"
+def U ():
+    return str (uuid .uuid4 ())
 
 
-LOCAL_Q_NMOS_GSD = r'''(symbol "Q_NMOS_GSD" (pin_names (offset 0) hide) (in_bom yes) (on_board yes)
+def fmt (v ):
+    s =("%.4f"%v ).rstrip ("0").rstrip (".")
+    return s if s not in ("-0","")else "0"
+
+
+
+
+
+
+LOCAL_Q_NMOS_GSD =r'''(symbol "Q_NMOS_GSD" (pin_names (offset 0) hide) (in_bom yes) (on_board yes)
         (property "Reference" "Q" (at 5.08 1.27 0)
           (effects (font (size 1.27 1.27)) (justify left))
         )
@@ -188,455 +192,489 @@ LOCAL_Q_NMOS_GSD = r'''(symbol "Q_NMOS_GSD" (pin_names (offset 0) hide) (in_bom 
       )'''
 
 
-def extract_symbol(libfile, name):
+def extract_symbol (libfile ,name ):
     """Return the (symbol "name" ...) block text from a library file.
 
     KiCad 10 split libraries (<Lib>.kicad_symdir/<Symbol>.kicad_sym, one
     file per root symbol, subunits inside) are resolved as well.
     """
-    if name.startswith("Q_NMOS_GSD"):
-        txt = LOCAL_Q_NMOS_GSD
-        start = txt.index('(symbol "%s"' % name)
-        depth, i = 0, start
-        while True:
-            c = txt[i]
-            if c == "(":
-                depth += 1
-            elif c == ")":
-                depth -= 1
-                if depth == 0:
-                    break
-            i += 1
-        return txt[start:i + 1]
-    p = os.path.join(SYM_DIR, libfile)
-    if os.path.exists(p):
-        txt = open(p, encoding="utf-8").read()
-    else:
-        base = libfile[:-len(".kicad_sym")] if libfile.endswith(".kicad_sym") else libfile
-        root = re.sub(r"_\d+_\d+$", "", name)
-        txt = open(os.path.join(SYM_DIR, base + ".kicad_symdir",
-                                root + ".kicad_sym"), encoding="utf-8").read()
-    start = txt.index('(symbol "%s"' % name)
-    depth, i = 0, start
-    while True:
-        c = txt[i]
-        if c == "(":
-            depth += 1
-        elif c == ")":
-            depth -= 1
-            if depth == 0:
-                break
-        i += 1
-    return txt[start:i + 1]
+    if name .startswith ("Q_NMOS_GSD"):
+        txt =LOCAL_Q_NMOS_GSD 
+        start =txt .index ('(symbol "%s"'%name )
+        depth ,i =0 ,start 
+        while True :
+            c =txt [i ]
+            if c =="(":
+                depth +=1 
+            elif c ==")":
+                depth -=1 
+                if depth ==0 :
+                    break 
+            i +=1 
+        return txt [start :i +1 ]
+    p =os .path .join (SYM_DIR ,libfile )
+    if os .path .exists (p ):
+        txt =open (p ,encoding ="utf-8").read ()
+    else :
+        base =libfile [:-len (".kicad_sym")]if libfile .endswith (".kicad_sym")else libfile 
+        root =re .sub (r"_\d+_\d+$","",name )
+        txt =open (os .path .join (SYM_DIR ,base +".kicad_symdir",
+        root +".kicad_sym"),encoding ="utf-8").read ()
+    start =txt .index ('(symbol "%s"'%name )
+    depth ,i =0 ,start 
+    while True :
+        c =txt [i ]
+        if c =="(":
+            depth +=1 
+        elif c ==")":
+            depth -=1 
+            if depth ==0 :
+                break 
+        i +=1 
+    return txt [start :i +1 ]
 
 
-def symbol_pins(libfile, name):
+def symbol_pins (libfile ,name ):
     """Pins of subunit _1_1: {number: (x, y)} in symbol coords (y up)."""
-    block = extract_symbol(libfile, name + "_1_1")
-    pins = {}
-    for m in re.finditer(
-            r'\(pin\s+\S+\s+\S+\s*\(at\s+(-?[\d.]+)\s+(-?[\d.]+)\s+\d+\)'
-            r'.*?\(number\s+"(\d+)"', block, re.S):
-        pins[m.group(3)] = (float(m.group(1)), float(m.group(2)))
-    return pins
+    block =extract_symbol (libfile ,name +"_1_1")
+    pins ={}
+    for m in re .finditer (
+    r'\(pin\s+\S+\s+\S+\s*\(at\s+(-?[\d.]+)\s+(-?[\d.]+)\s+\d+\)'
+    r'.*?\(number\s+"(\d+)"',block ,re .S ):
+        pins [m .group (3 )]=(float (m .group (1 )),float (m .group (2 )))
+    return pins 
 
 
-def _rot(ox, oy, rot):
-    if rot == 90:
-        return (oy, -ox)
-    if rot == 180:
-        return (-ox, -oy)
-    if rot == 270:
-        return (-oy, ox)
-    return (ox, oy)
+def _rot (ox ,oy ,rot ):
+    if rot ==90 :
+        return (oy ,-ox )
+    if rot ==180 :
+        return (-ox ,-oy )
+    if rot ==270 :
+        return (-oy ,ox )
+    return (ox ,oy )
 
 
-def pin_file_pos(pins, num, pos, rot=0):
-    px, py = pins[num]
-    ox, oy = _rot(px, -py, rot)
-    return (round(pos[0] + ox, 2), round(pos[1] + oy, 2))
+def pin_file_pos (pins ,num ,pos ,rot =0 ):
+    px ,py =pins [num ]
+    ox ,oy =_rot (px ,-py ,rot )
+    return (round (pos [0 ]+ox ,2 ),round (pos [1 ]+oy ,2 ))
 
 
-def place_by_pin(pins, num, target, rot=0):
-    px, py = pins[num]
-    ox, oy = _rot(px, -py, rot)
-    return (round(target[0] - ox, 2), round(target[1] - oy, 2))
+def place_by_pin (pins ,num ,target ,rot =0 ):
+    px ,py =pins [num ]
+    ox ,oy =_rot (px ,-py ,rot )
+    return (round (target [0 ]-ox ,2 ),round (target [1 ]-oy ,2 ))
 
 
-PARTS = {
-    "J1": ("Connector_Generic", "Conn_01x03", "IN 12V/GND/STROBE",
-           "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical"),
-    "J2": ("Connector_Generic", "Conn_01x02", "RING OUT JST-XH",
-           "Connector_JST:JST_XH_B2B-XH-A_1x02_P2.50mm_Vertical"),
-    "Q1": ("Device", "Q_NMOS_GSD", "MTN2306AN3/AO3400A",
-           "Package_TO_SOT_SMD:SOT-23"),
-    "R1": ("Device", "R", "100",
-           "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"),
-    "R2": ("Device", "R", "10k",
-           "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"),
-    "C1": ("Device", "C_Polarized", "1000uF/25V",
-           "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm"),
-    "C2": ("Device", "C", "10uF",
-           "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P2.50mm"),
-    "TP2": ("Connector", "TestPoint", "GATE",
-            "TestPoint:TestPoint_Pad_D1.5mm"),
+PARTS ={
+"J1":("Connector_Generic","Conn_01x03","IN 12V/GND/STROBE",
+"TerminalBlock_Phoenix:TerminalBlock_Phoenix_PT-1,5-3-3.5-H_1x03_P3.50mm_Horizontal"),
+"J2":("Connector_Generic","Conn_01x02","RING OUT",
+"TerminalBlock_Phoenix:TerminalBlock_Phoenix_PT-1,5-2-3.5-H_1x02_P3.50mm_Horizontal"),
+"Q1":("Device","Q_NMOS_GSD","MTN2306AN3/AO3400A",
+"Package_TO_SOT_SMD:SOT-23"),
+"R1":("Device","R","100",
+"Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"),
+"R2":("Device","R","10k",
+"Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"),
+"C1":("Device","C_Polarized","1000uF/25V",
+"Capacitor_THT:CP_Radial_D10.0mm_P5.00mm"),
+"C2":("Device","C","10uF",
+"Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P2.50mm"),
+"TP2":("Connector","TestPoint","GATE",
+"TestPoint:TestPoint_Pad_D1.5mm"),
 }
-VAL_OF = {r: v[2] for r, v in PARTS.items()}
-FP_OF = {r: v[3] for r, v in PARTS.items()}
+VAL_OF ={r :v [2 ]for r ,v in PARTS .items ()}
+FP_OF ={r :v [3 ]for r ,v in PARTS .items ()}
 
-PINS = {}
-lib_blocks = []
-_seen = set()
-for _ref, (lib, sym, _val, _fp) in PARTS.items():
-    if (lib, sym) in _seen:
-        continue
-    _seen.add((lib, sym))
-    block = extract_symbol(lib + ".kicad_sym", sym)
-    block = block.replace('(symbol "%s"' % sym,
-                          '(symbol "%s:%s"' % (lib, sym), 1)
-    lib_blocks.append(block)
-    PINS[sym] = symbol_pins(lib + ".kicad_sym", sym)
+PINS ={}
+lib_blocks =[]
+_seen =set ()
+for _ref ,(lib ,sym ,_val ,_fp )in PARTS .items ():
+    if (lib ,sym )in _seen :
+        continue 
+    _seen .add ((lib ,sym ))
+    block =extract_symbol (lib +".kicad_sym",sym )
+    block =block .replace ('(symbol "%s"'%sym ,
+    '(symbol "%s:%s"'%(lib ,sym ),1 )
+    lib_blocks .append (block )
+    PINS [sym ]=symbol_pins (lib +".kicad_sym",sym )
 
 
-PLAN = {
-    "J1": ("1", (30, 50), 0),
-    "J2": ("1", (102, 50), 0),
-    "C1": ("1", (56, 64), 0),
-    "C2": ("1", (64, 64), 0),
-    "Q1": ("3", (84, 78), 0),
-    "R1": ("2", (68, 83.08), 90),
-    "R2": ("1", (64, 90), 0),
-    "TP2": ("1", (72, 90), 0),
+
+
+PLAN ={
+"J1":("1",(30 ,50 ),0 ),
+"J2":("1",(102 ,50 ),0 ),
+"C1":("1",(56 ,64 ),0 ),
+"C2":("1",(64 ,64 ),0 ),
+"Q1":("3",(84 ,78 ),0 ),
+"R1":("2",(68 ,83.08 ),90 ),
+"R2":("1",(64 ,90 ),0 ),
+"TP2":("1",(72 ,90 ),0 ),
 }
-POS = {}
-PINPOS = {}
-for ref, (anch, target, rot) in PLAN.items():
-    sym = PARTS[ref][1]
-    pos = place_by_pin(PINS[sym], anch, target, rot)
-    POS[ref] = (pos, rot)
-    for num in PINS[sym]:
-        PINPOS[(ref, num)] = pin_file_pos(PINS[sym], num, pos, rot)
+POS ={}
+PINPOS ={}
+for ref ,(anch ,target ,rot )in PLAN .items ():
+    sym =PARTS [ref ][1 ]
+    pos =place_by_pin (PINS [sym ],anch ,target ,rot )
+    POS [ref ]=(pos ,rot )
+    for num in PINS [sym ]:
+        PINPOS [(ref ,num )]=pin_file_pos (PINS [sym ],num ,pos ,rot )
 
-wires = []
-junctions = []
-labels = []
-
-
-def wire(a, b):
-    wires.append((a[0], a[1], b[0], b[1]))
+wires =[]
+junctions =[]
+labels =[]
 
 
-def stub_label(a, b, text):
-    wire(a, b)
-    junctions.append(a)
-    labels.append((text, b[0], b[1]))
+def wire (a ,b ):
+    wires .append ((a [0 ],a [1 ],b [0 ],b [1 ]))
 
 
-def PP(ref, pinnum):
-    return PINPOS[(ref, pinnum)]
+def stub_label (a ,b ,text ):
+    wire (a ,b )
+    junctions .append (a )
+    labels .append ((text ,b [0 ],b [1 ]))
 
 
-wire(PP("J1", "1"), PP("J2", "1"))
-wire((56, 50), PP("C1", "1")); junctions.append((56, 50))
-wire((64, 50), PP("C2", "1")); junctions.append((64, 50))
-wire(PP("C1", "2"), (56, 78)); labels.append(("GND", 56, 78))
-wire(PP("C2", "2"), (64, 78)); labels.append(("GND", 64, 78))
-stub_label((84, 50), (84, 45), "+12V")
-
-wire(PP("J1", "2"), (38, 52.54)); labels.append(("GND", 38, 52.54))
-wire(PP("J1", "3"), (38, 55.08)); labels.append(("STROBE", 38, 55.08))
-
-wire(PP("J2", "2"), (102, 78))
-wire((102, 78), PP("Q1", "3"))
-
-wire(PP("Q1", "2"), (84, 94)); labels.append(("GND", 84, 94))
-
-wire(PP("Q1", "1"), PP("R1", "2"))
-wire(PP("R1", "1"), (52, 83.08))
-wire((52, 83.08), (52, 92)); labels.append(("STROBE", 52, 92))
-wire((64, 83.08), PP("R1", "2"))
-wire((64, 83.08), PP("R2", "1")); junctions.append((64, 83.08))
-wire(PP("R2", "2"), (64, 102)); labels.append(("GND", 64, 102))
-wire((72, 83.08), PP("TP2", "1")); junctions.append((72, 83.08))
+def PP (ref ,pinnum ):
+    return PINPOS [(ref ,pinnum )]
 
 
-def _on_segment(p, a, b):
-    (px, py), (ax, ay), (bx, by) = p, a, b
-    cross = (bx - ax) * (py - ay) - (by - ay) * (px - ax)
-    if abs(cross) > 0.01:
-        return False
-    dot = (px - ax) * (px - bx) + (py - ay) * (py - by)
-    return dot < -0.001
+
+wire (PP ("J1","1"),PP ("J2","1"))
+wire ((56 ,50 ),PP ("C1","1"));junctions .append ((56 ,50 ))
+wire ((64 ,50 ),PP ("C2","1"));junctions .append ((64 ,50 ))
+wire (PP ("C1","2"),(56 ,78 ));labels .append (("GND",56 ,78 ))
+wire (PP ("C2","2"),(64 ,78 ));labels .append (("GND",64 ,78 ))
+stub_label ((84 ,50 ),(84 ,45 ),"+12V")
+
+wire (PP ("J1","2"),(38 ,52.54 ));labels .append (("GND",38 ,52.54 ))
+wire (PP ("J1","3"),(38 ,55.08 ));labels .append (("STROBE",38 ,55.08 ))
+
+wire (PP ("J2","2"),(102 ,78 ))
+wire ((102 ,78 ),PP ("Q1","3"))
+
+wire (PP ("Q1","2"),(84 ,94 ));labels .append (("GND",84 ,94 ))
+
+wire (PP ("Q1","1"),PP ("R1","2"))
+wire (PP ("R1","1"),(52 ,83.08 ))
+wire ((52 ,83.08 ),(52 ,92 ));labels .append (("STROBE",52 ,92 ))
+wire ((64 ,83.08 ),PP ("R1","2"))
+wire ((64 ,83.08 ),PP ("R2","1"));junctions .append ((64 ,83.08 ))
+wire (PP ("R2","2"),(64 ,102 ));labels .append (("GND",64 ,102 ))
+wire ((72 ,83.08 ),PP ("TP2","1"));junctions .append ((72 ,83.08 ))
 
 
-split_wires = []
-for (x1, y1, x2, y2) in wires:
-    cuts = [(jx, jy) for (jx, jy) in junctions
-            if _on_segment((jx, jy), (x1, y1), (x2, y2))]
-    cuts.sort(key=lambda p: (p[0] - x1) ** 2 + (p[1] - y1) ** 2)
-    pts = [(x1, y1)] + cuts + [(x2, y2)]
-    for a, b in zip(pts, pts[1:]):
-        split_wires.append((a[0], a[1], b[0], b[1]))
-wires = split_wires
-
-sheet_uuid = U()
-sch = []
-sch.append('(kicad_sch (version 20230121) (generator eeschema)')
-sch.append('  (uuid %s)' % sheet_uuid)
-sch.append('  (paper "A4")')
-sch.append('  (title_block (title "IR LED ring strobe driver - GPIO to '
-           'MOSFET 12V pulse switch") (date "2026-11-27") (rev "B"))')
-sch.append('  (lib_symbols')
-for b in lib_blocks:
-    sch.append('    ' + b.replace('\n', '\n    '))
-sch.append('  )')
-for ref in ("J1", "J2", "C1", "C2", "Q1", "R1", "R2", "TP2"):
-    lib, sym = PARTS[ref][0], PARTS[ref][1]
-    pos, r = POS[ref]
-    sch.append('  (symbol (lib_id "%s:%s") (at %.2f %.2f %d) (unit 1) '
-               '(in_bom yes) (on_board yes) (dnp no) (uuid %s)'
-               % (lib, sym, pos[0], pos[1], r, U()))
-    sch.append('    (property "Reference" "%s" (at %.2f %.2f 0) '
-               '(effects (font (size 1.27 1.27))))'
-               % (ref, pos[0], pos[1] - 2.54))
-    sch.append('    (property "Value" "%s" (at %.2f %.2f 0) '
-               '(effects (font (size 1.27 1.27))))'
-               % (VAL_OF[ref], pos[0], pos[1] + 2.54))
-    sch.append('    (property "Footprint" "%s" (at %.2f %.2f 0) '
-               '(effects (font (size 1.27 1.27)) hide))'
-               % (FP_OF[ref], pos[0], pos[1]))
-    sch.append('    (property "Datasheet" "" (at %.2f %.2f 0) '
-               '(effects (font (size 1.27 1.27)) hide))' % (pos[0], pos[1]))
-    for num in sorted(PINS[sym]):
-        sch.append('    (pin "%s" (uuid %s))' % (num, U()))
-    sch.append('    (instances (project "%s" (path "/%s" '
-               '(reference "%s") (unit 1))))' % (PROJ, sheet_uuid, ref))
-    sch.append('  )')
-for (x1, y1, x2, y2) in wires:
-    sch.append('  (wire (pts (xy %.2f %.2f) (xy %.2f %.2f)) '
-               '(stroke (width 0) (type default)) (uuid %s))'
-               % (x1, y1, x2, y2, U()))
-for (x, y) in junctions:
-    sch.append('  (junction (at %.2f %.2f) (diameter 0) (color 0 0 0 0) '
-               '(uuid %s))' % (x, y, U()))
-for (text, x, y) in labels:
-    sch.append('  (global_label "%s" (shape input) (at %.2f %.2f 0) '
-               '(effects (font (size 1.27 1.27)) (justify left)) (uuid %s))'
-               % (text, x, y, U()))
-sch.append('  (sheet_instances (path "/" (page "1")))')
-sch.append(')')
-with open(os.path.join(HERE, PROJ + ".kicad_sch"), "w") as f:
-    f.write("\n".join(sch) + "\n")
-print("schematic written")
+def _on_segment (p ,a ,b ):
+    (px ,py ),(ax ,ay ),(bx ,by )=p ,a ,b 
+    cross =(bx -ax )*(py -ay )-(by -ay )*(px -ax )
+    if abs (cross )>0.01 :
+        return False 
+    dot =(px -ax )*(px -bx )+(py -ay )*(py -by )
+    return dot <-0.001 
 
 
-import pcbnew
-MM = pcbnew.FromMM
+split_wires =[]
+for (x1 ,y1 ,x2 ,y2 )in wires :
+    cuts =[(jx ,jy )for (jx ,jy )in junctions 
+    if _on_segment ((jx ,jy ),(x1 ,y1 ),(x2 ,y2 ))]
+    cuts .sort (key =lambda p :(p [0 ]-x1 )**2 +(p [1 ]-y1 )**2 )
+    pts =[(x1 ,y1 )]+cuts +[(x2 ,y2 )]
+    for a ,b in zip (pts ,pts [1 :]):
+        split_wires .append ((a [0 ],a [1 ],b [0 ],b [1 ]))
+wires =split_wires 
 
-board = pcbnew.BOARD()
-nets = {}
-for name in ("+12V", "GND", "STROBE", "DRAIN", "GATE"):
-    ni = pcbnew.NETINFO_ITEM(board, name)
-    board.Add(ni)
-    nets[name] = ni.GetNetCode()
-
-
-def load_fp(lib, name):
-    return pcbnew.FootprintLoad(os.path.join(FP_DIR, lib + ".pretty"), name)
-
-
-def add_fp(lib, name, ref, value, pos, rot=0, netmap=None):
-    fp = load_fp(lib, name)
-    fp.SetReference(ref)
-    fp.SetValue(value)
-    fp.SetPosition(pcbnew.VECTOR2I(MM(pos[0]), MM(pos[1])))
-    fp.SetOrientationDegrees(rot)
-    board.Add(fp)
-    if netmap:
-        for pad in fp.Pads():
-            n = netmap.get(pad.GetNumber())
-            if n:
-                pad.SetNetCode(nets[n])
-    return fp
-
-
-def pad_pos(fp, num):
-    for pad in fp.Pads():
-        if pad.GetNumber() == num:
-            p = pad.GetPosition()
-            return (pcbnew.ToMM(p.x), pcbnew.ToMM(p.y))
-    raise KeyError(num)
-
-
-def track(a, b, w, net, layer=pcbnew.F_Cu):
-    t = pcbnew.PCB_TRACK(board)
-    t.SetStart(pcbnew.VECTOR2I(MM(a[0]), MM(a[1])))
-    t.SetEnd(pcbnew.VECTOR2I(MM(b[0]), MM(b[1])))
-    t.SetWidth(MM(w))
-    t.SetLayer(layer)
-    t.SetNetCode(nets[net])
-    board.Add(t)
-
-
-def via(pos, net):
-    v = pcbnew.PCB_VIA(board)
-    v.SetPosition(pcbnew.VECTOR2I(MM(pos[0]), MM(pos[1])))
-    v.SetViaType(pcbnew.VIATYPE_THROUGH)
-    v.SetDrill(MM(0.3))
-    v.SetWidth(MM(0.6))
-    v.SetNetCode(nets[net])
-    board.Add(v)
-
-
-j1 = add_fp("Connector_PinHeader_2.54mm", "PinHeader_1x03_P2.54mm_Vertical",
-            "J1", VAL_OF["J1"], (3.5, 18), 0,
-            {"1": "+12V", "2": "GND", "3": "STROBE"})
-j2 = add_fp("Connector_JST", "JST_XH_B2B-XH-A_1x02_P2.50mm_Vertical",
-            "J2", VAL_OF["J2"], (20, 11.5), 0,
-            {"1": "+12V", "2": "DRAIN"})
-c1 = add_fp("Capacitor_THT", "CP_Radial_D10.0mm_P5.00mm",
-            "C1", VAL_OF["C1"], (9, 11), 0,
-            {"1": "+12V", "2": "GND"})
-c2 = add_fp("Capacitor_THT", "C_Disc_D5.0mm_W2.5mm_P2.50mm",
-            "C2", VAL_OF["C2"], (19.3, 20), 0,
-            {"1": "+12V", "2": "GND"})
-q1 = add_fp("Package_TO_SOT_SMD", "SOT-23",
-            "Q1", VAL_OF["Q1"], (25.5, 17.5), 0,
-            {"1": "GATE", "2": "GND", "3": "DRAIN"})
-q1.Reference().SetPosition(pcbnew.VECTOR2I(MM(24.2), MM(20.8)))
-r1 = add_fp("Resistor_THT", "R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal",
-            "R1", VAL_OF["R1"], (6.5, 25), 0,
-            {"1": "STROBE", "2": "GATE"})
-r2 = add_fp("Resistor_THT", "R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal",
-            "R2", VAL_OF["R2"], (16, 28.2), 180,
-            {"1": "GATE", "2": "GND"})
-r2.Reference().SetPosition(pcbnew.VECTOR2I(MM(16), MM(25.9)))
-tp2 = add_fp("TestPoint", "TestPoint_Pad_D1.5mm",
-             "TP2", VAL_OF["TP2"], (26, 22), 0, {"1": "GATE"})
-for i, (hx, hy) in enumerate([(2.5, 27.5), (27.5, 27.5), (27.5, 2.5)]):
-    h = add_fp("MountingHole", "MountingHole_2.2mm_M2",
-               "H%d" % (i + 1), "", (hx, hy), 0)
-    h.Reference().SetVisible(False)
+sheet_uuid =U ()
+sch =[]
+sch .append ('(kicad_sch (version 20230121) (generator eeschema)')
+sch .append ('  (uuid %s)'%sheet_uuid )
+sch .append ('  (paper "A4")')
+sch .append ('  (title_block (title "IR LED ring strobe driver - GPIO to '
+'MOSFET 12V pulse switch") (date "2026-11-27") (rev "B"))')
+sch .append ('  (lib_symbols')
+for b in lib_blocks :
+    sch .append ('    '+b .replace ('\n','\n    '))
+sch .append ('  )')
+for ref in ("J1","J2","C1","C2","Q1","R1","R2","TP2"):
+    lib ,sym =PARTS [ref ][0 ],PARTS [ref ][1 ]
+    pos ,r =POS [ref ]
+    sch .append ('  (symbol (lib_id "%s:%s") (at %.2f %.2f %d) (unit 1) '
+    '(in_bom yes) (on_board yes) (dnp no) (uuid %s)'
+    %(lib ,sym ,pos [0 ],pos [1 ],r ,U ()))
+    sch .append ('    (property "Reference" "%s" (at %.2f %.2f 0) '
+    '(effects (font (size 1.27 1.27))))'
+    %(ref ,pos [0 ],pos [1 ]-2.54 ))
+    sch .append ('    (property "Value" "%s" (at %.2f %.2f 0) '
+    '(effects (font (size 1.27 1.27))))'
+    %(VAL_OF [ref ],pos [0 ],pos [1 ]+2.54 ))
+    sch .append ('    (property "Footprint" "%s" (at %.2f %.2f 0) '
+    '(effects (font (size 1.27 1.27)) hide))'
+    %(FP_OF [ref ],pos [0 ],pos [1 ]))
+    sch .append ('    (property "Datasheet" "" (at %.2f %.2f 0) '
+    '(effects (font (size 1.27 1.27)) hide))'%(pos [0 ],pos [1 ]))
+    for num in sorted (PINS [sym ]):
+        sch .append ('    (pin "%s" (uuid %s))'%(num ,U ()))
+    sch .append ('    (instances (project "%s" (path "/%s" '
+    '(reference "%s") (unit 1))))'%(PROJ ,sheet_uuid ,ref ))
+    sch .append ('  )')
+for (x1 ,y1 ,x2 ,y2 )in wires :
+    sch .append ('  (wire (pts (xy %.2f %.2f) (xy %.2f %.2f)) '
+    '(stroke (width 0) (type default)) (uuid %s))'
+    %(x1 ,y1 ,x2 ,y2 ,U ()))
+for (x ,y )in junctions :
+    sch .append ('  (junction (at %.2f %.2f) (diameter 0) (color 0 0 0 0) '
+    '(uuid %s))'%(x ,y ,U ()))
+for (text ,x ,y )in labels :
+    sch .append ('  (global_label "%s" (shape input) (at %.2f %.2f 0) '
+    '(effects (font (size 1.27 1.27)) (justify left)) (uuid %s))'
+    %(text ,x ,y ,U ()))
+sch .append ('  (sheet_instances (path "/" (page "1")))')
+sch .append (')')
+with open (os .path .join (HERE ,PROJ +".kicad_sch"),"w")as f :
+    f .write ("\n".join (sch )+"\n")
+print ("schematic written")
 
 
-track(pad_pos(j1, "1"), (3.5, 7.5), 1.0, "+12V")
-track((3.5, 7.5), (20, 7.5), 1.0, "+12V")
-track((20, 7.5), pad_pos(j2, "1"), 1.0, "+12V")
-track((9, 7.5), pad_pos(c1, "1"), 0.8, "+12V")
-track((19.3, 7.5), pad_pos(c2, "1"), 0.8, "+12V")
 
-q1d = pad_pos(q1, "3")
-track(pad_pos(j2, "2"), (q1d[0], 11.5), 1.0, "DRAIN")
-track((q1d[0], 11.5), q1d, 1.0, "DRAIN")
+import pcbnew 
+MM =pcbnew .FromMM 
 
-track(pad_pos(j1, "2"), (6.3, pad_pos(j1, "2")[1]), 0.6, "GND")
-via((6.3, pad_pos(j1, "2")[1]), "GND")
-track(pad_pos(c1, "2"), (15.8, 13.8), 0.6, "GND")
-via((15.8, 13.8), "GND")
-track(pad_pos(c2, "2"), (21.8, 22.6), 0.6, "GND")
-via((21.8, 22.6), "GND")
-track(pad_pos(q1, "2"), (27.5, 19.0), 0.6, "GND")
-via((27.5, 19.0), "GND")
-track(pad_pos(r2, "2"), (6, 28.2), 0.6, "GND")
-via((6, 28.2), "GND")
-
-track(pad_pos(j1, "3"), (3.5, 25), 0.4, "STROBE")
-track((3.5, 25), pad_pos(r1, "1"), 0.4, "STROBE")
-
-q1g = pad_pos(q1, "1")
-track(pad_pos(r1, "2"), (23.3, 25), 0.4, "GATE")
-track((23.3, 25), (23.3, q1g[1]), 0.4, "GATE")
-track((23.3, q1g[1]), q1g, 0.4, "GATE")
-track((16, 25), pad_pos(r2, "1"), 0.4, "GATE")
-track((23.3, 20), (26, 20), 0.4, "GATE")
-track((26, 20), pad_pos(tp2, "1"), 0.4, "GATE")
-
-for p in [(15, 3), (28.5, 14), (1.5, 7)]:
-    via(p, "GND")
+board =pcbnew .BOARD ()
+nets ={}
+for name in ("+12V","GND","STROBE","DRAIN","GATE"):
+    ni =pcbnew .NETINFO_ITEM (board ,name )
+    board .Add (ni )
+    nets [name ]=ni .GetNetCode ()
 
 
-for a, b in [((0, 0), (30, 0)), ((30, 0), (30, 30)),
-             ((30, 30), (0, 30)), ((0, 30), (0, 0))]:
-    s = pcbnew.PCB_SHAPE(board)
-    s.SetShape(pcbnew.SHAPE_T_SEGMENT)
-    s.SetStart(pcbnew.VECTOR2I(MM(a[0]), MM(a[1])))
-    s.SetEnd(pcbnew.VECTOR2I(MM(b[0]), MM(b[1])))
-    s.SetLayer(pcbnew.Edge_Cuts)
-    s.SetWidth(MM(0.1))
-    board.Add(s)
+def load_fp (lib ,name ):
+    return pcbnew .FootprintLoad (os .path .join (FP_DIR ,lib +".pretty"),name )
 
 
-for layer in (pcbnew.F_Cu, pcbnew.B_Cu):
-    z = pcbnew.ZONE(board)
-    z.SetLayer(layer)
-    z.SetNetCode(nets["GND"])
-    z.SetLocalClearance(MM(0.25))
-    z.SetMinThickness(MM(0.25))
-    chain = pcbnew.SHAPE_LINE_CHAIN()
-    for (cx, cy) in [(0.3, 0.3), (29.7, 0.3), (29.7, 29.7), (0.3, 29.7)]:
-        chain.Append(MM(cx), MM(cy))
-    chain.SetClosed(True)
-    z.Outline().AddOutline(chain)
-    board.Add(z)
+def add_fp (lib ,name ,ref ,value ,pos ,rot =0 ,netmap =None ):
+    fp =load_fp (lib ,name )
+    fp .SetReference (ref )
+    fp .SetValue (value )
+    fp .SetPosition (pcbnew .VECTOR2I (MM (pos [0 ]),MM (pos [1 ])))
+    fp .SetOrientationDegrees (rot )
+    board .Add (fp )
+    if netmap :
+        for pad in fp .Pads ():
+            n =netmap .get (pad .GetNumber ())
+            if n :
+                pad .SetNetCode (nets [n ])
+    return fp 
 
 
-def silk(text, pos, size=0.9):
-    t = pcbnew.PCB_TEXT(board)
-    t.SetText(text)
-    t.SetPosition(pcbnew.VECTOR2I(MM(pos[0]), MM(pos[1])))
-    t.SetLayer(pcbnew.F_SilkS)
-    t.SetTextSize(pcbnew.VECTOR2I(MM(size), MM(size)))
-    t.SetTextThickness(MM(size * 0.15))
-    board.Add(t)
+def pad_pos (fp ,num ):
+    for pad in fp .Pads ():
+        if pad .GetNumber ()==num :
+            p =pad .GetPosition ()
+            return (pcbnew .ToMM (p .x ),pcbnew .ToMM (p .y ))
+    raise KeyError (num )
 
 
-silk("IR RING STROBE", (13, 1.8), 1.0)
-silk("+12V", (6, 5.8))
-silk("STR", (6.2, 21.8))
-silk("RING", (20.5, 16.3))
+def track (a ,b ,w ,net ,layer =pcbnew .F_Cu ):
+    t =pcbnew .PCB_TRACK (board )
+    t .SetStart (pcbnew .VECTOR2I (MM (a [0 ]),MM (a [1 ])))
+    t .SetEnd (pcbnew .VECTOR2I (MM (b [0 ]),MM (b [1 ])))
+    t .SetWidth (MM (w ))
+    t .SetLayer (layer )
+    t .SetNetCode (nets [net ])
+    board .Add (t )
 
-board.Save(os.path.join(HERE, PROJ + ".kicad_pcb"))
-print("pcb written")
 
-pro = {
-    "board": {"design_settings": {"defaults": {}}, "layer_presets": [], "viewports": []},
-    "boards": [],
-    "cvpcb": {"equivalence_files": []},
-    "erc": {"erc_exclusions": [], "meta": {"version": 0}, "pin_map": [], "rule_severities": {}},
-    "libraries": {"pinned_footprint_libs": [], "pinned_symbol_libs": []},
-    "meta": {"filename": PROJ + ".kicad_pro", "version": 1},
-    "net_settings": {"classes": [{"bus_width": 12, "clearance": 0.2, "diff_pair_gap": 0.25,
-                                  "diff_pair_via_gap": 0.25, "diff_pair_width": 0.2,
-                                  "microvia_diameter": 0.3, "microvia_drill": 0.1, "name": "Default",
-                                  "pcb_color": "rgba(0, 0, 0, 0.000)", "schematic_color": "rgba(0, 0, 0, 0.000)",
-                                  "track_width": 0.25, "via_diameter": 0.6, "via_drill": 0.3,
-                                  "wire_width": 6}], "meta": {"version": 3}, "net_colors": None, "netclass_assignments": None, "netclass_patterns": []},
-    "pcbnew": {"last_paths": {"gencad": "", "idf": "", "netlist": "", "plot": "", "pos_files": "", "specctra_dsn": "", "step": "", "svg": "", "vrml": ""}, "page_layout_descr_file": ""},
-    "schematic": {"annotate_start_num": 0, "drawing": {}, "legacy_lib_dir": "", "legacy_lib_list": [], "meta": {"version": 1}, "pin_symbol_size": 0, "text_offset_ratio": 0.08},
-    "text_variables": {},
+def via (pos ,net ):
+    v =pcbnew .PCB_VIA (board )
+    v .SetPosition (pcbnew .VECTOR2I (MM (pos [0 ]),MM (pos [1 ])))
+    v .SetViaType (pcbnew .VIATYPE_THROUGH )
+    v .SetDrill (MM (0.3 ))
+    v .SetWidth (MM (0.6 ))
+    v .SetNetCode (nets [net ])
+    board .Add (v )
+
+
+
+
+
+j1 =add_fp ("TerminalBlock_Phoenix",
+"TerminalBlock_Phoenix_PT-1,5-3-3.5-H_1x03_P3.50mm_Horizontal",
+"J1",VAL_OF ["J1"],(5.6 ,13.5 ),270 ,
+{"1":"+12V","2":"GND","3":"STROBE"})
+j1 .Reference ().SetPosition (pcbnew .VECTOR2I (MM (5.6 ),MM (24.8 )))
+j2 =add_fp ("TerminalBlock_Phoenix",
+"TerminalBlock_Phoenix_PT-1,5-2-3.5-H_1x02_P3.50mm_Horizontal",
+"J2",VAL_OF ["J2"],(24.4 ,22.5 ),90 ,
+{"1":"+12V","2":"DRAIN"})
+c1 =add_fp ("Capacitor_THT","CP_Radial_D10.0mm_P5.00mm",
+"C1",VAL_OF ["C1"],(15 ,10.5 ),0 ,
+{"1":"+12V","2":"GND"})
+c2 =add_fp ("Capacitor_THT","C_Disc_D5.0mm_W2.5mm_P2.50mm",
+"C2",VAL_OF ["C2"],(13.5 ,20.3 ),0 ,
+{"1":"+12V","2":"GND"})
+q1 =add_fp ("Package_TO_SOT_SMD","SOT-23",
+"Q1",VAL_OF ["Q1"],(25.5 ,10.5 ),0 ,
+{"1":"GATE","2":"GND","3":"DRAIN"})
+q1 .Reference ().SetPosition (pcbnew .VECTOR2I (MM (24.2 ),MM (13.6 )))
+r1 =add_fp ("Resistor_THT","R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal",
+"R1",VAL_OF ["R1"],(7 ,25.2 ),0 ,
+{"1":"STROBE","2":"GATE"})
+r2 =add_fp ("Resistor_THT","R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal",
+"R2",VAL_OF ["R2"],(7 ,28.3 ),0 ,
+{"1":"GATE","2":"GND"})
+r2 .Reference ().SetPosition (pcbnew .VECTOR2I (MM (16.5 ),MM (28.3 )))
+tp2 =add_fp ("TestPoint","TestPoint_Pad_D1.5mm",
+"TP2",VAL_OF ["TP2"],(18.5 ,27.8 ),0 ,{"1":"GATE"})
+for i ,(hx ,hy )in enumerate ([(2.5 ,2.5 ),(27.5 ,2.5 ),(2.5 ,27.5 )]):
+    h =add_fp ("MountingHole","MountingHole_2.2mm_M2",
+    "H%d"%(i +1 ),"",(hx ,hy ),0 )
+    h .Reference ().SetVisible (False )
+
+for _nm ,_fp in (("J1",j1 ),("J2",j2 )):
+    _bb =_fp .GetCourtyard (pcbnew .F_CrtYd ).BBox ()
+    print (_nm ,"courtyard x %.2f..%.2f y %.2f..%.2f"%(
+    pcbnew .ToMM (_bb .GetLeft ()),pcbnew .ToMM (_bb .GetRight ()),
+    pcbnew .ToMM (_bb .GetTop ()),pcbnew .ToMM (_bb .GetBottom ())),
+    "pads",{p .GetNumber ():(round (pcbnew .ToMM (p .GetPosition ().x ),2 ),
+    round (pcbnew .ToMM (p .GetPosition ().y ),2 ))
+    for p in _fp .Pads ()})
+
+
+track (pad_pos (j1 ,"1"),(10 ,13.5 ),1.0 ,"+12V")
+track ((10 ,13.5 ),(10 ,10.5 ),1.0 ,"+12V")
+track ((10 ,10.5 ),pad_pos (c1 ,"1"),1.0 ,"+12V")
+track ((10 ,13.5 ),(10 ,19.5 ),0.8 ,"+12V")
+track ((10 ,19.5 ),(12.8 ,19.5 ),0.8 ,"+12V")
+track ((12.8 ,19.5 ),pad_pos (c2 ,"1"),0.8 ,"+12V")
+
+track (pad_pos (c1 ,"1"),(15 ,7 ),1.0 ,"+12V",pcbnew .B_Cu )
+track ((15 ,7 ),(22.4 ,7 ),1.0 ,"+12V",pcbnew .B_Cu )
+track ((22.4 ,7 ),(22.4 ,21 ),1.0 ,"+12V",pcbnew .B_Cu )
+track ((22.4 ,21 ),pad_pos (j2 ,"1"),1.0 ,"+12V",pcbnew .B_Cu )
+
+q1d =pad_pos (q1 ,"3")
+track (q1d ,(q1d [0 ],15.5 ),1.0 ,"DRAIN")
+track ((q1d [0 ],15.5 ),pad_pos (j2 ,"2"),1.0 ,"DRAIN")
+
+
+track (pad_pos (q1 ,"2"),(23.9 ,14.2 ),0.6 ,"GND")
+via ((23.9 ,14.2 ),"GND")
+
+track (pad_pos (j1 ,"3"),(5.6 ,25.2 ),0.4 ,"STROBE")
+track ((5.6 ,25.2 ),pad_pos (r1 ,"1"),0.4 ,"STROBE")
+
+q1g =pad_pos (q1 ,"1")
+track ((10.5 ,25.2 ),(21.9 ,25.2 ),0.4 ,"GATE")
+track ((21.9 ,25.2 ),(21.9 ,q1g [1 ]),0.4 ,"GATE")
+track ((21.9 ,q1g [1 ]),q1g ,0.4 ,"GATE")
+track ((10.5 ,25.2 ),(10.5 ,28.3 ),0.4 ,"GATE")
+track ((10.5 ,28.3 ),pad_pos (r2 ,"1"),0.4 ,"GATE")
+track ((18.5 ,25.2 ),pad_pos (tp2 ,"1"),0.4 ,"GATE")
+
+for p in [(28.5 ,8 ),(1.8 ,20.5 )]:
+    via (p ,"GND")
+
+
+for a ,b in [((0 ,0 ),(30 ,0 )),((30 ,0 ),(30 ,30 )),
+((30 ,30 ),(0 ,30 )),((0 ,30 ),(0 ,0 ))]:
+    s =pcbnew .PCB_SHAPE (board )
+    s .SetShape (pcbnew .SHAPE_T_SEGMENT )
+    s .SetStart (pcbnew .VECTOR2I (MM (a [0 ]),MM (a [1 ])))
+    s .SetEnd (pcbnew .VECTOR2I (MM (b [0 ]),MM (b [1 ])))
+    s .SetLayer (pcbnew .Edge_Cuts )
+    s .SetWidth (MM (0.1 ))
+    board .Add (s )
+
+
+for layer in (pcbnew .F_Cu ,pcbnew .B_Cu ):
+    z =pcbnew .ZONE (board )
+    z .SetLayer (layer )
+    z .SetNetCode (nets ["GND"])
+    z .SetLocalClearance (MM (0.25 ))
+    z .SetMinThickness (MM (0.25 ))
+    chain =pcbnew .SHAPE_LINE_CHAIN ()
+    for (cx ,cy )in [(0.3 ,0.3 ),(29.7 ,0.3 ),(29.7 ,29.7 ),(0.3 ,29.7 )]:
+        chain .Append (MM (cx ),MM (cy ))
+    chain .SetClosed (True )
+    z .Outline ().AddOutline (chain )
+    board .Add (z )
+
+
+
+
+
+def silk (text ,pos ,size =0.9 ):
+    t =pcbnew .PCB_TEXT (board )
+    t .SetText (text )
+    t .SetPosition (pcbnew .VECTOR2I (MM (pos [0 ]),MM (pos [1 ])))
+    t .SetLayer (pcbnew .F_SilkS )
+    t .SetTextSize (pcbnew .VECTOR2I (MM (size ),MM (size )))
+    t .SetTextThickness (MM (size *0.15 ))
+    board .Add (t )
+
+
+def silk_rot (text ,pos ,size =0.8 ):
+    t =pcbnew .PCB_TEXT (board )
+    t .SetText (text )
+    t .SetPosition (pcbnew .VECTOR2I (MM (pos [0 ]),MM (pos [1 ])))
+    t .SetLayer (pcbnew .F_SilkS )
+    t .SetTextSize (pcbnew .VECTOR2I (MM (size ),MM (size )))
+    t .SetTextThickness (MM (size *0.15 ))
+    t .SetTextAngleDegrees (90 )
+    board .Add (t )
+
+
+silk ("IR RING STROBE",(15 ,1.8 ),1.0 )
+silk_rot ("+12V",(10.2 ,13.5 ))
+silk_rot ("GND",(10.2 ,17 ))
+silk_rot ("STR",(10.2 ,20.5 ))
+silk_rot ("R+",(19.3 ,22.5 ))
+silk_rot ("R-",(19.3 ,19 ))
+
+board .Save (os .path .join (HERE ,PROJ +".kicad_pcb"))
+print ("pcb written")
+
+pro ={
+"board":{"design_settings":{"defaults":{}},"layer_presets":[],"viewports":[]},
+"boards":[],
+"cvpcb":{"equivalence_files":[]},
+"erc":{"erc_exclusions":[],"meta":{"version":0 },"pin_map":[],"rule_severities":{}},
+"libraries":{"pinned_footprint_libs":[],"pinned_symbol_libs":[]},
+"meta":{"filename":PROJ +".kicad_pro","version":1 },
+"net_settings":{"classes":[{"bus_width":12 ,"clearance":0.2 ,"diff_pair_gap":0.25 ,
+"diff_pair_via_gap":0.25 ,"diff_pair_width":0.2 ,
+"microvia_diameter":0.3 ,"microvia_drill":0.1 ,"name":"Default",
+"pcb_color":"rgba(0, 0, 0, 0.000)","schematic_color":"rgba(0, 0, 0, 0.000)",
+"track_width":0.25 ,"via_diameter":0.6 ,"via_drill":0.3 ,
+"wire_width":6 }],"meta":{"version":3 },"net_colors":None ,"netclass_assignments":None ,"netclass_patterns":[]},
+"pcbnew":{"last_paths":{"gencad":"","idf":"","netlist":"","plot":"","pos_files":"","specctra_dsn":"","step":"","svg":"","vrml":""},"page_layout_descr_file":""},
+"schematic":{"annotate_start_num":0 ,"drawing":{},"legacy_lib_dir":"","legacy_lib_list":[],"meta":{"version":1 },"pin_symbol_size":0 ,"text_offset_ratio":0.08 },
+"text_variables":{},
 }
-open(os.path.join(HERE, PROJ + ".kicad_pro"), "w").write(json.dumps(pro, indent=1))
+open (os .path .join (HERE ,PROJ +".kicad_pro"),"w").write (json .dumps (pro ,indent =1 ))
 
 
-sym_libs = ["Device", "Connector_Generic", "Connector"]
-fp_libs = ["Connector_PinHeader_2.54mm", "Connector_JST", "Capacitor_THT",
-           "Package_TO_SOT_SMD", "Resistor_THT", "TestPoint", "MountingHole"]
-with open(os.path.join(HERE, "sym-lib-table"), "w") as f:
-    f.write("(sym_lib_table\n  (version 7)\n")
-    for n in sym_libs:
-        f.write('  (lib (name "%s") (type "KiCad") (uri "${KICAD10_SYMBOL_DIR}/%s.kicad_symdir") (options "") (descr ""))\n' % (n, n))
-    f.write(")\n")
-with open(os.path.join(HERE, "fp-lib-table"), "w") as f:
-    f.write("(fp_lib_table\n  (version 7)\n")
-    for n in fp_libs:
-        f.write('  (lib (name "%s") (type "KiCad") (uri "${KICAD10_FOOTPRINT_DIR}/%s.pretty") (options "") (descr ""))\n' % (n, n))
-    f.write(")\n")
+sym_libs =["Device","Connector_Generic","Connector"]
+fp_libs =["TerminalBlock_Phoenix","Capacitor_THT",
+"Package_TO_SOT_SMD","Resistor_THT","TestPoint","MountingHole"]
+with open (os .path .join (HERE ,"sym-lib-table"),"w")as f :
+    f .write ("(sym_lib_table\n  (version 7)\n")
+    for n in sym_libs :
+        f .write ('  (lib (name "%s") (type "KiCad") (uri "${KICAD10_SYMBOL_DIR}/%s.kicad_symdir") (options "") (descr ""))\n'%(n ,n ))
+    f .write (")\n")
+with open (os .path .join (HERE ,"fp-lib-table"),"w")as f :
+    f .write ("(fp_lib_table\n  (version 7)\n")
+    for n in fp_libs :
+        f .write ('  (lib (name "%s") (type "KiCad") (uri "${KICAD10_FOOTPRINT_DIR}/%s.pretty") (options "") (descr ""))\n'%(n ,n ))
+    f .write (")\n")
 
-with open(os.path.join(HERE, "netlist.txt"), "w") as f:
-    f.write("Expected nets (design intent):\n")
-    f.write("+12V : J1.1 C1.1 C2.1 J2.1\n")
-    f.write("GND  : J1.2 C1.2 C2.2 Q1.2(S) R2.2\n")
-    f.write("DRAIN: J2.2 Q1.3(D)\n")
-    f.write("GATE : Q1.1(G) R1.2 R2.1 TP2.1\n")
-    f.write("STROBE: J1.3 R1.1\n")
-print("project written")
+with open (os .path .join (HERE ,"netlist.txt"),"w")as f :
+    f .write ("Expected nets (design intent):\n")
+    f .write ("+12V : J1.1 C1.1 C2.1 J2.1\n")
+    f .write ("GND  : J1.2 C1.2 C2.2 Q1.2(S) R2.2\n")
+    f .write ("DRAIN: J2.2 Q1.3(D)\n")
+    f .write ("GATE : Q1.1(G) R1.2 R2.1 TP2.1\n")
+    f .write ("STROBE: J1.3 R1.1\n")
+print ("project written")

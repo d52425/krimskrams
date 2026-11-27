@@ -7,3 +7,4 @@ fp-info-cache
 # deliverable archives (regenerate from sources)
 *.zip
 __pycache__/
+drc_cli.rpt
