@@ -6,12 +6,12 @@ whole power chain for one Tenmou node:
 
     J8 pin40 VBUS / pin39 VSYS (solder-jumper select, SJ1)
       -> polyfuse F1 -> input bulk 470uF
-      -> TB1 out to an AE-LMR62421 boost module (30x30mm, M3 standoffs)
-      -> TB2 back in at +12V
+      -> mezzanine pins into an AE-LMR62421 boost module (30x30mm,
+         M3 standoffs, no terminal blocks) and back in at +12V
       -> bulk 1000uF/25V + 10uF -> Nch MOSFET low-side switch
       -> JST-XH ring output (FRS5CC), strobe from J8 pin10 (GPIO5)
 
-Board: 86x60mm, 2-layer. The 32088 header numbering is consecutive
+Board: 86x68mm, 2-layer. The 32088 header numbering is consecutive
 per column (left column 1-20, right column 21-40, counted from the
 RJ45 end) - NOT the usual interleaved 2x20 numbering - so J8 is a
 custom programmatic footprint whose pad numbers are the module's
@@ -342,8 +342,8 @@ PARTS = {
     "SJ1": ("Connector_Generic", "Conn_01x03", "5V SEL VBUS/SYS", "custom:SolderJumper_3"),
     "F1": ("Device", "Fuse", "PTC 1A", "custom:PTC_P5.00mm"),
     "C3": ("Device", "C_Polarized", "470uF/16V", "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm"),
-    "TB1": ("Connector_Generic", "Conn_01x02", "TO BOOST IN", "TerminalBlock_Phoenix:TerminalBlock_Phoenix_PT-1,5-2-3.5-H_1x02_P3.50mm_Horizontal"),
-    "TB2": ("Connector_Generic", "Conn_01x02", "FROM BOOST OUT", "TerminalBlock_Phoenix:TerminalBlock_Phoenix_PT-1,5-2-3.5-H_1x02_P3.50mm_Horizontal"),
+    "J3": ("Connector_Generic", "Conn_01x02", "BOOST IN MEZZ", "custom:MZ_1x02_P5.08"),
+    "J4": ("Connector_Generic", "Conn_01x02", "BOOST OUT MEZZ", "custom:MZ_1x02_P5.08"),
     "C1": ("Device", "C_Polarized", "1000uF/25V PX", "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm"),
     "C2": ("Device", "C", "10uF", "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P2.50mm"),
     "Q1": ("Device", "Q_NMOS_GSD", "MTN2306AN3/IRLML6344", "Package_TO_SOT_SMD:SOT-23"),
@@ -399,8 +399,8 @@ PLAN = {
     "F1": ("1", (108, 52), 0),
     "TP1": ("1", (128, 46), 0),
     "C3": ("1", (108, 76), 0),
-    "TB1": ("1", (82, 80), 0),
-    "TB2": ("1", (82, 100), 0),
+    "J3": ("1", (82, 80), 0),
+    "J4": ("1", (82, 100), 0),
     "C1": ("1", (108, 98), 0),
     "C2": ("1", (124, 98), 0),
     "TP2": ("1", (140, 86), 0),
@@ -452,8 +452,8 @@ STUBS = {
     "SJ1": {"1": "VBUS", "2": "+5V_IN", "3": "VSYS"},
     "F1": {"1": "+5V_IN", "2": "+5V"},
     "C3": {"1": "+5V", "2": "GND"},
-    "TB1": {"1": "+5V", "2": "GND"},
-    "TB2": {"1": "+12V", "2": "GND"},
+    "J3": {"1": "+5V", "2": "GND"},
+    "J4": {"1": "+12V", "2": "GND"},
     "C1": {"1": "+12V", "2": "GND"},
     "C2": {"1": "+12V", "2": "GND"},
     "Q1": {"3": "DRAIN", "2": "GND"},
@@ -515,7 +515,7 @@ sch.append('  (lib_symbols')
 for b in lib_blocks:
     sch.append('    ' + b.replace('\n', '\n    '))
 sch.append('  )')
-for ref in ("J8", "SJ1", "F1", "C3", "TB1", "TB2", "C1", "C2", "Q1",
+for ref in ("J8", "SJ1", "F1", "C3", "J3", "J4", "C1", "C2", "Q1",
             "R1", "R2", "R3", "D1", "J2", "TP1", "TP2"):
     lib, sym = PARTS[ref][0], PARTS[ref][1]
     pos, r = POS[ref]
@@ -774,16 +774,27 @@ tp2 = _testpoint("TP2", (43, 43.2), "+12V")
 c3 = add_fp("Capacitor_THT", "CP_Radial_D8.0mm_P3.50mm",
             "C3", VAL_OF["C3"], (51, 33), 90, {"1": "+5V", "2": "GND"})
 c3.Reference().SetPosition(pcbnew.VECTOR2I(MM(51), MM(37.6)))
-tb1 = add_fp("TerminalBlock_Phoenix",
-             "TerminalBlock_Phoenix_PT-1,5-2-3.5-H_1x02_P3.50mm_Horizontal",
-             "TB1", VAL_OF["TB1"], (40, 33), 270, {"1": "+5V", "2": "GND"})
-tb1.Reference().SetPosition(pcbnew.VECTOR2I(MM(40), MM(29.6)))
-tb1.Value().SetVisible(False)
-tb2 = add_fp("TerminalBlock_Phoenix",
-             "TerminalBlock_Phoenix_PT-1,5-2-3.5-H_1x02_P3.50mm_Horizontal",
-             "TB2", VAL_OF["TB2"], (40, 47), 270, {"1": "+12V", "2": "GND"})
-tb2.Reference().SetPosition(pcbnew.VECTOR2I(MM(40), MM(54.2)))
-tb2.Value().SetVisible(False)
+
+
+
+
+
+
+
+
+def _mezz(ref, pos, plus_net, ref_dx=3.4):
+    mz = _new_fp("MZ_1x02_P5.08", ref, VAL_OF[ref], pos)
+    _pth(mz, 1, 0, 0, plus_net, size=2.6, drill=1.5)
+    _pth(mz, 2, 0, 5.08, "GND", size=2.6, drill=1.5)
+    _fp_rect(mz, pcbnew.F_CrtYd, -1.8, -1.8, 1.8, 6.88)
+    mz.Reference().SetPosition(pcbnew.VECTOR2I(MM(pos[0] + ref_dx),
+                                               MM(pos[1] + 2.5)))
+    mz.Value().SetVisible(False)
+    return mz
+
+
+j3 = _mezz("J3", (27.5, 44.92), "+5V", ref_dx=-6.5)
+j4 = _mezz("J4", (4.5, 44.92), "+12V")
 c1 = add_fp("Capacitor_THT", "CP_Radial_D10.0mm_P5.00mm",
             "C1", VAL_OF["C1"], (50, 47), 90, {"1": "+12V", "2": "GND"})
 c1.Reference().SetPosition(pcbnew.VECTOR2I(MM(58.6), MM(44)))
@@ -817,7 +828,10 @@ j2 = add_fp("Connector_JST", "JST_XH_B2B-XH-A_1x02_P2.50mm_Vertical",
             "J2", VAL_OF["J2"], (79, 42), 0, {"1": "+12V", "2": "DRAIN"})
 j2.Reference().SetPosition(pcbnew.VECTOR2I(MM(80.25), MM(37.4)))
 
-for i, (hx, hy) in enumerate([(7, 29), (31, 29), (7, 53), (31, 53)]):
+
+
+
+for i, (hx, hy) in enumerate([(4, 32), (28, 32), (4, 56), (28, 56)]):
     h = add_fp("MountingHole", "MountingHole_3.2mm_M3",
                "H%d" % (i + 1), "", (hx, hy), 0)
     h.Reference().SetVisible(False)
@@ -852,20 +866,27 @@ track((75.6, 26.6), (75.6, 29.6), 0.8, "+5V_IN")
 track((75.6, 29.6), (62, 29.6), 0.8, "+5V_IN")
 track((62, 29.6), pad_pos(f1, "1"), 0.8, "+5V_IN")
 
+
 track(pad_pos(f1, "2"), (57, 33), 1.0, "+5V")
 track((57, 33), pad_pos(c3, "1"), 1.0, "+5V")
-track(pad_pos(c3, "1"), pad_pos(tb1, "1"), 1.0, "+5V")
+track(pad_pos(c3, "1"), (47.8, 33), 1.0, "+5V")
+track((47.8, 33), (47.8, 45.2), 1.0, "+5V")
+track((47.8, 45.2), (27.5, 45.2), 1.0, "+5V")
 track((57, 33), pad_pos(tp1, "1"), 0.6, "+5V")
 
-track(pad_pos(tb2, "1"), pad_pos(c1, "1"), 0.8, "+12V")
-track(pad_pos(c1, "1"), (58.75, 47), 0.8, "+12V")
-track((58.75, 47), (59.9, 47), 0.8, "+12V")
-track(pad_pos(c2, "1"), (58.75, 47), 0.8, "+12V")
-track(pad_pos(tp2, "1"), (43, 47), 0.5, "+12V")
-via((59.9, 47), "+12V")
+track(pad_pos(j4, "1"), (4.5, 41), 0.8, "+12V")
+track((4.5, 41), (46.5, 41), 0.8, "+12V")
+track(pad_pos(tp2, "1"), (43, 41), 0.5, "+12V")
+via((46.5, 41), "+12V")
 
-track((59.9, 47), (59.9, 52), 1.0, "+12V", pcbnew.B_Cu)
-track((59.9, 52), (76, 52), 1.0, "+12V", pcbnew.B_Cu)
+
+track((46.5, 41), (46.5, 52), 1.0, "+12V", pcbnew.B_Cu)
+track((46.5, 52), (76, 52), 1.0, "+12V", pcbnew.B_Cu)
+track((55, 52), (55, 47), 1.0, "+12V", pcbnew.B_Cu)
+track((55, 47), pad_pos(c1, "1"), 1.0, "+12V", pcbnew.B_Cu)
+track(pad_pos(c2, "1"), (58.75, 44), 1.0, "+12V", pcbnew.B_Cu)
+track((58.75, 44), (64.5, 44), 1.0, "+12V", pcbnew.B_Cu)
+track((64.5, 44), (64.5, 52), 1.0, "+12V", pcbnew.B_Cu)
 track((76, 52), (76, 42), 1.0, "+12V", pcbnew.B_Cu)
 track((76, 42), pad_pos(j2, "1"), 1.0, "+12V", pcbnew.B_Cu)
 
@@ -915,8 +936,8 @@ for a, b in [((0, -8), (86, -8)), ((86, -8), (86, 60)),
     board.Add(s)
 
 
-for a, b in [((4, 26), (34, 26)), ((34, 26), (34, 56)),
-             ((34, 56), (4, 56)), ((4, 56), (4, 26))]:
+for a, b in [((1, 29), (31, 29)), ((31, 29), (31, 59)),
+             ((31, 59), (1, 59)), ((1, 59), (1, 29))]:
     s = pcbnew.PCB_SHAPE(board)
     s.SetShape(pcbnew.SHAPE_T_SEGMENT)
     s.SetStart(pcbnew.VECTOR2I(MM(a[0]), MM(a[1])))
@@ -967,19 +988,20 @@ def silk_b(text, pos, size=0.9):
 
 
 silk("BOOST MODULE (AE-LMR62421)", (6, 24.9), 1.0)
+silk("CAP SIDE", (10.8, 31.5), 0.8)
 silk("ESP32-P4-POE-ETH", (38, 24.9), 1.0)
 silk("VBUS", (69.4, 25.3), 0.8)
 silk("VSYS", (69.4, 27.9), 0.8)
 silk("R+", (77.4, 47.8), 0.8)
 silk("R-", (81.4, 47.8), 0.8)
 silk("MAX 18V", (44, 52.8), 0.9)
-silk_b("P4 CARRIER - BOOST + IR STROBE", (43, 55.8), 1.0)
+silk_b("P4 CARRIER - BOOST + IR STROBE", (70, 38), 1.0)
 
 
 
 os.makedirs(os.path.join(HERE, "custom.pretty"), exist_ok=True)
 _io = pcbnew.PCB_IO_KICAD_SEXPR()
-for _cfp in (j8, sj1, f1, tp1, tp2):
+for _cfp in (j8, sj1, f1, tp1, tp2, j3, j4):
     _io.FootprintSave(os.path.join(HERE, "custom.pretty"), _cfp)
 
 board.Save(os.path.join(HERE, PROJ + ".kicad_pcb"))
@@ -1006,7 +1028,7 @@ open(os.path.join(HERE, PROJ + ".kicad_pro"), "w").write(json.dumps(pro, indent=
 
 
 sym_libs = ["Device", "Connector_Generic", "Connector"]
-fp_libs = ["TerminalBlock_Phoenix", "Capacitor_THT", "Connector_JST",
+fp_libs = ["Capacitor_THT", "Connector_JST",
            "Package_TO_SOT_SMD", "Resistor_THT", "LED_THT", "MountingHole"]
 with open(os.path.join(HERE, "sym-lib-table"), "w") as f:
     f.write("(sym_lib_table\n  (version 7)\n")
@@ -1025,9 +1047,9 @@ with open(os.path.join(HERE, "netlist.txt"), "w") as f:
     f.write("VBUS  : J8.40 SJ1.1\n")
     f.write("VSYS  : J8.39 SJ1.3\n")
     f.write("+5V_IN: SJ1.2 F1.1 (SJ1 bridge selects VBUS or VSYS)\n")
-    f.write("+5V   : F1.2 C3.1 TB1.1 TP1.1\n")
-    f.write("+12V  : TB2.1 C1.1 C2.1 TP2.1 J2.1 R3.1\n")
-    f.write("GND   : J8.3/8/13/18/23/28/33/38 C3.2 TB1.2 TB2.2 C1.2 C2.2 Q1.2(S) R2.2 D1.K\n")
+    f.write("+5V   : F1.2 C3.1 J3.1 TP1.1\n")
+    f.write("+12V  : J4.1 C1.1 C2.1 TP2.1 J2.1 R3.1\n")
+    f.write("GND   : J8.3/8/13/18/23/28/33/38 C3.2 J3.2 J4.2 C1.2 C2.2 Q1.2(S) R2.2 D1.K\n")
     f.write("DRAIN : J2.2 Q1.3(D)\n")
     f.write("GATE  : Q1.1(G) R1.1 R2.1\n")
     f.write("STROBE: J8.10 R1.2\n")
