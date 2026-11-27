@@ -38,7 +38,7 @@
 
 ## ファイル
 
-- `IR_ring_strobe.kicad_pro / .kicad_sch / .kicad_pcb`：KiCad 7 プロジェクト（プロジェクトローカルの lib テーブル同梱）
+- `IR_ring_strobe.kicad_pro / .kicad_sch / .kicad_pcb`：KiCad プロジェクト（プロジェクトローカルの lib テーブル同梱。KiCad 10 で開ける。保存時に 10 形式へ移行）
 - `gerber/`：ガーバー9点＋ドリル（発注可）
 - `preview_*.pdf / preview_pcb_top*.png`：プレビュー
 - `netlist.txt`：設計意図のネット一覧
