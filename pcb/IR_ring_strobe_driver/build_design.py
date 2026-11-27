@@ -306,7 +306,7 @@ for _ref ,(lib ,sym ,_val ,_fp )in PARTS .items ():
 
 PLAN ={
 "J1":("1",(30 ,50 ),0 ),
-"J2":("1",(102 ,50 ),0 ),
+"J2":("2",(102 ,50 ),180 ),
 "C1":("1",(56 ,64 ),0 ),
 "C2":("1",(64 ,64 ),0 ),
 "Q1":("3",(84 ,78 ),0 ),
@@ -343,7 +343,7 @@ def PP (ref ,pinnum ):
 
 
 
-wire (PP ("J1","1"),PP ("J2","1"))
+wire (PP ("J1","1"),PP ("J2","2"))
 wire ((56 ,50 ),PP ("C1","1"));junctions .append ((56 ,50 ))
 wire ((64 ,50 ),PP ("C2","1"));junctions .append ((64 ,50 ))
 wire (PP ("C1","2"),(56 ,78 ));labels .append (("GND",56 ,78 ))
@@ -353,7 +353,7 @@ stub_label ((84 ,50 ),(84 ,45 ),"+12V")
 wire (PP ("J1","2"),(38 ,52.54 ));labels .append (("GND",38 ,52.54 ))
 wire (PP ("J1","3"),(38 ,55.08 ));labels .append (("STROBE",38 ,55.08 ))
 
-wire (PP ("J2","2"),(102 ,78 ))
+wire (PP ("J2","1"),(102 ,78 ))
 wire ((102 ,78 ),PP ("Q1","3"))
 
 wire (PP ("Q1","2"),(84 ,94 ));labels .append (("GND",84 ,94 ))
@@ -507,18 +507,18 @@ j1 .Reference ().SetPosition (pcbnew .VECTOR2I (MM (5.6 ),MM (24.8 )))
 j2 =add_fp ("TerminalBlock_Phoenix",
 "TerminalBlock_Phoenix_PT-1,5-2-3.5-H_1x02_P3.50mm_Horizontal",
 "J2",VAL_OF ["J2"],(24.4 ,20.3 ),90 ,
-{"1":"+12V","2":"DRAIN"})
+{"1":"DRAIN","2":"+12V"})
 c1 =add_fp ("Capacitor_THT","CP_Radial_D10.0mm_P5.00mm",
-"C1",VAL_OF ["C1"],(13.5 ,8.3 ),0 ,
+"C1",VAL_OF ["C1"],(13.5 ,8.0 ),0 ,
 {"1":"+12V","2":"GND"})
 c1 .Reference ().SetPosition (pcbnew .VECTOR2I (MM (21.8 ),MM (5.2 )))
 c2 =add_fp ("Capacitor_THT","C_Disc_D5.0mm_W2.5mm_P2.50mm",
-"C2",VAL_OF ["C2"],(13.5 ,20.5 ),0 ,
+"C2",VAL_OF ["C2"],(13.5 ,16.9 ),0 ,
 {"1":"+12V","2":"GND"})
 q1 =add_fp ("Package_TO_SOT_SMD","SOT-23",
-"Q1",VAL_OF ["Q1"],(15.5 ,15.7 ),0 ,
+"Q1",VAL_OF ["Q1"],(15.5 ,21.9 ),0 ,
 {"1":"GATE","2":"GND","3":"DRAIN"})
-q1 .Reference ().SetPosition (pcbnew .VECTOR2I (MM (17.6 ),MM (14.3 )))
+q1 .Reference ().SetPosition (pcbnew .VECTOR2I (MM (17.8 ),MM (20.4 )))
 r1 =add_fp ("Resistor_THT","R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal",
 "R1",VAL_OF ["R1"],(7 ,25.3 ),0 ,
 {"1":"STROBE","2":"GATE"})
@@ -544,24 +544,23 @@ for _nm ,_fp in (("J1",j1 ),("J2",j2 )):
 
 
 track (pad_pos (j1 ,"1"),(10 ,11.5 ),1.0 ,"+12V")
-track ((10 ,11.5 ),(10 ,8.5 ),1.0 ,"+12V")
-track ((10 ,8.5 ),pad_pos (c1 ,"1"),1.0 ,"+12V")
-track ((10 ,11.5 ),(10 ,19.5 ),0.8 ,"+12V")
-track ((10 ,19.5 ),(12.8 ,19.5 ),0.8 ,"+12V")
-track ((12.8 ,19.5 ),pad_pos (c2 ,"1"),0.8 ,"+12V")
+track ((10 ,11.5 ),(10 ,8.0 ),1.0 ,"+12V")
+track ((10 ,8.0 ),pad_pos (c1 ,"1"),1.0 ,"+12V")
+track ((10 ,11.5 ),(10 ,15.9 ),0.8 ,"+12V")
+track ((10 ,15.9 ),(12.8 ,15.9 ),0.8 ,"+12V")
+track ((12.8 ,15.9 ),pad_pos (c2 ,"1"),0.8 ,"+12V")
 
 track (pad_pos (c1 ,"1"),(13.5 ,6 ),1.0 ,"+12V",pcbnew .B_Cu )
 track ((13.5 ,6 ),(22.4 ,6 ),1.0 ,"+12V",pcbnew .B_Cu )
-track ((22.4 ,6 ),(22.4 ,18.3 ),1.0 ,"+12V",pcbnew .B_Cu )
-track ((22.4 ,18.3 ),pad_pos (j2 ,"1"),1.0 ,"+12V",pcbnew .B_Cu )
+track ((22.4 ,6 ),(22.4 ,15 ),1.0 ,"+12V",pcbnew .B_Cu )
+track ((22.4 ,15 ),pad_pos (j2 ,"2"),1.0 ,"+12V",pcbnew .B_Cu )
 
 q1d =pad_pos (q1 ,"3")
-track (q1d ,(20 ,15.9 ),1.0 ,"DRAIN")
-track ((20 ,15.9 ),pad_pos (j2 ,"2"),1.0 ,"DRAIN")
+track (q1d ,pad_pos (j2 ,"1"),1.0 ,"DRAIN")
 
 
-track (pad_pos (q1 ,"2"),(16.9 ,18.2 ),0.6 ,"GND")
-via ((16.9 ,18.2 ),"GND")
+track (pad_pos (q1 ,"2"),(17.2 ,24.3 ),0.6 ,"GND")
+via ((17.2 ,24.3 ),"GND")
 
 track (pad_pos (j1 ,"3"),(5.6 ,25.3 ),0.4 ,"STROBE")
 track ((5.6 ,25.3 ),pad_pos (r1 ,"1"),0.4 ,"STROBE")
@@ -571,9 +570,9 @@ track ((10.5 ,25.3 ),(18.5 ,25.3 ),0.4 ,"GATE")
 track ((10.5 ,25.3 ),(10.5 ,28.45 ),0.4 ,"GATE")
 track ((10.5 ,28.45 ),pad_pos (r2 ,"1"),0.4 ,"GATE")
 track ((18.5 ,25.3 ),pad_pos (tp2 ,"1"),0.4 ,"GATE")
-track ((14.75 ,25.3 ),(14.75 ,18.6 ),0.4 ,"GATE")
-track ((14.75 ,18.6 ),(13.4 ,17.9 ),0.4 ,"GATE")
-track ((13.4 ,17.9 ),(13.4 ,q1g [1 ]),0.4 ,"GATE")
+track ((14.62 ,25.3 ),(14.62 ,23.9 ),0.4 ,"GATE")
+track ((14.62 ,23.9 ),(13.4 ,23.9 ),0.4 ,"GATE")
+track ((13.4 ,23.9 ),(13.4 ,q1g [1 ]),0.4 ,"GATE")
 track ((13.4 ,q1g [1 ]),q1g ,0.4 ,"GATE")
 
 for p in [(28.5 ,8 ),(1.8 ,20.5 )]:
@@ -633,8 +632,8 @@ silk ("IR RING STROBE",(15 ,1.8 ),1.0 )
 silk_rot ("+12V",(10.2 ,11.5 ))
 silk_rot ("GND",(10.2 ,15 ))
 silk_rot ("STR",(10.2 ,18.5 ))
-silk_rot ("R+",(19.3 ,20.3 ))
-silk_rot ("R-",(19.3 ,16.8 ))
+silk_rot ("R+",(19.3 ,16.8 ))
+silk_rot ("R-",(19.3 ,20.3 ))
 
 board .Save (os .path .join (HERE ,PROJ +".kicad_pcb"))
 print ("pcb written")
@@ -675,9 +674,9 @@ with open (os .path .join (HERE ,"fp-lib-table"),"w")as f :
 
 with open (os .path .join (HERE ,"netlist.txt"),"w")as f :
     f .write ("Expected nets (design intent):\n")
-    f .write ("+12V : J1.1 C1.1 C2.1 J2.1\n")
+    f .write ("+12V : J1.1 C1.1 C2.1 J2.2\n")
     f .write ("GND  : J1.2 C1.2 C2.2 Q1.2(S) R2.2\n")
-    f .write ("DRAIN: J2.2 Q1.3(D)\n")
+    f .write ("DRAIN: J2.1 Q1.3(D)\n")
     f .write ("GATE : Q1.1(G) R1.2 R2.1 TP2.1\n")
     f .write ("STROBE: J1.3 R1.1\n")
 print ("project written")
