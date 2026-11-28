@@ -758,13 +758,13 @@ j8.Value().SetPosition(pcbnew.VECTOR2I(MM(43), MM(42.5)))
 
 
 
-SJ1_POS = (73.26, 24.9)
+SJ1_POS = (73.26, 54)
 sj1 = _new_fp("HDR_1x03_P2.54", "SJ1", VAL_OF["SJ1"], SJ1_POS)
 _pth(sj1, 1, 2.54, 0, "VBUS", size=1.7, drill=1.0)
 _pth(sj1, 2, 0, 0, "+5V_IN", size=1.7, drill=1.0)
 _pth(sj1, 3, -2.54, 0, "VSYS", size=1.7, drill=1.0)
 _fp_rect(sj1, pcbnew.F_CrtYd, -3.81, -1.27, 3.81, 1.27)
-sj1.Reference().SetPosition(pcbnew.VECTOR2I(MM(73.26), MM(27.7)))
+sj1.Reference().SetPosition(pcbnew.VECTOR2I(MM(73.26), MM(51.3)))
 sj1.Value().SetVisible(False)
 
 
@@ -920,18 +920,16 @@ for _fp in board.GetFootprints():
 
 
 
-track(pad_pos(j8, "40"), (77.5, 48.39), 0.6, "VBUS")
-track((77.5, 48.39), (77.5, 24.9), 0.6, "VBUS")
-track((77.5, 24.9), pad_pos(sj1, "1"), 0.6, "VBUS")
-track(pad_pos(j8, "39"), (71.98, 44), 0.6, "VSYS")
-track((71.98, 44), (20, 44), 0.6, "VSYS")
-track((20, 44), (20, 28.5), 0.6, "VSYS")
-track((20, 28.5), (70.72, 28.5), 0.6, "VSYS")
-track((70.72, 28.5), pad_pos(sj1, "3"), 0.6, "VSYS")
+track(pad_pos(j8, "40"), (75.8, 50.6), 0.6, "VBUS")
+track((75.8, 50.6), pad_pos(sj1, "1"), 0.6, "VBUS")
+track(pad_pos(j8, "39"), (70.72, 50.6), 0.6, "VSYS")
+track((70.72, 50.6), pad_pos(sj1, "3"), 0.6, "VSYS")
 
-track(pad_pos(sj1, "2"), (73.26, 20.8), 0.8, "+5V_IN")
-track((73.26, 20.8), (62, 20.8), 0.8, "+5V_IN")
-track((62, 20.8), pad_pos(f1, "1"), 0.8, "+5V_IN")
+track(pad_pos(sj1, "2"), (73.26, 57.5), 0.8, "+5V_IN")
+track((73.26, 57.5), (77.5, 57.5), 0.8, "+5V_IN")
+track((77.5, 57.5), (77.5, 23), 0.6, "+5V_IN")
+track((77.5, 23), (62, 23), 0.8, "+5V_IN")
+track((62, 23), pad_pos(f1, "1"), 0.8, "+5V_IN")
 
 
 
@@ -1061,8 +1059,8 @@ def silk_b(text, pos, size=0.9):
 silk("BOOST MODULE (AE-LMR62421)", (6, 27.1), 1.0)
 silk("CAP SIDE", (10.8, 21.3), 0.8)
 silk("ESP32-P4-POE-ETH", (38, 27.1), 1.0)
-silk("VBUS", (76.6, 24.9), 0.8)
-silk("VSYS", (66.8, 24.9), 0.8)
+silk("VBUS", (76.6, 54), 0.8)
+silk("VSYS", (66.8, 54), 0.8)
 silk("R+", (75.6, 12), 0.8)
 silk("R-", (75.6, 6.92), 0.8)
 silk("MAX 18V", (44, -0.8), 0.9)
