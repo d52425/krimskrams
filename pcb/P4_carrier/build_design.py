@@ -751,8 +751,9 @@ _dot.SetLayer(pcbnew.F_SilkS)
 _dot.SetWidth(MM(0.12))
 _dot.SetFilled(True)
 j8.Add(_dot)
-j8.Reference().SetPosition(pcbnew.VECTOR2I(MM(43), MM(39.5)))
+j8.Reference().SetPosition(pcbnew.VECTOR2I(MM(43), MM(35.5)))
 j8.Value().SetPosition(pcbnew.VECTOR2I(MM(43), MM(42.5)))
+j8.Value().SetVisible(False)
 
 
 
@@ -819,9 +820,7 @@ def _mezz(ref, pos, plus_net, ref_dx=3.4, ref_dy=-2.5):
 
 
 j3 = _mezz("J3", (4.5, 10.08), "+5V")
-j3.Reference().SetPosition(pcbnew.VECTOR2I(MM(10), MM(54)))
 j4 = _mezz("J4", (27.5, 10.08), "+12V", ref_dx=-7)
-j4.Reference().SetPosition(pcbnew.VECTOR2I(MM(18), MM(54)))
 
 
 
@@ -842,7 +841,7 @@ for i, (lx, ly) in enumerate([(4.5, 20.5), (4.5, 23.0),
     _npth(lh, i + 1, -lx, ly, 1.8)
 for i, lx in enumerate([12.46, 15.0, 17.54]):
     _npth(lh, i + 5, -lx, 3.0, 1.8)
-lh.Reference().SetPosition(pcbnew.VECTOR2I(MM(26), MM(54)))
+lh.Reference().SetPosition(pcbnew.VECTOR2I(MM(16), MM(11.5)))
 lh.Value().SetVisible(False)
 c1 = add_fp("Capacitor_THT", "CP_Radial_D10.0mm_P5.00mm",
             "C1", VAL_OF["C1"], (50, 8), 270, {"1": "+12V", "2": "GND"})
@@ -1053,9 +1052,9 @@ def silk_b(text, pos, size=0.9):
     board.Add(t)
 
 
-silk("BOOST MODULE (AE-LMR62421)", (6, 27.1), 1.0)
+silk("BOOST MODULE (AE-LMR62421)", (3, 12.2), 1.0)
 silk("CAP SIDE", (10.8, 24.3), 0.8)
-silk("ESP32-P4-POE-ETH", (38, 27.1), 1.0)
+silk("ESP32-P4-POE-ETH (32088)", (33, 40.5), 1.2)
 silk("VBUS", (76.6, 54), 0.8)
 silk("VSYS", (66.8, 54), 0.8)
 silk("R+", (75.6, 12), 0.8)

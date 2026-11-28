@@ -4,9 +4,9 @@
 	(generator_version "10.0")
 	(layer "F.Cu")
 	(property "Reference" "J4"
-		(at -9.5 43.92 0)
+		(at -7 -2.5 0)
 		(layer "F.SilkS")
-		(uuid "ea120f5f-9a95-4a04-a22a-8fc8dca16ff9")
+		(uuid "d49ef52e-f030-4a2f-8ef7-3c83e0528ec2")
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -17,7 +17,7 @@
 		(at 0 0 0)
 		(layer "F.Fab")
 		(hide yes)
-		(uuid "3ff26657-afd3-4058-aa3c-347b12ab9e57")
+		(uuid "d50fd5cc-fcd1-4f96-bf7f-f7fda6471dfe")
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -28,7 +28,7 @@
 		(at 0 0 0)
 		(layer "F.Fab")
 		(hide yes)
-		(uuid "68bcbdac-552f-4a3a-a536-cbd1cce7d2d3")
+		(uuid "d445278e-4fdc-46a3-b1bc-fc281b83b6be")
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -39,7 +39,7 @@
 		(at 0 0 0)
 		(layer "F.Fab")
 		(hide yes)
-		(uuid "0c88eb8e-7560-4048-9dc1-8aa5063b2811")
+		(uuid "652e1629-1ce9-4771-9c95-399f2ab71a20")
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -55,7 +55,7 @@
 			(type default)
 		)
 		(layer "F.CrtYd")
-		(uuid "862a3073-c8c1-4c9c-a285-8cf465a0e664")
+		(uuid "90b3261f-42cd-4a99-ab64-8358a45ced47")
 	)
 	(fp_line
 		(start -1.8 1.8)
@@ -65,7 +65,7 @@
 			(type default)
 		)
 		(layer "F.CrtYd")
-		(uuid "958d9cc4-0b58-4403-82fb-7116ae8f4579")
+		(uuid "2a928795-3b97-4713-8b5a-a417e8b9fc40")
 	)
 	(fp_line
 		(start 1.8 -6.88)
@@ -75,7 +75,7 @@
 			(type default)
 		)
 		(layer "F.CrtYd")
-		(uuid "1e23bda1-5050-4377-8f21-cfa82d0e3a66")
+		(uuid "b6d9b16c-0ab6-4a4b-80f1-487ead82b021")
 	)
 	(fp_line
 		(start 1.8 1.8)
@@ -85,7 +85,7 @@
 			(type default)
 		)
 		(layer "F.CrtYd")
-		(uuid "83171a1e-156e-46cd-94d0-22e67bf32d74")
+		(uuid "ff3f7d95-8852-48fb-b9d0-9f5f933640e6")
 	)
 	(pad "1" thru_hole circle
 		(at 0 0)
@@ -93,7 +93,7 @@
 		(drill 1.5)
 		(layers "*.Cu" "*.Mask")
 		(remove_unused_layers no)
-		(uuid "f19b3012-c925-4cb5-9a90-7d07719058db")
+		(uuid "1455412e-c3e0-4376-9193-f40e5a188169")
 	)
 	(pad "2" thru_hole circle
 		(at 0 -5.08)
@@ -101,7 +101,7 @@
 		(drill 1.5)
 		(layers "*.Cu" "*.Mask")
 		(remove_unused_layers no)
-		(uuid "5a65773c-0d63-4369-8f94-54173eb948d6")
+		(uuid "11883f70-d791-4ee6-98ce-038e8b50db69")
 	)
 	(embedded_fonts no)
 )

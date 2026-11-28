@@ -4,9 +4,9 @@
 	(generator_version "10.0")
 	(layer "F.Cu")
 	(property "Reference" "LH1"
-		(at -5 58 0)
+		(at -15 15.5 0)
 		(layer "F.SilkS")
-		(uuid "b72c848c-4b15-4280-9381-de33e524a60b")
+		(uuid "3f9ef0ba-d006-4cef-b190-2ef3791d38b3")
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -17,7 +17,7 @@
 		(at 0 0 0)
 		(layer "F.Fab")
 		(hide yes)
-		(uuid "4a914754-7b3d-49dc-a378-d41b1ba107ab")
+		(uuid "2eee0e15-341b-4a29-a454-1bbfe8d3c2da")
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -28,7 +28,7 @@
 		(at 0 0 0)
 		(layer "F.Fab")
 		(hide yes)
-		(uuid "98aa477a-26a6-4a08-bbf8-7574c6eea19c")
+		(uuid "c353c104-fe64-4d68-984a-44eccce71a32")
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -39,7 +39,7 @@
 		(at 0 0 0)
 		(layer "F.Fab")
 		(hide yes)
-		(uuid "5786863f-40a6-455e-8c03-59d66b1495b7")
+		(uuid "118c1fc4-923e-45b6-998e-f6bca3ec0b85")
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -53,7 +53,7 @@
 		(drill 1.8)
 		(layers "*.Cu" "*.Mask")
 		(clearance 1)
-		(uuid "dd3dabf9-7041-4f36-8498-a7fdf480e046")
+		(uuid "a5a91a65-e72a-4dbf-8ce0-ab295e523ac0")
 	)
 	(pad "" np_thru_hole circle
 		(at -25.5 23)
@@ -61,7 +61,7 @@
 		(drill 1.8)
 		(layers "*.Cu" "*.Mask")
 		(clearance 1)
-		(uuid "fd1c9c28-6ca2-4fda-80c7-fe7c152f9c61")
+		(uuid "5f8a5445-6468-483b-901a-9ddb2792f5e8")
 	)
 	(pad "" np_thru_hole circle
 		(at -17.54 3)
@@ -69,7 +69,7 @@
 		(drill 1.8)
 		(layers "*.Cu" "*.Mask")
 		(clearance 1)
-		(uuid "8c2874d8-87b0-4bb9-a983-f3f6da8de3fd")
+		(uuid "070b973e-d323-4b6f-b5fa-9783440ab296")
 	)
 	(pad "" np_thru_hole circle
 		(at -15 3)
@@ -77,7 +77,7 @@
 		(drill 1.8)
 		(layers "*.Cu" "*.Mask")
 		(clearance 1)
-		(uuid "f777cca7-e17d-4158-aa8c-b190c883440e")
+		(uuid "94017196-024b-4e7e-93e7-145ad75b1ab5")
 	)
 	(pad "" np_thru_hole circle
 		(at -12.46 3)
@@ -85,7 +85,7 @@
 		(drill 1.8)
 		(layers "*.Cu" "*.Mask")
 		(clearance 1)
-		(uuid "12fe2487-caf9-433b-83aa-084d7d628df8")
+		(uuid "4e20289a-a00d-44d3-a633-2066f8aac672")
 	)
 	(pad "" np_thru_hole circle
 		(at -4.5 20.5)
@@ -93,7 +93,7 @@
 		(drill 1.8)
 		(layers "*.Cu" "*.Mask")
 		(clearance 1)
-		(uuid "fe3c0036-3802-4c95-8188-805b038169d7")
+		(uuid "5926d48e-8bc6-45da-b563-cf7e77999994")
 	)
 	(pad "" np_thru_hole circle
 		(at -4.5 23)
@@ -101,7 +101,7 @@
 		(drill 1.8)
 		(layers "*.Cu" "*.Mask")
 		(clearance 1)
-		(uuid "14a827ba-9ba4-4696-916b-d5951b17e41a")
+		(uuid "9b6bb743-c508-4676-940c-057d5bf73dbc")
 	)
 	(embedded_fonts no)
 )
