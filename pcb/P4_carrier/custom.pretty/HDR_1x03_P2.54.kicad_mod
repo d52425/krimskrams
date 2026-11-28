@@ -6,7 +6,7 @@
 	(property "Reference" "SJ1"
 		(at 0 -2.8 0)
 		(layer "F.SilkS")
-		(uuid "853e233b-54d4-464c-8cd4-dcd420af8496")
+		(uuid "74bb8b0a-289c-48b9-ba99-5b4223e1fe68")
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -17,7 +17,7 @@
 		(at 0 0 0)
 		(layer "F.Fab")
 		(hide yes)
-		(uuid "22e7301c-d6a8-4c03-9e8f-a3989bcde743")
+		(uuid "ae0266b4-58ff-4c9c-b29a-85071d0cfeb7")
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -28,7 +28,7 @@
 		(at 0 0 0)
 		(layer "F.Fab")
 		(hide yes)
-		(uuid "1d1a4440-e278-45fd-a45c-b7c4d2319d72")
+		(uuid "38c7b644-9aac-42c1-988d-244800b5aed3")
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -39,7 +39,7 @@
 		(at 0 0 0)
 		(layer "F.Fab")
 		(hide yes)
-		(uuid "051abf1a-68bc-4eca-8b94-1b8a04c4f2d5")
+		(uuid "9fae871d-5eb9-4f54-b3d4-8878ed43dcd4")
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -55,7 +55,7 @@
 			(type default)
 		)
 		(layer "F.CrtYd")
-		(uuid "425c21f7-f540-4609-ab1c-78cb8116198f")
+		(uuid "3af4a709-c52d-4aab-9d95-a7e8f3cb2ae7")
 	)
 	(fp_line
 		(start -3.81 1.27)
@@ -65,7 +65,7 @@
 			(type default)
 		)
 		(layer "F.CrtYd")
-		(uuid "6031083c-61c0-41c9-a2c1-656f92cba11b")
+		(uuid "fdbffdde-7b04-45c8-9eb5-0231fa9c21da")
 	)
 	(fp_line
 		(start 3.81 -1.27)
@@ -75,7 +75,7 @@
 			(type default)
 		)
 		(layer "F.CrtYd")
-		(uuid "109b3615-1e28-4404-beb6-c3b11db7e79e")
+		(uuid "ea54ae84-8702-4268-a61a-d855b108c357")
 	)
 	(fp_line
 		(start 3.81 1.27)
@@ -85,7 +85,7 @@
 			(type default)
 		)
 		(layer "F.CrtYd")
-		(uuid "a4b9beb1-eccf-419a-bce7-b916acc34962")
+		(uuid "edf3162c-a017-43d0-a00f-fc0cfca94cfc")
 	)
 	(pad "1" thru_hole circle
 		(at 2.54 0)
@@ -93,7 +93,7 @@
 		(drill 1)
 		(layers "*.Cu" "*.Mask")
 		(remove_unused_layers no)
-		(uuid "11b0dd18-d790-4625-a80f-fa31d8422419")
+		(uuid "23eca3fb-a4e2-42e1-93e9-4170ec4638b2")
 	)
 	(pad "2" thru_hole circle
 		(at 0 0)
@@ -101,7 +101,7 @@
 		(drill 1)
 		(layers "*.Cu" "*.Mask")
 		(remove_unused_layers no)
-		(uuid "57cd8dfc-505a-4e51-822a-c88996c20096")
+		(uuid "1678e65e-b5d8-43e0-9b8f-3a680f454f1e")
 	)
 	(pad "3" thru_hole circle
 		(at -2.54 0)
@@ -109,7 +109,7 @@
 		(drill 1)
 		(layers "*.Cu" "*.Mask")
 		(remove_unused_layers no)
-		(uuid "86e2b145-cad7-4b68-8046-4a31183c838d")
+		(uuid "7f07e981-5b8c-4e4e-ae68-1a186a4210cb")
 	)
 	(embedded_fonts no)
 )

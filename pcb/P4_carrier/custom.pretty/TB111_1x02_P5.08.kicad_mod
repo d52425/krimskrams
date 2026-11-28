@@ -6,7 +6,7 @@
 	(property "Reference" "J2"
 		(at -5 8.6 0)
 		(layer "F.SilkS")
-		(uuid "a42070ee-dd09-4c79-8643-d32c305a5baa")
+		(uuid "4472952b-1117-4f94-a30c-4e0ab46c5fc3")
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -17,7 +17,7 @@
 		(at 0 0 0)
 		(layer "F.Fab")
 		(hide yes)
-		(uuid "431fe83d-0b71-4305-b606-b4144eb89292")
+		(uuid "c8152315-b14c-4e47-b014-e38eea1ba9fd")
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -28,7 +28,7 @@
 		(at 0 0 0)
 		(layer "F.Fab")
 		(hide yes)
-		(uuid "4ee26064-7579-46c2-a74f-f0b399d446ac")
+		(uuid "7afa04c7-b686-449b-a44f-f714948de33f")
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -39,7 +39,7 @@
 		(at 0 0 0)
 		(layer "F.Fab")
 		(hide yes)
-		(uuid "cbee4bd3-183a-4d7a-8930-3a5b64ef3e26")
+		(uuid "b87d5dcc-fd1f-487b-b9f5-bf34d4c643d2")
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -55,7 +55,7 @@
 			(type default)
 		)
 		(layer "F.CrtYd")
-		(uuid "2cfe4965-932d-41f5-b97b-f0289de3ad02")
+		(uuid "ecc4254c-1f14-4041-9a6a-e86b5545620d")
 	)
 	(fp_line
 		(start -7.5 7.68)
@@ -65,7 +65,7 @@
 			(type default)
 		)
 		(layer "F.CrtYd")
-		(uuid "3a3ea61f-f2e4-476e-a4de-a8236901ce62")
+		(uuid "b4229086-fc0f-4276-a511-99e0132e0052")
 	)
 	(fp_line
 		(start 3.5 -2.6)
@@ -75,7 +75,7 @@
 			(type default)
 		)
 		(layer "F.CrtYd")
-		(uuid "db688d81-5800-47a2-8896-770e1a7c8981")
+		(uuid "c42dccc4-e691-425f-91aa-4101ec0151e9")
 	)
 	(fp_line
 		(start 3.5 7.68)
@@ -85,7 +85,7 @@
 			(type default)
 		)
 		(layer "F.CrtYd")
-		(uuid "03600220-132b-41e6-9ef3-a95259b9536a")
+		(uuid "8ad1759a-d3a0-4830-b3db-3d6ab796006d")
 	)
 	(pad "1" thru_hole circle
 		(at 0 0)
@@ -93,7 +93,7 @@
 		(drill 1.4)
 		(layers "*.Cu" "*.Mask")
 		(remove_unused_layers no)
-		(uuid "51339da8-5469-4d72-a1aa-62e860663e97")
+		(uuid "1a7a69d8-a19a-40f4-bc09-3140a0372151")
 	)
 	(pad "2" thru_hole circle
 		(at 0 5.08)
@@ -101,7 +101,7 @@
 		(drill 1.4)
 		(layers "*.Cu" "*.Mask")
 		(remove_unused_layers no)
-		(uuid "010e7651-9685-4681-b3eb-b9d0a26948ff")
+		(uuid "c085e557-972a-41a7-82b4-d1e6d5d894e4")
 	)
 	(embedded_fonts no)
 )

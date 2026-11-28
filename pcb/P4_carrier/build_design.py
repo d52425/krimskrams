@@ -6,8 +6,8 @@ whole power chain for one Tenmou node:
 
     J8 pin40 VBUS / pin39 VSYS (solder-jumper select, SJ1)
       -> polyfuse F1 -> input bulk 470uF
-      -> mezzanine pins into an AE-LMR62421 boost module (30x30mm,
-         M3 standoffs, no terminal blocks) and back in at +12V
+      -> on-board LMR62421 boost (the AE-LMR62421 kit circuit built
+         directly on the carrier, fixed divider for ~11.8V)
       -> bulk 1000uF/25V + 10uF -> Nch MOSFET low-side switch
       -> TB111 screw-terminal ring output (FRS5CC), strobe from J8 pin10
 
@@ -203,6 +203,49 @@ LOCAL_Q_NMOS_GSD = r'''(symbol "Q_NMOS_GSD" (pin_names (offset 0) hide) (in_bom 
         )
       )'''
 
+LMR_SYMBOL = r'''(symbol "LMR62421" (pin_names (offset 0) hide) (in_bom yes) (on_board yes)
+      (property "Reference" "U" (at 0 7.62 0)
+        (effects (font (size 1.27 1.27)))
+      )
+      (property "Value" "LMR62421XMF" (at 0 -7.62 0)
+        (effects (font (size 1.27 1.27)))
+      )
+      (property "Footprint" "" (at 0 0 0)
+        (effects (font (size 1.27 1.27)) hide)
+      )
+      (property "Datasheet" "" (at 0 0 0)
+        (effects (font (size 1.27 1.27)) hide)
+      )
+      (symbol "LMR62421_0_1"
+        (rectangle (start -5.08 5.08) (end 5.08 -5.08)
+          (stroke (width 0.254) (type default))
+          (fill (type background))
+        )
+      )
+      (symbol "LMR62421_1_1"
+        (pin passive line (at -7.62 2.54 0) (length 2.54)
+          (name "EN" (effects (font (size 1.27 1.27))))
+          (number "4" (effects (font (size 1.27 1.27))))
+        )
+        (pin passive line (at -7.62 -2.54 0) (length 2.54)
+          (name "IN" (effects (font (size 1.27 1.27))))
+          (number "5" (effects (font (size 1.27 1.27))))
+        )
+        (pin passive line (at 7.62 2.54 180) (length 2.54)
+          (name "FB" (effects (font (size 1.27 1.27))))
+          (number "3" (effects (font (size 1.27 1.27))))
+        )
+        (pin passive line (at 7.62 0 180) (length 2.54)
+          (name "GND" (effects (font (size 1.27 1.27))))
+          (number "2" (effects (font (size 1.27 1.27))))
+        )
+        (pin passive line (at 7.62 -2.54 180) (length 2.54)
+          (name "SW" (effects (font (size 1.27 1.27))))
+          (number "1" (effects (font (size 1.27 1.27))))
+        )
+      )
+    )'''
+
 
 
 
@@ -282,6 +325,8 @@ def extract_symbol(libfile, name):
         return _symbol_block(LOCAL_Q_NMOS_GSD, name)
     if name.startswith("P4_HDR"):
         return _symbol_block(P4_SYMBOL, name)
+    if name.startswith("LMR62421"):
+        return _symbol_block(LMR_SYMBOL, name)
     p = os.path.join(SYM_DIR, libfile)
     if os.path.exists(p):
         txt = open(p, encoding="utf-8").read()
@@ -342,8 +387,19 @@ PARTS = {
     "SJ1": ("Connector_Generic", "Conn_01x03", "5V SEL (HDR+CAP)", "custom:HDR_1x03_P2.54"),
     "F1": ("Device", "Fuse", "PTC 1A", "custom:PTC_P5.00mm"),
     "C3": ("Device", "C_Polarized", "470uF/16V", "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm"),
-    "J3": ("Connector_Generic", "Conn_01x02", "BOOST IN MEZZ", "custom:MZ_1x02_P5.08"),
-    "J4": ("Connector_Generic", "Conn_01x02", "BOOST OUT MEZZ", "custom:MZ_1x02_P5.08"),
+    "U1": ("Local", "LMR62421", "LMR62421XMF", "Package_TO_SOT_SMD:SOT-23-5_HandSoldering"),
+    "L1": ("Device", "L", "15uH NR10050", "Inductor_SMD:L_10.4x10.4_H4.8"),
+    "D2": ("Device", "D_Schottky", "SS2040FL", "Diode_SMD:D_SOD-123F"),
+    "ZD1": ("Device", "D_Zener", "BZT52C2V7", "Diode_SMD:D_SOD-123"),
+    "C4": ("Device", "C", "10uF/50V", "Capacitor_SMD:C_1206_3216Metric"),
+    "C5": ("Device", "C", "10uF/50V", "Capacitor_SMD:C_1206_3216Metric"),
+    "C6": ("Device", "C", "10uF/50V", "Capacitor_SMD:C_1206_3216Metric"),
+    "C7": ("Device", "C", "10uF/50V", "Capacitor_SMD:C_1206_3216Metric"),
+    "C8": ("Device", "C", "1000pF", "Capacitor_SMD:C_1206_3216Metric"),
+    "R4": ("Device", "R", "4.7k", "Resistor_SMD:R_1206_3216Metric"),
+    "R5": ("Device", "R", "18k", "Resistor_SMD:R_1206_3216Metric"),
+    "R6": ("Device", "R", "2.7k", "Resistor_SMD:R_1206_3216Metric"),
+    "R7": ("Device", "R", "100k", "Resistor_SMD:R_1206_3216Metric"),
     "C1": ("Device", "C_Polarized", "1000uF/25V PX", "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm"),
     "C2": ("Device", "C", "10uF", "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P2.50mm"),
     "Q1": ("Device", "Q_NMOS_GSD", "MTN2306AN3/IRLML6344", "Package_TO_SOT_SMD:SOT-23"),
@@ -399,8 +455,19 @@ PLAN = {
     "F1": ("1", (108, 52), 0),
     "TP1": ("1", (128, 46), 0),
     "C3": ("1", (108, 76), 0),
-    "J3": ("1", (82, 80), 0),
-    "J4": ("1", (82, 100), 0),
+    "U1": ("1", (85, 150), 0),
+    "L1": ("1", (30, 150), 0),
+    "D2": ("1", (130, 150), 0),
+    "C4": ("1", (30, 190), 0),
+    "C5": ("1", (30, 230), 0),
+    "C6": ("1", (130, 190), 0),
+    "C7": ("1", (130, 230), 0),
+    "C8": ("1", (215, 230), 0),
+    "R4": ("1", (175, 150), 0),
+    "R5": ("1", (175, 190), 0),
+    "R6": ("1", (175, 230), 0),
+    "R7": ("1", (85, 190), 0),
+    "ZD1": ("1", (215, 190), 0),
     "C1": ("1", (108, 98), 0),
     "C2": ("1", (124, 98), 0),
     "TP2": ("1", (140, 86), 0),
@@ -452,8 +519,19 @@ STUBS = {
     "SJ1": {"1": "VBUS", "2": "+5V_IN", "3": "VSYS"},
     "F1": {"1": "+5V_IN", "2": "+5V"},
     "C3": {"1": "+5V", "2": "GND"},
-    "J3": {"1": "+5V", "2": "GND"},
-    "J4": {"1": "+12V", "2": "GND"},
+    "U1": {"1": "SW", "2": "GND", "3": "FB", "4": "EN", "5": "+5V"},
+    "L1": {"1": "+5V", "2": "SW"},
+    "D2": {"1": "+12V", "2": "SW"},
+    "ZD1": {"1": "FB", "2": "GND"},
+    "C4": {"1": "GND", "2": "+5V"},
+    "C5": {"1": "GND", "2": "+5V"},
+    "C6": {"1": "+12V", "2": "GND"},
+    "C7": {"1": "GND", "2": "+12V"},
+    "C8": {"1": "FB", "2": "+12V"},
+    "R4": {"1": "DIV", "2": "+12V"},
+    "R5": {"1": "FB", "2": "DIV"},
+    "R6": {"1": "GND", "2": "FB"},
+    "R7": {"1": "+5V", "2": "EN"},
     "C1": {"1": "+12V", "2": "GND"},
     "C2": {"1": "+12V", "2": "GND"},
     "Q1": {"3": "DRAIN", "2": "GND"},
@@ -484,6 +562,10 @@ for k in range(1, 41):
         no_connects.append(PP("J8", str(k)))
 
 
+if "6" in PINS[PARTS["U1"][1]]:
+    no_connects.append(PP("U1", "6"))
+
+
 def _on_segment(p, a, b):
     (px, py), (ax, ay), (bx, by) = p, a, b
     cross = (bx - ax) * (py - ay) - (by - ay) * (px - ax)
@@ -509,14 +591,15 @@ sch.append('(kicad_sch (version 20230121) (generator eeschema)')
 sch.append('  (uuid %s)' % sheet_uuid)
 sch.append('  (paper "A3")')
 sch.append('  (title_block (title "ESP32-P4 (32088) carrier - 5V select, '
-           'polyfuse, AE-LMR62421 boost, IR ring strobe") '
+           'polyfuse, LMR62421 boost (on-board), IR ring strobe") '
            '(date "2026-11-27") (rev "A"))')
 sch.append('  (lib_symbols')
 for b in lib_blocks:
     sch.append('    ' + b.replace('\n', '\n    '))
 sch.append('  )')
-for ref in ("J8", "SJ1", "F1", "C3", "J3", "J4", "C1", "C2", "Q1",
-            "R1", "R2", "R3", "D1", "J2", "TP1", "TP2"):
+for ref in ("J8", "SJ1", "F1", "C3", "U1", "L1", "D2", "ZD1",
+            "C4", "C5", "C6", "C7", "C8", "R4", "R5", "R6", "R7",
+            "C1", "C2", "Q1", "R1", "R2", "R3", "D1", "J2", "TP1", "TP2"):
     lib, sym = PARTS[ref][0], PARTS[ref][1]
     pos, r = POS[ref]
     sch.append('  (symbol (lib_id "%s:%s") (at %.2f %.2f %d) (unit 1) '
@@ -565,7 +648,7 @@ MM = pcbnew.FromMM
 board = pcbnew.BOARD()
 nets = {}
 for name in ("VBUS", "VSYS", "+5V_IN", "+5V", "+12V", "GND", "STROBE",
-             "DRAIN", "GATE", "LED_A"):
+             "DRAIN", "GATE", "LED_A", "SW", "FB", "DIV", "EN"):
     ni = pcbnew.NETINFO_ITEM(board, name)
     board.Add(ni)
     nets[name] = ni.GetNetCode()
@@ -670,25 +753,6 @@ def _pth(fp, num, lx, ly, net=None, size=1.7, drill=1.0, rect=False):
     CUSTOM_PAD_POS[(fp.GetReference(), str(num))] = (
         round(pcbnew.ToMM(fp_pos.x) + lx, 2),
         round(pcbnew.ToMM(fp_pos.y) + ly, 2))
-    return p
-
-
-def _npth(fp, num, lx, ly, drill, clearance=1.0):
-    """Non-plated clearance hole (no net, never soldered). The local
-    clearance keeps every copper pour - above all GND - away from
-    the hole edge."""
-    p = pcbnew.PAD(fp)
-    p.SetNumber(str(num))
-    p.SetAttribute(pcbnew.PAD_ATTRIB_NPTH)
-    p.SetShape(pcbnew.PAD_SHAPE_CIRCLE)
-    p.SetSize(pcbnew.VECTOR2I(MM(drill), MM(drill)))
-    p.SetDrillSize(pcbnew.VECTOR2I(MM(drill), MM(drill)))
-    p.SetLayerSet(_layers(pcbnew.F_Cu, pcbnew.B_Cu,
-                          pcbnew.F_Mask, pcbnew.B_Mask))
-    p.SetLocalClearance(MM(clearance))
-    ax, ay = _abs(fp, lx, ly)
-    p.SetPosition(pcbnew.VECTOR2I(MM(ax), MM(ay)))
-    fp.Add(p)
     return p
 
 
@@ -803,45 +867,51 @@ c3.Reference().SetPosition(pcbnew.VECTOR2I(MM(51), MM(37.6)))
 
 
 
+u1 = add_fp("Package_TO_SOT_SMD", "SOT-23-5_HandSoldering",
+            "U1", VAL_OF["U1"], (18.5, 44), 180,
+            {"1": "SW", "2": "GND", "3": "FB", "4": "EN", "5": "+5V"})
+u1.Reference().SetPosition(pcbnew.VECTOR2I(MM(18.5), MM(38.9)))
+l1 = add_fp("Inductor_SMD", "L_10.4x10.4_H4.8",
+            "L1", VAL_OF["L1"], (16, 52), 0, {"1": "+5V", "2": "SW"})
+l1.Reference().SetPosition(pcbnew.VECTOR2I(MM(4.5), MM(52)))
+d2 = add_fp("Diode_SMD", "D_SOD-123F",
+            "D2", VAL_OF["D2"], (24.8, 44.95), 180,
+            {"1": "+12V", "2": "SW"})
+d2.Reference().SetPosition(pcbnew.VECTOR2I(MM(28.6), MM(44.95)))
+c4 = add_fp("Capacitor_SMD", "C_1206_3216Metric",
+            "C4", VAL_OF["C4"], (7, 40.5), 0, {"1": "GND", "2": "+5V"})
+c4.Reference().SetPosition(pcbnew.VECTOR2I(MM(7), MM(37.2)))
+c5 = add_fp("Capacitor_SMD", "C_1206_3216Metric",
+            "C5", VAL_OF["C5"], (7, 48), 0, {"1": "GND", "2": "+5V"})
+c5.Reference().SetPosition(pcbnew.VECTOR2I(MM(7), MM(51.3)))
+c6 = add_fp("Capacitor_SMD", "C_1206_3216Metric",
+            "C6", VAL_OF["C6"], (27.8, 40.5), 90, {"1": "+12V", "2": "GND"})
+c6.Reference().SetPosition(pcbnew.VECTOR2I(MM(25), MM(40.5)))
+c7 = add_fp("Capacitor_SMD", "C_1206_3216Metric",
+            "C7", VAL_OF["C7"], (27.8, 48.6), 90, {"1": "GND", "2": "+12V"})
+c7.Reference().SetPosition(pcbnew.VECTOR2I(MM(25), MM(48.6)))
+r7 = add_fp("Resistor_SMD", "R_1206_3216Metric",
+            "R7", VAL_OF["R7"], (13, 40.5), 0, {"1": "+5V", "2": "EN"})
+r7.Reference().SetPosition(pcbnew.VECTOR2I(MM(13), MM(37.2)))
 
 
-def _mezz(ref, pos, plus_net, ref_dx=3.4, ref_dy=-2.5):
 
 
-    mz = _new_fp("MZ_1x02_P5.08", ref, VAL_OF[ref], pos)
-    _pth(mz, 1, 0, 0, plus_net, size=2.6, drill=1.5)
-    _pth(mz, 2, 0, -5.08, "GND", size=2.6, drill=1.5)
-    _fp_rect(mz, pcbnew.F_CrtYd, -1.8, -6.88, 1.8, 1.8)
-    mz.Reference().SetPosition(pcbnew.VECTOR2I(MM(pos[0] + ref_dx),
-                                               MM(pos[1] + ref_dy)))
-    mz.Value().SetVisible(False)
-    return mz
-
-
-j3 = _mezz("J3", (4.5, 43.08), "+5V")
-j4 = _mezz("J4", (27.5, 43.08), "+12V", ref_dx=-7)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-lh = _new_fp("LEG_CLEAR_7", "LH1", "BOOST LEG CLEARANCE", (31, 29))
-for i, (lx, ly) in enumerate([(4.5, 20.5), (4.5, 23.0),
-                              (25.5, 20.5), (25.5, 23.0)]):
-    _npth(lh, i + 1, -lx, ly, 1.8)
-for i, lx in enumerate([12.46, 15.0, 17.54]):
-    _npth(lh, i + 5, -lx, 3.0, 1.8)
-lh.Reference().SetPosition(pcbnew.VECTOR2I(MM(16), MM(44.5)))
-lh.Value().SetVisible(False)
+r4 = add_fp("Resistor_SMD", "R_1206_3216Metric",
+            "R4", VAL_OF["R4"], (36, 44.9), 90, {"1": "DIV", "2": "+12V"})
+r4.Reference().SetPosition(pcbnew.VECTOR2I(MM(33.2), MM(44.9)))
+r5 = add_fp("Resistor_SMD", "R_1206_3216Metric",
+            "R5", VAL_OF["R5"], (36, 49.7), 90, {"1": "FB", "2": "DIV"})
+r5.Reference().SetPosition(pcbnew.VECTOR2I(MM(33.2), MM(49.7)))
+r6 = add_fp("Resistor_SMD", "R_1206_3216Metric",
+            "R6", VAL_OF["R6"], (36, 54.5), 90, {"1": "GND", "2": "FB"})
+r6.Reference().SetPosition(pcbnew.VECTOR2I(MM(33.2), MM(54.5)))
+zd1 = add_fp("Diode_SMD", "D_SOD-123",
+             "ZD1", VAL_OF["ZD1"], (28, 53.4), 180, {"1": "FB", "2": "GND"})
+zd1.Reference().SetPosition(pcbnew.VECTOR2I(MM(28), MM(56.3)))
+c8 = add_fp("Capacitor_SMD", "C_1206_3216Metric",
+            "C8", VAL_OF["C8"], (40.5, 49.7), 90, {"1": "FB", "2": "+12V"})
+c8.Reference().SetPosition(pcbnew.VECTOR2I(MM(42.3), MM(49.7)))
 c1 = add_fp("Capacitor_THT", "CP_Radial_D10.0mm_P5.00mm",
             "C1", VAL_OF["C1"], (50, 47), 90, {"1": "+12V", "2": "GND"})
 c1.Reference().SetPosition(pcbnew.VECTOR2I(MM(58.6), MM(44)))
@@ -883,29 +953,9 @@ j2.Value().SetVisible(False)
 
 
 
-
-for i, (hx, hy) in enumerate([(4, 32), (28, 32), (4, 56), (28, 56)]):
+for i, (hx, hy) in enumerate([(4, 56), (82, 56), (4, -4), (82, -4)]):
     h = add_fp("MountingHole", "MountingHole_3.2mm_M3",
                "H%d" % (i + 1), "", (hx, hy), 0)
-    h.Reference().SetVisible(False)
-    h.Value().SetVisible(False)
-    if i >= 2:
-
-
-
-
-
-
-        for _sh in h.GraphicalItems():
-            if (_sh.GetLayer() == pcbnew.F_CrtYd
-                    and _sh.GetShape() == pcbnew.SHAPE_T_CIRCLE):
-                _sh.SetRadius(MM(3.2))
-
-
-
-for i, (hx, hy) in enumerate([(82, 56), (4, -4), (82, -4)]):
-    h = add_fp("MountingHole", "MountingHole_3.2mm_M3",
-               "H%d" % (i + 5), "", (hx, hy), 0)
     h.Reference().SetVisible(False)
     h.Value().SetVisible(False)
 
@@ -930,18 +980,53 @@ track((73.26, 31.2), (62, 31.2), 0.8, "+5V_IN")
 track((62, 31.2), pad_pos(f1, "1"), 0.8, "+5V_IN")
 
 
-
 track(pad_pos(f1, "2"), (57, 33), 1.0, "+5V")
 track((57, 33), pad_pos(c3, "1"), 1.0, "+5V")
 track(pad_pos(c3, "1"), (51, 35.8), 1.0, "+5V")
-track((51, 35.8), (10, 35.8), 1.0, "+5V")
-track((10, 35.8), (10, 43.08), 1.0, "+5V")
-track((10, 43.08), pad_pos(j3, "1"), 1.0, "+5V")
+track((51, 35.8), (8.48, 35.8), 1.0, "+5V")
 track((57, 33), pad_pos(tp1, "1"), 0.6, "+5V")
 
 
+track((8.48, 35.8), (8.48, 48), 1.0, "+5V")
+track((8.48, 44.95), pad_pos(u1, "5"), 0.8, "+5V")
+track((8.48, 48), (11.85, 48), 1.0, "+5V")
+track((11.85, 48), pad_pos(l1, "1"), 1.0, "+5V")
 
-track(pad_pos(j4, "1"), (46.5, 43.08), 0.8, "+12V")
+track(pad_pos(r7, "1"), (11.54, 35.8), 0.5, "+5V")
+track(pad_pos(r7, "2"), (17.15, 40.5), 0.4, "EN")
+track((17.15, 40.5), pad_pos(u1, "4"), 0.4, "EN")
+
+
+
+track(pad_pos(u1, "1"), (21.5, 44.95), 0.5, "SW")
+track((21.5, 44.95), pad_pos(d2, "2"), 1.0, "SW")
+track(pad_pos(l1, "2"), (20.15, 48), 1.0, "SW")
+track((20.15, 48), (23.4, 48), 1.0, "SW")
+track((23.4, 48), pad_pos(d2, "2"), 1.0, "SW")
+
+
+track(pad_pos(u1, "2"), (22.2, 43.9), 0.4, "GND")
+via((22.2, 43.9), "GND")
+track((22.2, 43.9), (22.2, 46.8), 0.5, "GND", pcbnew.B_Cu)
+
+track(pad_pos(d2, "1"), (26.2, 43.08), 1.0, "+12V")
+track(pad_pos(d2, "1"), (26.2, 47.12), 1.0, "+12V")
+track((26.2, 47.12), pad_pos(c7, "2"), 1.0, "+12V")
+track(pad_pos(c6, "1"), (26.2, 41.98), 1.0, "+12V")
+track((26.2, 41.98), (26.2, 43.08), 1.0, "+12V")
+
+
+track(pad_pos(r4, "1"), pad_pos(r5, "2"), 0.4, "DIV")
+track(pad_pos(r5, "1"), pad_pos(r6, "2"), 0.4, "FB")
+track(pad_pos(zd1, "1"), (36, 53.4), 0.4, "FB")
+track(pad_pos(u1, "3"), (24.6, 43.05), 0.4, "FB")
+track((24.6, 43.05), (24.6, 51.17), 0.4, "FB")
+track((24.6, 51.17), pad_pos(c8, "1"), 0.4, "FB")
+track(pad_pos(c8, "2"), (40.5, 43.08), 0.4, "+12V")
+
+
+
+track((26.2, 43.08), (46.5, 43.08), 0.8, "+12V")
 via((46.5, 43.08), "+12V")
 
 
@@ -1052,8 +1137,7 @@ def silk_b(text, pos, size=0.9):
     board.Add(t)
 
 
-silk("BOOST MODULE (AE-LMR62421)", (6, 24.9), 1.0)
-silk("CAP SIDE", (10.8, 57.3), 0.8)
+silk("BOOST (LMR62421)", (6, 24.9), 1.0)
 silk("ESP32-P4-POE-ETH", (38, 24.9), 1.0)
 silk("VBUS", (76.6, 27.1), 0.8)
 silk("VSYS", (66.8, 27.1), 0.8)
@@ -1066,7 +1150,7 @@ silk_b("P4 CARRIER - BOOST + IR STROBE", (70, 38), 1.0)
 
 os.makedirs(os.path.join(HERE, "custom.pretty"), exist_ok=True)
 _io = pcbnew.PCB_IO_KICAD_SEXPR()
-for _cfp in (j8, sj1, f1, tp1, tp2, j3, j4, j2, lh):
+for _cfp in (j8, sj1, f1, tp1, tp2, j2):
     _io.FootprintSave(os.path.join(HERE, "custom.pretty"), _cfp)
 
 board.Save(os.path.join(HERE, PROJ + ".kicad_pcb"))
@@ -1094,7 +1178,8 @@ open(os.path.join(HERE, PROJ + ".kicad_pro"), "w").write(json.dumps(pro, indent=
 
 sym_libs = ["Device", "Connector_Generic", "Connector"]
 fp_libs = ["Capacitor_THT", "Package_TO_SOT_SMD", "Resistor_THT",
-           "LED_THT", "MountingHole"]
+           "LED_THT", "MountingHole", "Capacitor_SMD", "Resistor_SMD",
+           "Inductor_SMD", "Diode_SMD"]
 with open(os.path.join(HERE, "sym-lib-table"), "w") as f:
     f.write("(sym_lib_table\n  (version 7)\n")
     for n in sym_libs:
@@ -1112,9 +1197,13 @@ with open(os.path.join(HERE, "netlist.txt"), "w") as f:
     f.write("VBUS  : J8.40 SJ1.1\n")
     f.write("VSYS  : J8.39 SJ1.3\n")
     f.write("+5V_IN: SJ1.2 F1.1 (SJ1 bridge selects VBUS or VSYS)\n")
-    f.write("+5V   : F1.2 C3.1 J3.1 TP1.1\n")
-    f.write("+12V  : J4.1 C1.1 C2.1 TP2.1 J2.1 R3.1\n")
-    f.write("GND   : J8.3/8/13/18/23/28/33/38 C3.2 J3.2 J4.2 C1.2 C2.2 Q1.2(S) R2.2 D1.K\n")
+    f.write("+5V   : F1.2 C3.1 U1.5 L1.1 C4.2 C5.2 R7.1 TP1.1\n")
+    f.write("+12V  : D2.1 C6.1 C7.2 C8.2 R4.2 C1.1 C2.1 TP2.1 J2.1 R3.1\n")
+    f.write("SW    : U1.1 L1.2 D2.2\n")
+    f.write("FB    : U1.3 R5.1 R6.2 ZD1.1 C8.1\n")
+    f.write("DIV   : R4.1 R5.2\n")
+    f.write("EN    : U1.4 R7.2\n")
+    f.write("GND   : J8.3/8/13/18/23/28/33/38 C3.2 U1.2 C4.1 C5.1 C6.2 C7.1 R6.1 ZD1.2 C1.2 C2.2 Q1.2(S) R2.2 D1.K\n")
     f.write("DRAIN : J2.2 Q1.3(D)\n")
     f.write("GATE  : Q1.1(G) R1.1 R2.1\n")
     f.write("STROBE: J8.10 R1.2\n")
