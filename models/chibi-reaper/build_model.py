@@ -222,6 +222,102 @@ for i, dx in enumerate((-0.045, 0.05)):
     rib = box(f'ribbon{i}', (pole_x + dx, pole_y - 0.05, 2.36), (0.038, 0.010, 0.26), MAT['ribbon'])
     rib.rotation_euler = (0.22, 0, 0.28 * (i - 0.5))
 
+# ---------- details (v2) ----------
+# gold vine embroidery on cloak front: two swirls of small gold beads + leaf cones
+def vine(prefix, cx, cz, r, turns, phase=0.0):
+    n = 16
+    for i in range(n):
+        t = i / (n - 1)
+        a = phase + t * turns * math.tau
+        x = cx + math.cos(a) * r * (0.4 + 0.6 * t)
+        z = cz + math.sin(a) * r * 0.55 - t * 0.10
+        # cloak surface at height z: radius shrinks 0.66@0.125 -> 0.30@1.475 (cone)
+        cr = 0.66 - (z - 0.125) * (0.36 / 1.35)
+        y = -math.sqrt(max(cr * cr - x * x, 0.004)) - 0.004
+        sphere(f'{prefix}{i}', (x, y, z), (0.020, 0.012, 0.020), MAT['gold'])
+    for i in range(4):
+        t = (i + 0.5) / 4
+        a = phase + t * turns * math.tau
+        x = cx + math.cos(a) * r * (0.4 + 0.6 * t) + 0.05
+        z = cz + math.sin(a) * r * 0.55 - t * 0.10
+        cr = 0.66 - (z - 0.125) * (0.36 / 1.35)
+        y = -math.sqrt(max(cr * cr - x * x, 0.004)) - 0.004
+        point_cone(f'{prefix}_leaf{i}', (x, y, z), (0.6, -0.2, 0.5), 0.07, 0.018, MAT['gold'])
+vine('vine_r', -0.30, 0.48, 0.16, 1.4)
+vine('vine_l', 0.34, 0.40, 0.13, 1.2, phase=2.0)
+# small gold sprig at centre hem
+for i in range(5):
+    sx = 0.05 * math.sin(i * 1.2); sz = 0.30 + 0.055 * i
+    cr = 0.66 - (sz - 0.125) * (0.36 / 1.35)
+    sphere(f'sprig{i}', (sx, -math.sqrt(max(cr * cr - sx * sx, 0.004)) - 0.004, sz), (0.018, 0.010, 0.018), MAT['gold'])
+# gold trim dots along the hem edge (front half)
+for i in range(9):
+    a = math.pi * (1.15 + 0.175 * i)  # front arc
+    x, y = math.cos(a) * 0.615, math.sin(a) * 0.565
+    sphere(f'hemtrim{i}', (x, y, 0.235), (0.020, 0.020, 0.020), MAT['gold'])
+# sleeve gold trim rings
+for s, nm in ((-1, 's'), (1, 'f')):
+    t = torus(f'sleeve_trim{nm}', (-0.585 * s if s < 0 else 0.545 * s, -0.205 if s < 0 else -0.165, 0.99 if s < 0 else 0.70), 0.082, 0.016, MAT['gold'], rot=(0.5, 0.9 * s, 0))
+# necklace swag under the clasp: small gold beads in a shallow arc
+for i in range(7):
+    a = -0.9 + 0.3 * i
+    sphere(f'hoodtrim{i}', (math.sin(a) * 0.17, -0.318, 1.345 - (1 - math.cos(a)) * 0.055), (0.016, 0.012, 0.016), MAT['gold'])
+
+# extra hair layer: smaller darker spikes between the big ones + front side-locks
+extra_spikes = [
+    ((-0.48, 0.30, 2.48), (-0.8, 0.5, 0.6), 0.36),
+    ((0.48, 0.30, 2.48), (0.8, 0.5, 0.6), 0.36),
+    ((-0.60, 0.28, 1.78), (-1.0, 0.4, -0.5), 0.38),
+    ((0.60, 0.28, 1.78), (1.0, 0.4, -0.5), 0.38),
+    ((0.0, 0.60, 2.05), (0.0, 1.0, -0.2), 0.36),
+    ((-0.20, 0.55, 1.72), (-0.2, 0.9, -0.9), 0.36),
+    ((0.20, 0.55, 1.72), (0.2, 0.9, -0.9), 0.36),
+]
+for i, (loc, d, ln) in enumerate(extra_spikes):
+    point_cone(f'hair_extra{i}', loc, d, ln, 0.115, MAT['hair_d'])
+# side-locks falling in front of the cloak (both sides of the face)
+for s in (-1, 1):
+    point_cone(f'sidelock{s}', (0.52 * s, -0.34, 1.86), (0.15 * s, -0.25, -1), 0.52, 0.13, MAT['hair'])
+    point_cone(f'sidelock2_{s}', (0.46 * s, -0.40, 1.80), (0.1 * s, -0.3, -1), 0.40, 0.10, MAT['hair_d'])
+# finer bangs: 3 small points between the main bangs
+for i, x in enumerate((-0.23, 0.0, 0.23)):
+    point_cone(f'bang_fine{i}', (x, -0.50, 2.22), (x * 0.3, -0.4, -1), 0.30, 0.09, MAT['hair_d'])
+
+# face details: eyelashes (outer top corners) + eyebrows
+for s, nm in ((-1, 'L'), (1, 'R')):
+    point_cone(f'lash{nm}', (0.315 * s, -0.545, 2.13), (0.8 * s, -0.3, 0.6), 0.075, 0.016, MAT['black'])
+    brow = box(f'brow{nm}', (0.225 * s, -0.535, 2.235), (0.075, 0.012, 0.014), MAT['hair_d'])
+    brow.rotation_euler = (0, 0, -0.18 * s)
+
+# bow centre flower: gold petals + red core, and a second bead string
+bow_c2 = Vector((-0.52, -0.375, 2.38))
+for i in range(6):
+    a = i / 6 * math.tau
+    sphere(f'bow_petal{i}', tuple(bow_c2 + Vector((math.cos(a) * 0.055, 0, math.sin(a) * 0.055))), (0.026, 0.020, 0.026), MAT['gold'])
+sphere('bow_core', tuple(bow_c2), (0.030, 0.028, 0.030), MAT['bead'])
+for i in range(2):
+    sphere(f'bow_bead2_{i}', (-0.44, -0.375, 2.22 - 0.09 * i), (0.024, 0.024, 0.024), MAT['bead'] if i % 2 == 0 else MAT['gold'])
+
+# scythe details: gold filigree balls along blade root + blade edge highlight segments
+for i in range(4):
+    sphere(f'blade_gold{i}', (pole_x - 0.10 - 0.09 * i, pole_y - 0.055, 3.06 + 0.028 * i), (0.020, 0.014, 0.020), MAT['gold'])
+for i in range(5):
+    a, b = Vector(blade_pts[i]), Vector(blade_pts[i + 1])
+    mid = (a + b) / 2; d = b - a
+    edge = cyl(f'blade_edge{i}', tuple(mid + Vector((0, -0.030, -0.012))), 0.030 - 0.003 * i, d.length * 0.96, MAT['gold'], verts=8)
+    edge.rotation_mode = 'QUATERNION'
+    edge.rotation_quaternion = Vector((0, 0, 1)).rotation_difference(d.normalized())
+# gold ring collars on the pole (top / middle / bottom)
+for i, z in enumerate((2.55, 1.55, 0.55)):
+    torus(f'pole_ring{i}', (pole_x - 0.012 * (z - 1.55), pole_y, z), 0.048, 0.014, MAT['gold'])
+# skull gold tooth dots + cheek cracks (tiny dark boxes)
+for i in range(3):
+    box(f'skull_tooth{i}', (pole_x - 0.03 + 0.03 * i, pole_y - 0.125, 2.665), (0.006, 0.006, 0.022), MAT['black'])
+# second shorter ribbon pair, crossed
+for i, dx in enumerate((-0.02, 0.03)):
+    rib = box(f'ribbon_s{i}', (pole_x + dx, pole_y - 0.075, 2.44), (0.030, 0.009, 0.17), MAT['ribbon'])
+    rib.rotation_euler = (0.3, 0, -0.35 + 0.5 * i)
+
 # ---------- scene: ground, light, cameras ----------
 bpy.ops.mesh.primitive_plane_add(size=30, location=(0, 0, 0))
 ground = bpy.context.object; ground.name = 'ground'
@@ -257,10 +353,13 @@ cams = {
     'back':  add_cam('cam_back', (0, 6.6, 1.8), target=(0, 0, 1.55)),
     'hero':  add_cam('cam_hero', (-4.4, -5.4, 2.6), target=(-0.15, 0, 1.55)),
 }
-for key, cam in cams.items():
-    scene.camera = cam
-    scene.render.filepath = os.path.join(OUT, f'render_{key}.png')
-    bpy.ops.render.render(write_still=True)
+import sys
+EXPORT_ONLY = '--' in sys.argv and 'export-only' in sys.argv[sys.argv.index('--') + 1:]
+if not EXPORT_ONLY:
+    for key, cam in cams.items():
+        scene.camera = cam
+        scene.render.filepath = os.path.join(OUT, f'render_{key}.png')
+        bpy.ops.render.render(write_still=True)
 
 scene.camera = cams['hero']
 bpy.ops.wm.save_as_mainfile(filepath=os.path.join(OUT, 'chibi-reaper.blend'))

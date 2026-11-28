@@ -12,6 +12,9 @@
 
 - Blender **5.2.4 LTS**、headless の bpy スクリプトで部品ごとに造形（AI の画像→メッシュ一発変換ではない）
 - 再生成：`blender -b --factory-startup -P build_model.py`（スクリプト末尾でレンダリング＋書き出しまで実行）
+- 書き出しだけ（レンダリングなし）：`blender -b --factory-startup -P build_model.py -- export-only`
+- v2 ディテール追加（2026-11-28）：マント前面の金の蔓刺繍＋裾トリム、髪の細い毛束とサイドロック、まつ毛・眉、鎌の金のエッジと柄リング、ドクロの歯、リボンの花飾り。オブジェクト総数 192
+- `render_*.png` は v1 時点のプレビューのまま（v2 のレンダリングは未実施、実機確認用に .blend / .glb のみ更新）
 - 色は sRGB → リニア変換して指定。描画は Cycles CPU（EEVEE は実行環境に libEGL が無く使用不可）
 
 ## ファイル
