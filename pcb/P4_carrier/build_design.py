@@ -787,7 +787,7 @@ def _testpoint(ref, pos, net):
     return tp
 
 
-tp1 = _testpoint("TP1", (64.5, 19), "+5V")
+tp1 = _testpoint("TP1", (44, 24.2), "+5V")
 tp2 = _testpoint("TP2", (43, 7.2), "+12V")
 
 
@@ -844,25 +844,25 @@ lh.Reference().SetPosition(pcbnew.VECTOR2I(MM(16), MM(8.5)))
 lh.Value().SetVisible(False)
 c1 = add_fp("Capacitor_THT", "CP_Radial_D10.0mm_P5.00mm",
             "C1", VAL_OF["C1"], (50, 5), 270, {"1": "+12V", "2": "GND"})
-c1.Reference().SetPosition(pcbnew.VECTOR2I(MM(58.6), MM(8)))
+c1.Reference().SetPosition(pcbnew.VECTOR2I(MM(58.6), MM(13.8)))
 for _p in c1.Pads():
     if _p.GetNumber() == "2":
         _p.SetLocalZoneConnection(pcbnew.ZONE_CONNECTION_FULL)
 c2 = add_fp("Capacitor_THT", "C_Disc_D5.0mm_W2.5mm_P2.50mm",
-            "C2", VAL_OF["C2"], (58.75, 17), 0, {"1": "+12V", "2": "GND"})
-c2.Reference().SetPosition(pcbnew.VECTOR2I(MM(60), MM(20.4)))
+            "C2", VAL_OF["C2"], (58.75, 2), 0, {"1": "+12V", "2": "GND"})
+c2.Reference().SetPosition(pcbnew.VECTOR2I(MM(60), MM(5.4)))
 q1 = add_fp("Package_TO_SOT_SMD", "SOT-23",
             "Q1", VAL_OF["Q1"], (64, 6), 0,
             {"1": "GATE", "2": "GND", "3": "DRAIN"})
 q1.Reference().SetPosition(pcbnew.VECTOR2I(MM(67.4), MM(6)))
 r1 = add_fp("Resistor_THT", "R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal",
-            "R1", VAL_OF["R1"], (61.5, 2.5), 90,
+            "R1", VAL_OF["R1"], (61.5, 9.5), 270,
             {"1": "GATE", "2": "STROBE"})
-r1.Reference().SetPosition(pcbnew.VECTOR2I(MM(64.4), MM(-1.5)))
+r1.Reference().SetPosition(pcbnew.VECTOR2I(MM(64.4), MM(13.5)))
 r2 = add_fp("Resistor_THT", "R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal",
-            "R2", VAL_OF["R2"], (58.2, 2.5), 90,
+            "R2", VAL_OF["R2"], (58.2, 9.5), 270,
             {"1": "GATE", "2": "GND"})
-r2.Reference().SetPosition(pcbnew.VECTOR2I(MM(55.2), MM(-1.5)))
+r2.Reference().SetPosition(pcbnew.VECTOR2I(MM(55.2), MM(13.5)))
 r3 = add_fp("Resistor_THT", "R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal",
             "R3", VAL_OF["R3"], (67.69, 19), 0,
             {"1": "+12V", "2": "LED_A"})
@@ -933,15 +933,16 @@ track((62, 23), pad_pos(f1, "1"), 0.8, "+5V_IN")
 
 
 
-track(pad_pos(f1, "2"), (57, 19), 1.0, "+5V")
-track((57, 19), pad_pos(c3, "1"), 1.0, "+5V")
+track(pad_pos(f1, "2"), (57, 24.2), 1.0, "+5V")
+track((57, 24.2), (44, 24.2), 1.0, "+5V")
+track((48, 24.2), (48, 19), 1.0, "+5V")
+track((48, 19), pad_pos(c3, "1"), 1.0, "+5V")
 track(pad_pos(c3, "1"), (51, 12.9), 1.0, "+5V")
 track((51, 12.9), (44.5, 12.9), 1.0, "+5V")
 track((44.5, 12.9), (44.5, 11.05), 1.0, "+5V")
 track((44.5, 11.05), (10, 11.05), 1.0, "+5V")
 track((10, 11.05), (10, 7.08), 1.0, "+5V")
 track((10, 7.08), pad_pos(j3, "1"), 1.0, "+5V")
-track((57, 19), pad_pos(tp1, "1"), 0.6, "+5V")
 
 
 
@@ -953,9 +954,7 @@ track((46.5, 7.08), (46.5, 0), 1.0, "+12V", pcbnew.B_Cu)
 track((46.5, 0), (76, 0), 1.0, "+12V", pcbnew.B_Cu)
 track((55, 0), (55, 5), 1.0, "+12V", pcbnew.B_Cu)
 track((55, 5), pad_pos(c1, "1"), 1.0, "+12V", pcbnew.B_Cu)
-track(pad_pos(c2, "1"), (58.75, 8), 1.0, "+12V", pcbnew.B_Cu)
-track((58.75, 8), (64.5, 8), 1.0, "+12V", pcbnew.B_Cu)
-track((64.5, 8), (64.5, 0), 1.0, "+12V", pcbnew.B_Cu)
+track(pad_pos(c2, "1"), (58.75, 0), 1.0, "+12V", pcbnew.B_Cu)
 track((76, 0), (76, 12), 1.0, "+12V", pcbnew.B_Cu)
 track((76, 12), pad_pos(j2, "1"), 1.0, "+12V", pcbnew.B_Cu)
 
@@ -981,13 +980,11 @@ track(pad_pos(q1, "2"), (63.06, 10.5), 0.6, "GND")
 via((63.06, 10.5), "GND")
 
 
-track(pad_pos(r1, "2"), (61.5, -6.5), 0.4, "STROBE")
-via((61.5, -6.5), "STROBE")
-track((61.5, -6.5), (45.31, -6.5), 0.4, "STROBE", pcbnew.B_Cu)
-track((45.31, -6.5), (45.31, 39.0), 0.4, "STROBE", pcbnew.B_Cu)
-track((45.31, 39.0), (49.12, 39.0), 0.4, "STROBE", pcbnew.B_Cu)
-via((49.12, 39.0), "STROBE")
-track((49.12, 39.0), pad_pos(j8, "10"), 0.4, "STROBE")
+track(pad_pos(r1, "2"), (61.5, 21), 0.4, "STROBE")
+track((61.5, 21), (59.8, 21), 0.4, "STROBE")
+track((59.8, 21), (59.8, 27.3), 0.4, "STROBE")
+track((59.8, 27.3), (49.12, 27.3), 0.4, "STROBE")
+track((49.12, 27.3), pad_pos(j8, "10"), 0.4, "STROBE")
 
 for p in [(2.5, 27), (84, 27), (36, -6), (84.5, -6.5)]:
     via(p, "GND")
