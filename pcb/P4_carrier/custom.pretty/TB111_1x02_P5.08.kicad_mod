@@ -6,7 +6,7 @@
 	(property "Reference" "J2"
 		(at -5 8.6 0)
 		(layer "F.SilkS")
-		(uuid "60e9ec78-2b13-4d65-9af9-e465cccd0894")
+		(uuid "a42070ee-dd09-4c79-8643-d32c305a5baa")
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -17,7 +17,7 @@
 		(at 0 0 0)
 		(layer "F.Fab")
 		(hide yes)
-		(uuid "d0addc9c-757e-499c-9c46-c277467b575d")
+		(uuid "431fe83d-0b71-4305-b606-b4144eb89292")
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -28,7 +28,7 @@
 		(at 0 0 0)
 		(layer "F.Fab")
 		(hide yes)
-		(uuid "8b51e99e-7f39-4ba0-bd21-9ef36e022282")
+		(uuid "4ee26064-7579-46c2-a74f-f0b399d446ac")
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -39,7 +39,7 @@
 		(at 0 0 0)
 		(layer "F.Fab")
 		(hide yes)
-		(uuid "e08d5380-db98-4923-9a94-db5df0e632ef")
+		(uuid "cbee4bd3-183a-4d7a-8930-3a5b64ef3e26")
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -55,7 +55,7 @@
 			(type default)
 		)
 		(layer "F.CrtYd")
-		(uuid "aef1d77b-0e57-47ee-9344-2801785dc8a9")
+		(uuid "2cfe4965-932d-41f5-b97b-f0289de3ad02")
 	)
 	(fp_line
 		(start -7.5 7.68)
@@ -65,7 +65,7 @@
 			(type default)
 		)
 		(layer "F.CrtYd")
-		(uuid "3172e2ff-54c5-4077-8348-7f0b2d1bd354")
+		(uuid "3a3ea61f-f2e4-476e-a4de-a8236901ce62")
 	)
 	(fp_line
 		(start 3.5 -2.6)
@@ -75,7 +75,7 @@
 			(type default)
 		)
 		(layer "F.CrtYd")
-		(uuid "42da931e-d3b8-4bbb-a19d-540bbea8277f")
+		(uuid "db688d81-5800-47a2-8896-770e1a7c8981")
 	)
 	(fp_line
 		(start 3.5 7.68)
@@ -85,7 +85,7 @@
 			(type default)
 		)
 		(layer "F.CrtYd")
-		(uuid "1eaf7c8c-f47e-4752-b573-6434cba928a6")
+		(uuid "03600220-132b-41e6-9ef3-a95259b9536a")
 	)
 	(pad "1" thru_hole circle
 		(at 0 0)
@@ -93,7 +93,7 @@
 		(drill 1.4)
 		(layers "*.Cu" "*.Mask")
 		(remove_unused_layers no)
-		(uuid "a75df503-05bf-4136-a457-2288c19ab495")
+		(uuid "51339da8-5469-4d72-a1aa-62e860663e97")
 	)
 	(pad "2" thru_hole circle
 		(at 0 5.08)
@@ -101,7 +101,7 @@
 		(drill 1.4)
 		(layers "*.Cu" "*.Mask")
 		(remove_unused_layers no)
-		(uuid "48c686b8-af0b-4195-8db7-f3dcb0c9b591")
+		(uuid "010e7651-9685-4681-b3eb-b9d0a26948ff")
 	)
 	(embedded_fonts no)
 )
