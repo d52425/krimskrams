@@ -11,3 +11,4 @@ Blender で作る 3D モデルの置き場。
 | モデル | 内容 |
 |---|---|
 | `chibi-reaper/` | 三面図から起こしたちびキャラ「死神少女」（赤髪＋青リボン＋ドクロ大鎌）。bpy スクリプト生成、.blend / .glb / プレビュー付き |
+| `p4-carrier-case/` | 天網 P4 キャリア基板用 90mm キューブケース（本体＋蓋）。SolidCraft CLI の JSON スクリプト生成、.sc / STEP / STL / スナップショット付き |

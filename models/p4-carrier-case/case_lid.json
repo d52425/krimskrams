@@ -1,0 +1,199 @@
+{
+ "commands": [
+  {
+   "command": "sketch.create",
+   "params": {
+    "plane": "XY",
+    "name": "Plate"
+   }
+  },
+  {
+   "command": "sketch.rectangle.two_point",
+   "params": {
+    "p0": [
+     0,
+     0
+    ],
+    "p1": [
+     90,
+     90
+    ]
+   }
+  },
+  {
+   "command": "sketch.finish",
+   "params": {}
+  },
+  {
+   "command": "solid.extrude",
+   "params": {
+    "distance": 2.5,
+    "body_name": "Lid"
+   }
+  },
+  {
+   "command": "sketch.create",
+   "params": {
+    "plane": "XY",
+    "name": "BoardPosts"
+   }
+  },
+  {
+   "command": "sketch.circle.center",
+   "params": {
+    "center": [
+     6,
+     17.5
+    ],
+    "diameter": 7
+   }
+  },
+  {
+   "command": "sketch.circle.center",
+   "params": {
+    "center": [
+     84,
+     17.5
+    ],
+    "diameter": 7
+   }
+  },
+  {
+   "command": "sketch.circle.center",
+   "params": {
+    "center": [
+     6,
+     72.5
+    ],
+    "diameter": 7
+   }
+  },
+  {
+   "command": "sketch.circle.center",
+   "params": {
+    "center": [
+     84,
+     72.5
+    ],
+    "diameter": 7
+   }
+  },
+  {
+   "command": "sketch.finish",
+   "params": {}
+  },
+  {
+   "command": "solid.extrude",
+   "params": {
+    "distance": 14.5,
+    "operation": "join"
+   }
+  },
+  {
+   "command": "sketch.create",
+   "params": {
+    "plane": "XY",
+    "name": "ScrewHoles"
+   }
+  },
+  {
+   "command": "sketch.circle.center",
+   "params": {
+    "center": [
+     6,
+     6
+    ],
+    "diameter": 3.4
+   }
+  },
+  {
+   "command": "sketch.circle.center",
+   "params": {
+    "center": [
+     84,
+     6
+    ],
+    "diameter": 3.4
+   }
+  },
+  {
+   "command": "sketch.circle.center",
+   "params": {
+    "center": [
+     6,
+     84
+    ],
+    "diameter": 3.4
+   }
+  },
+  {
+   "command": "sketch.circle.center",
+   "params": {
+    "center": [
+     84,
+     84
+    ],
+    "diameter": 3.4
+   }
+  },
+  {
+   "command": "sketch.finish",
+   "params": {}
+  },
+  {
+   "command": "solid.extrude",
+   "params": {
+    "distance": 3,
+    "operation": "cut"
+   }
+  },
+  {
+   "command": "solid.hole",
+   "params": {
+    "position": [
+     6,
+     17.5,
+     14.5
+    ],
+    "diameter": 2.5,
+    "depth": 10
+   }
+  },
+  {
+   "command": "solid.hole",
+   "params": {
+    "position": [
+     84,
+     17.5,
+     14.5
+    ],
+    "diameter": 2.5,
+    "depth": 10
+   }
+  },
+  {
+   "command": "solid.hole",
+   "params": {
+    "position": [
+     6,
+     72.5,
+     14.5
+    ],
+    "diameter": 2.5,
+    "depth": 10
+   }
+  },
+  {
+   "command": "solid.hole",
+   "params": {
+    "position": [
+     84,
+     72.5,
+     14.5
+    ],
+    "diameter": 2.5,
+    "depth": 10
+   }
+  }
+ ]
+}
