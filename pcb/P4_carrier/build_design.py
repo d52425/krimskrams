@@ -11,7 +11,7 @@ whole power chain for one Tenmou node:
       -> bulk 1000uF/25V + 10uF -> Nch MOSFET low-side switch
       -> TB111 screw-terminal ring output (FRS5CC), strobe from J8 pin10
 
-Board: 86x68mm, 2-layer. The 32088 header numbering is consecutive
+Board: 86x62mm, 2-layer. The 32088 header numbering is consecutive
 per column (left column 1-20, right column 21-40, counted from the
 RJ45 end) - NOT the usual interleaved 2x20 numbering - so J8 is a
 custom programmatic footprint whose pad numbers are the module's
@@ -403,8 +403,8 @@ PARTS = {
     "C1": ("Device", "C_Polarized", "1000uF/25V PX", "Capacitor_THT:CP_Radial_D10.0mm_P5.00mm"),
     "C2": ("Device", "C", "10uF", "Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P2.50mm"),
     "Q1": ("Device", "Q_NMOS_GSD", "MTN2306AN3/IRLML6344", "Package_TO_SOT_SMD:SOT-23"),
-    "R1": ("Device", "R", "100", "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"),
-    "R2": ("Device", "R", "10k", "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"),
+    "R1": ("Device", "R", "100", "Resistor_SMD:R_1206_3216Metric"),
+    "R2": ("Device", "R", "10k", "Resistor_SMD:R_1206_3216Metric"),
     "R3": ("Device", "R", "1k", "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal"),
     "D1": ("Device", "LED", "12V PILOT", "LED_THT:LED_D3.0mm"),
     "J2": ("Connector_Generic", "Conn_01x02", "RING OUT TB111", "custom:TB111_1x02_P5.08"),
@@ -868,25 +868,25 @@ c3.Reference().SetPosition(pcbnew.VECTOR2I(MM(51), MM(37.6)))
 
 
 u1 = add_fp("Package_TO_SOT_SMD", "SOT-23-5_HandSoldering",
-            "U1", VAL_OF["U1"], (18.5, 44), 180,
+            "U1", VAL_OF["U1"], (18.5, 41.2), 180,
             {"1": "SW", "2": "GND", "3": "FB", "4": "EN", "5": "+5V"})
-u1.Reference().SetPosition(pcbnew.VECTOR2I(MM(18.5), MM(38.9)))
+u1.Reference().SetPosition(pcbnew.VECTOR2I(MM(18.5), MM(36.6)))
 l1 = add_fp("Inductor_SMD", "L_10.4x10.4_H4.8",
-            "L1", VAL_OF["L1"], (16, 52), 0, {"1": "+5V", "2": "SW"})
-l1.Reference().SetPosition(pcbnew.VECTOR2I(MM(4.5), MM(52)))
+            "L1", VAL_OF["L1"], (16, 49), 0, {"1": "+5V", "2": "SW"})
+l1.Reference().SetPosition(pcbnew.VECTOR2I(MM(23), MM(49)))
 d2 = add_fp("Diode_SMD", "D_SOD-123F",
-            "D2", VAL_OF["D2"], (24.8, 44.95), 180,
+            "D2", VAL_OF["D2"], (24.8, 42.15), 180,
             {"1": "+12V", "2": "SW"})
-d2.Reference().SetPosition(pcbnew.VECTOR2I(MM(28.6), MM(44.95)))
+d2.Reference().SetPosition(pcbnew.VECTOR2I(MM(28.6), MM(42.15)))
 c4 = add_fp("Capacitor_SMD", "C_1206_3216Metric",
             "C4", VAL_OF["C4"], (7, 40.5), 0, {"1": "GND", "2": "+5V"})
 c4.Reference().SetPosition(pcbnew.VECTOR2I(MM(7), MM(37.2)))
 c5 = add_fp("Capacitor_SMD", "C_1206_3216Metric",
-            "C5", VAL_OF["C5"], (7, 48), 0, {"1": "GND", "2": "+5V"})
-c5.Reference().SetPosition(pcbnew.VECTOR2I(MM(7), MM(51.3)))
+            "C5", VAL_OF["C5"], (7, 45.5), 0, {"1": "GND", "2": "+5V"})
+c5.Reference().SetPosition(pcbnew.VECTOR2I(MM(7), MM(42.9)))
 c6 = add_fp("Capacitor_SMD", "C_1206_3216Metric",
-            "C6", VAL_OF["C6"], (27.8, 40.5), 90, {"1": "+12V", "2": "GND"})
-c6.Reference().SetPosition(pcbnew.VECTOR2I(MM(25), MM(40.5)))
+            "C6", VAL_OF["C6"], (29.5, 39), 90, {"1": "+12V", "2": "GND"})
+c6.Reference().SetPosition(pcbnew.VECTOR2I(MM(26.3), MM(39)))
 c7 = add_fp("Capacitor_SMD", "C_1206_3216Metric",
             "C7", VAL_OF["C7"], (27.8, 48.6), 90, {"1": "GND", "2": "+12V"})
 c7.Reference().SetPosition(pcbnew.VECTOR2I(MM(25), MM(48.6)))
@@ -898,20 +898,20 @@ r7.Reference().SetPosition(pcbnew.VECTOR2I(MM(13), MM(37.2)))
 
 
 r4 = add_fp("Resistor_SMD", "R_1206_3216Metric",
-            "R4", VAL_OF["R4"], (36, 44.9), 90, {"1": "DIV", "2": "+12V"})
-r4.Reference().SetPosition(pcbnew.VECTOR2I(MM(33.2), MM(44.9)))
+            "R4", VAL_OF["R4"], (36, 43.1), 90, {"1": "DIV", "2": "+12V"})
+r4.Reference().SetPosition(pcbnew.VECTOR2I(MM(33.2), MM(43.1)))
 r5 = add_fp("Resistor_SMD", "R_1206_3216Metric",
-            "R5", VAL_OF["R5"], (36, 49.7), 90, {"1": "FB", "2": "DIV"})
-r5.Reference().SetPosition(pcbnew.VECTOR2I(MM(33.2), MM(49.7)))
+            "R5", VAL_OF["R5"], (36, 47.7), 90, {"1": "FB", "2": "DIV"})
+r5.Reference().SetPosition(pcbnew.VECTOR2I(MM(33.2), MM(47.7)))
 r6 = add_fp("Resistor_SMD", "R_1206_3216Metric",
-            "R6", VAL_OF["R6"], (36, 54.5), 90, {"1": "GND", "2": "FB"})
-r6.Reference().SetPosition(pcbnew.VECTOR2I(MM(33.2), MM(54.5)))
+            "R6", VAL_OF["R6"], (36, 52.3), 90, {"1": "GND", "2": "FB"})
+r6.Reference().SetPosition(pcbnew.VECTOR2I(MM(38.2), MM(52.3)))
 zd1 = add_fp("Diode_SMD", "D_SOD-123",
-             "ZD1", VAL_OF["ZD1"], (28, 53.4), 180, {"1": "FB", "2": "GND"})
-zd1.Reference().SetPosition(pcbnew.VECTOR2I(MM(28), MM(56.3)))
+             "ZD1", VAL_OF["ZD1"], (28, 52.5), 180, {"1": "FB", "2": "GND"})
+zd1.Reference().SetPosition(pcbnew.VECTOR2I(MM(33.4), MM(52.5)))
 c8 = add_fp("Capacitor_SMD", "C_1206_3216Metric",
-            "C8", VAL_OF["C8"], (40.5, 49.7), 90, {"1": "FB", "2": "+12V"})
-c8.Reference().SetPosition(pcbnew.VECTOR2I(MM(42.3), MM(49.7)))
+            "C8", VAL_OF["C8"], (40.5, 47.68), 90, {"1": "FB", "2": "+12V"})
+c8.Reference().SetPosition(pcbnew.VECTOR2I(MM(42.3), MM(47.68)))
 c1 = add_fp("Capacitor_THT", "CP_Radial_D10.0mm_P5.00mm",
             "C1", VAL_OF["C1"], (50, 47), 90, {"1": "+12V", "2": "GND"})
 c1.Reference().SetPosition(pcbnew.VECTOR2I(MM(58.6), MM(44)))
@@ -925,14 +925,14 @@ q1 = add_fp("Package_TO_SOT_SMD", "SOT-23",
             "Q1", VAL_OF["Q1"], (64, 46), 0,
             {"1": "GATE", "2": "GND", "3": "DRAIN"})
 q1.Reference().SetPosition(pcbnew.VECTOR2I(MM(67.4), MM(46)))
-r1 = add_fp("Resistor_THT", "R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal",
-            "R1", VAL_OF["R1"], (61.5, 49.5), 270,
-            {"1": "GATE", "2": "STROBE"})
-r1.Reference().SetPosition(pcbnew.VECTOR2I(MM(64.4), MM(53.5)))
-r2 = add_fp("Resistor_THT", "R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal",
-            "R2", VAL_OF["R2"], (58.2, 49.5), 270,
+r1 = add_fp("Resistor_SMD", "R_1206_3216Metric",
+            "R1", VAL_OF["R1"], (60.5, 49), 90,
+            {"1": "STROBE", "2": "GATE"})
+r1.Reference().SetPosition(pcbnew.VECTOR2I(MM(63.8), MM(49)))
+r2 = add_fp("Resistor_SMD", "R_1206_3216Metric",
+            "R2", VAL_OF["R2"], (57.7, 49), 270,
             {"1": "GATE", "2": "GND"})
-r2.Reference().SetPosition(pcbnew.VECTOR2I(MM(55.2), MM(53.5)))
+r2.Reference().SetPosition(pcbnew.VECTOR2I(MM(57.7), MM(52.6)))
 r3 = add_fp("Resistor_THT", "R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal",
             "R3", VAL_OF["R3"], (67.69, 33), 0,
             {"1": "+12V", "2": "LED_A"})
@@ -944,16 +944,16 @@ d1.Reference().SetPosition(pcbnew.VECTOR2I(MM(79), MM(36.6)))
 
 
 
-j2 = _new_fp("TB111_1x02_P5.08", "J2", VAL_OF["J2"], (81, 40))
+j2 = _new_fp("TB111_1x02_P5.08", "J2", VAL_OF["J2"], (78, 40))
 _pth(j2, 1, 0, 0, "+12V", size=2.6, drill=1.4)
 _pth(j2, 2, 0, 5.08, "DRAIN", size=2.6, drill=1.4)
 _fp_rect(j2, pcbnew.F_CrtYd, -7.5, -2.6, 3.5, 7.68)
-j2.Reference().SetPosition(pcbnew.VECTOR2I(MM(76), MM(48.6)))
+j2.Reference().SetPosition(pcbnew.VECTOR2I(MM(73), MM(48.6)))
 j2.Value().SetVisible(False)
 
 
 
-for i, (hx, hy) in enumerate([(4, 56), (82, 56), (4, -4), (82, -4)]):
+for i, (hx, hy) in enumerate([(4, 52), (82, 52), (4, -2), (82, -2)]):
     h = add_fp("MountingHole", "MountingHole_3.2mm_M3",
                "H%d" % (i + 1), "", (hx, hy), 0)
     h.Reference().SetVisible(False)
@@ -988,7 +988,7 @@ track((57, 33), pad_pos(tp1, "1"), 0.6, "+5V")
 
 
 track((8.48, 35.8), (8.48, 48), 1.0, "+5V")
-track((8.48, 44.95), pad_pos(u1, "5"), 0.8, "+5V")
+track((8.48, 42.15), pad_pos(u1, "5"), 0.8, "+5V")
 track((8.48, 48), (11.85, 48), 1.0, "+5V")
 track((11.85, 48), pad_pos(l1, "1"), 1.0, "+5V")
 
@@ -998,31 +998,37 @@ track((17.15, 40.5), pad_pos(u1, "4"), 0.4, "EN")
 
 
 
-track(pad_pos(u1, "1"), (21.5, 44.95), 0.5, "SW")
-track((21.5, 44.95), pad_pos(d2, "2"), 1.0, "SW")
-track(pad_pos(l1, "2"), (20.15, 48), 1.0, "SW")
-track((20.15, 48), (23.4, 48), 1.0, "SW")
-track((23.4, 48), pad_pos(d2, "2"), 1.0, "SW")
+track(pad_pos(u1, "1"), (21.5, 42.15), 0.5, "SW")
+track((21.5, 42.15), pad_pos(d2, "2"), 1.0, "SW")
+track(pad_pos(l1, "2"), (20.15, 46.5), 1.0, "SW")
+track((20.15, 46.5), (23.4, 46.5), 1.0, "SW")
+track((23.4, 46.5), pad_pos(d2, "2"), 1.0, "SW")
 
 
-track(pad_pos(u1, "2"), (22.2, 43.9), 0.4, "GND")
-via((22.2, 43.9), "GND")
-track((22.2, 43.9), (22.2, 46.8), 0.5, "GND", pcbnew.B_Cu)
+track(pad_pos(u1, "2"), (21.8, 40.9), 0.4, "GND")
+via((21.8, 40.9), "GND")
+track((21.8, 40.9), (21.8, 44), 0.5, "GND", pcbnew.B_Cu)
 
-track(pad_pos(d2, "1"), (26.2, 43.08), 1.0, "+12V")
-track(pad_pos(d2, "1"), (26.2, 47.12), 1.0, "+12V")
+
+track(pad_pos(c6, "1"), (26.2, 40.48), 1.0, "+12V")
+track((26.2, 40.48), (26.2, 47.12), 1.0, "+12V")
 track((26.2, 47.12), pad_pos(c7, "2"), 1.0, "+12V")
-track(pad_pos(c6, "1"), (26.2, 41.98), 1.0, "+12V")
-track((26.2, 41.98), (26.2, 43.08), 1.0, "+12V")
 
 
 track(pad_pos(r4, "1"), pad_pos(r5, "2"), 0.4, "DIV")
 track(pad_pos(r5, "1"), pad_pos(r6, "2"), 0.4, "FB")
-track(pad_pos(zd1, "1"), (36, 53.4), 0.4, "FB")
-track(pad_pos(u1, "3"), (24.6, 43.05), 0.4, "FB")
-track((24.6, 43.05), (24.6, 51.17), 0.4, "FB")
-track((24.6, 51.17), pad_pos(c8, "1"), 0.4, "FB")
+track(pad_pos(zd1, "1"), (34, 52.5), 0.4, "FB")
+track((34, 52.5), (34, 50.84), 0.4, "FB")
+track((34, 50.84), pad_pos(r6, "2"), 0.4, "FB")
+track(pad_pos(u1, "3"), (24.6, 39.75), 0.4, "FB")
+track((24.6, 39.75), (24.6, 48.2), 0.4, "FB")
+track((24.6, 48.2), (40.5, 48.2), 0.4, "FB")
+track((40.5, 48.2), pad_pos(c8, "1"), 0.4, "FB")
+track((36, 48.2), pad_pos(r5, "1"), 0.4, "FB")
 track(pad_pos(c8, "2"), (40.5, 43.08), 0.4, "+12V")
+
+track(pad_pos(r4, "2"), (39.5, 41.64), 0.5, "+12V")
+track((39.5, 41.64), (39.5, 43.08), 0.5, "+12V")
 
 
 
@@ -1049,34 +1055,34 @@ via((82.5, 30.46), "GND")
 
 
 track(pad_pos(q1, "3"), (72, 46), 1.0, "DRAIN")
-track((72, 46), (72, 50), 1.0, "DRAIN")
-track((72, 50), (83.6, 50), 1.0, "DRAIN")
-track((83.6, 50), (83.6, 45.08), 1.0, "DRAIN")
-track((83.6, 45.08), pad_pos(j2, "2"), 1.0, "DRAIN")
+track((72, 46), (72, 49.6), 1.0, "DRAIN")
+track((72, 49.6), (80.5, 49.6), 1.0, "DRAIN")
+track((80.5, 49.6), (80.5, 45.08), 1.0, "DRAIN")
+track((80.5, 45.08), pad_pos(j2, "2"), 1.0, "DRAIN")
 
-track(pad_pos(q1, "1"), (61.5, 45.05), 0.4, "GATE")
-track((61.5, 45.05), pad_pos(r1, "1"), 0.4, "GATE")
-track(pad_pos(r2, "1"), pad_pos(r1, "1"), 0.4, "GATE")
+track(pad_pos(q1, "1"), (60.5, 45.05), 0.4, "GATE")
+track((60.5, 45.05), pad_pos(r1, "2"), 0.4, "GATE")
+track(pad_pos(r2, "1"), pad_pos(r1, "2"), 0.4, "GATE")
 
 track(pad_pos(q1, "2"), (63.06, 48.6), 0.6, "GND")
 via((63.06, 48.6), "GND")
 
 
-track(pad_pos(r1, "2"), (61.5, 58.5), 0.4, "STROBE")
-via((61.5, 58.5), "STROBE")
-track((61.5, 58.5), (45.31, 58.5), 0.4, "STROBE", pcbnew.B_Cu)
-track((45.31, 58.5), (45.31, 12.6), 0.4, "STROBE", pcbnew.B_Cu)
+track(pad_pos(r1, "1"), (60.5, 53.5), 0.4, "STROBE")
+via((60.5, 53.5), "STROBE")
+track((60.5, 53.5), (45.31, 53.5), 0.4, "STROBE", pcbnew.B_Cu)
+track((45.31, 53.5), (45.31, 12.6), 0.4, "STROBE", pcbnew.B_Cu)
 track((45.31, 12.6), (49.12, 12.6), 0.4, "STROBE", pcbnew.B_Cu)
 via((49.12, 12.6), "STROBE")
 track((49.12, 12.6), pad_pos(j8, "10"), 0.4, "STROBE")
 
-for p in [(2.5, 25), (84, 25), (36, 58), (84, 58)]:
+for p in [(2.5, 25), (84, 25), (33, 54.2), (84, 53.5)]:
     via(p, "GND")
 
 
 
-for a, b in [((0, -8), (86, -8)), ((86, -8), (86, 60)),
-             ((86, 60), (0, 60)), ((0, 60), (0, -8))]:
+for a, b in [((0, -6), (86, -6)), ((86, -6), (86, 56)),
+             ((86, 56), (0, 56)), ((0, 56), (0, -6))]:
     s = pcbnew.PCB_SHAPE(board)
     s.SetShape(pcbnew.SHAPE_T_SEGMENT)
     s.SetStart(pcbnew.VECTOR2I(MM(a[0]), MM(a[1])))
@@ -1086,15 +1092,7 @@ for a, b in [((0, -8), (86, -8)), ((86, -8), (86, 60)),
     board.Add(s)
 
 
-for a, b in [((1, 29), (31, 29)), ((31, 29), (31, 59)),
-             ((31, 59), (1, 59)), ((1, 59), (1, 29))]:
-    s = pcbnew.PCB_SHAPE(board)
-    s.SetShape(pcbnew.SHAPE_T_SEGMENT)
-    s.SetStart(pcbnew.VECTOR2I(MM(a[0]), MM(a[1])))
-    s.SetEnd(pcbnew.VECTOR2I(MM(b[0]), MM(b[1])))
-    s.SetLayer(pcbnew.F_SilkS)
-    s.SetWidth(MM(0.12))
-    board.Add(s)
+
 
 
 for layer in (pcbnew.F_Cu, pcbnew.B_Cu):
@@ -1104,7 +1102,7 @@ for layer in (pcbnew.F_Cu, pcbnew.B_Cu):
     z.SetLocalClearance(MM(0.25))
     z.SetMinThickness(MM(0.25))
     chain = pcbnew.SHAPE_LINE_CHAIN()
-    for (cx, cy) in [(0.3, -7.7), (85.7, -7.7), (85.7, 59.7), (0.3, 59.7)]:
+    for (cx, cy) in [(0.3, -5.7), (85.7, -5.7), (85.7, 55.7), (0.3, 55.7)]:
         chain.Append(MM(cx), MM(cy))
     chain.SetClosed(True)
     z.Outline().AddOutline(chain)
@@ -1141,8 +1139,8 @@ silk("BOOST (LMR62421)", (6, 24.9), 1.0)
 silk("ESP32-P4-POE-ETH", (38, 24.9), 1.0)
 silk("VBUS", (76.6, 27.1), 0.8)
 silk("VSYS", (66.8, 27.1), 0.8)
-silk("R+", (75.6, 40), 0.8)
-silk("R-", (75.6, 45.08), 0.8)
+silk("R+", (72.6, 40), 0.8)
+silk("R-", (72.6, 45.08), 0.8)
 silk("MAX 18V", (44, 52.8), 0.9)
 silk_b("P4 CARRIER - BOOST + IR STROBE", (70, 38), 1.0)
 
@@ -1205,7 +1203,7 @@ with open(os.path.join(HERE, "netlist.txt"), "w") as f:
     f.write("EN    : U1.4 R7.2\n")
     f.write("GND   : J8.3/8/13/18/23/28/33/38 C3.2 U1.2 C4.1 C5.1 C6.2 C7.1 R6.1 ZD1.2 C1.2 C2.2 Q1.2(S) R2.2 D1.K\n")
     f.write("DRAIN : J2.2 Q1.3(D)\n")
-    f.write("GATE  : Q1.1(G) R1.1 R2.1\n")
-    f.write("STROBE: J8.10 R1.2\n")
+    f.write("GATE  : Q1.1(G) R1.2 R2.1\n")
+    f.write("STROBE: J8.10 R1.1\n")
     f.write("LED_A : R3.2 D1.A\n")
 print("project written")
